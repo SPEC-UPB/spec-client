@@ -1,3 +1,3 @@
 export default {
-    SERVER_URL:localhost
+    SERVER_URL:"http://localhost"
 }

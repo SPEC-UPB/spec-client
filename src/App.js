@@ -1,5 +1,5 @@
 import React from 'react';
-import Map from './components/map/map.template'
+import Map from './components/map/map'
 import './index.css'
 
 function App() {
