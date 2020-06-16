@@ -5,8 +5,8 @@ import  SANTANDER_POLYGON from './santander.geo.json.js'
 import  COLOMBIA_POLYGON from './colombia.geo.json'
 import Progress from '../progress/progress'
 
-const icon = new Icon({iconUrl:process.env.PUBLIC_URL + '/icons/svg/002-solar-energy.svg',
-                        iconSize:[40, 40]})
+const icon = new Icon({iconUrl:process.env.PUBLIC_URL + '/icons/svg/002-solar-energy.svg',iconSize:[40, 40]})
+
 
 const  MapTemplate  =  (props) =>  {
 
@@ -69,6 +69,71 @@ const  MapTemplate  =  (props) =>  {
             <GeoJSON  data={ SANTANDER_POLYGON} style={{fillColor:"#26de81", color:"white",  weight: 2, opacity: 0.5, fillOpacity: 0.5}}/>
             }
         </Map>
+        <div className="container my-5">
+            <div className="row">
+                <div className="col-3">
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col">
+                                    <img style={{color:'red'}} src="/icons/svg/004-down-arrow.svg" />
+                                </div>
+                                <div className="col">
+                                    <h5 className="card-title">Card title</h5>
+                                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-3">
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col">
+                                    <img style={{color:'red'}} src="/icons/svg/004-down-arrow.svg" />
+                                </div>
+                                <div className="col">
+                                    <h5 className="card-title">Card title</h5>
+                                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-3">
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col">
+                                    <img style={{color:'red'}} src="/icons/svg/004-down-arrow.svg" />
+                                </div>
+                                <div className="col">
+                                    <h5 className="card-title">Card title</h5>
+                                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-3">
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col">
+                                    <img style={{color:'red'}} src="/icons/svg/004-down-arrow.svg" />
+                                </div>
+                                <div className="col">
+                                    <h5 className="card-title">Card title</h5>
+                                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </React.Fragment>
     )
 }
