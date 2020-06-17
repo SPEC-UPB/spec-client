@@ -3,6 +3,7 @@ import MapTemplate from './map.template'
 import Message from '../message/message'
 import estacionService from '../../services/estacion.service'
 
+
 export default class Map extends React.Component {
 
     constructor(props){
