@@ -9,7 +9,7 @@ import Analisis from "../analisis/analisis.container";
 import Slider from "../partials/slider";
 import Picker from '../partials/picker'
 import Header from '../partials/header'
-
+import PopupStation from '../popup/popup.station.container'
 
 const icon = new Icon({
   iconUrl: process.env.PUBLIC_URL + "/icons/svg/002-solar-energy.svg",
@@ -66,10 +66,12 @@ const MapTemplate = (props) => {
 
           {stationSelected && (
             <Popup
+              maxWidth={650}
+              maxHeight={600}
               position={[stationSelected.lat, stationSelected.lon]}
               onClose={() => setstation(null)}
             >
-              {stationSelected.nombre}
+              <PopupStation station={stationSelected}/>
             </Popup>
           )}
 

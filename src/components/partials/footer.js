@@ -38,16 +38,19 @@ export default function Footer() {
               </h5>
               <ul className="list-unstyled">
                 <li>
-                  <p>Framework de desarrollo: <a href="https://reactjs.org/">React.js</a></p>
+                   <a href="https://reactjs.org/">Framework de desarrollo: React.js</a>
                 </li>
                 <li>
-                  <p>Framework SIG: <a href="https://leafletjs.com/">Leafletjs</a></p>
+                  <a href="https://leafletjs.com/">Framework SIG: Leafletjs</a>
                 </li>
                 <li>
-                  <p>Iconos y vectores: <a href="https://www.flaticon.com/">Flaticon.com</a></p>
+                  <a href="https://www.flaticon.com/">Iconos y vectores:  Flaticon.com</a>
                 </li>
                 <li>
-                  <p>UI: <a href="https://mdbootstrap.com/">MDB.com</a></p>
+                  <a href="https://mdbootstrap.com/">UI: MDB.com</a>
+                </li>
+                <li>
+                  <a href="https://www.chartjs.org/">Graficas: Chart.js</a>
                 </li>
               </ul>
             </div>
@@ -89,7 +92,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="footer-copyright text-center py-3">
           © 2020 Copyright:
-          <a href="https://mdbootstrap.com/"> SPEC</a>
+          <a href="https://www.upb.edu.co/es/universidad/nuestro-campus/campus-bucaramanga"> UPB - Bucaramanga</a>
         </div>
         {/* Copyright */}
       </footer>
