@@ -116,11 +116,8 @@ export default function AnalisisTemplate(props) {
 
       {/*Grafica */}
       <div className="container mb-5 ">
-        <div className="row">
-          <div className="col-4">
-            <img src="https://www.globalweatherclimatecenter.com/uploads/7/0/9/4/70941227/daneeja-rainfall-1_orig.png" class="img-fluid" alt="interpolación del día"/>
-          </div>
-        <div className="card col-8">
+          
+        <div className="card ">
           <div className="card-body">
             <div className="row middle-xs">
               <Line
@@ -139,7 +136,6 @@ export default function AnalisisTemplate(props) {
           </div>
         </div>
         </div>
-      </div>
 
     {/*Uso del potencial*/}
       <div className="container my-5">
@@ -152,7 +148,6 @@ export default function AnalisisTemplate(props) {
           <div>
             <div className="row center-xs">
                   <div className="row">
-                    <div className="col-4">
                     <img
                     width={100}
                     height={100}
@@ -160,10 +155,6 @@ export default function AnalisisTemplate(props) {
                     className="img-fluid"
                     alt="Sample project image"
                   />
-                    </div>
-                  <div className="col-8">
-                  <TextField id="standard-basic" className="ml-2" fullWidth label="Escriba los kWh a calucular" type="number"/>
-                  </div>
                   </div>
             </div>
             <p className="grey-text w-responsive mx-auto mb-5 text-center">
@@ -201,6 +192,7 @@ export default function AnalisisTemplate(props) {
                   Temporibus autem quibusdam et aut officiis debitis aut rerum
                   necessitatibus saepe eveniet ut et voluptates repudiandae.
                 </p>
+                <TextField id="standard-basic" fullWidth label="Escriba los kWh que consume su hogar" type="number"/>
               </div>
             </div>
             {/* Grid column */}
@@ -230,6 +222,7 @@ export default function AnalisisTemplate(props) {
                   Temporibus autem quibusdam et aut officiis debitis aut rerum
                   necessitatibus saepe eveniet ut et voluptates repudiandae.
                 </p>
+                <TextField id="standard-basic" fullWidth label="KWh que consume en iluminación" type="number"/>
               </div>
             </div>
             {/* Grid column */} {/* Grid column */}
@@ -258,6 +251,7 @@ export default function AnalisisTemplate(props) {
                   Temporibus autem quibusdam et aut officiis debitis aut rerum
                   necessitatibus saepe eveniet ut et voluptates repudiandae.
                 </p>
+                <TextField id="standard-basic" fullWidth label="Escriba los kWh que consume telefono" type="number"/>
               </div>
             </div>
             {/* Grid column */}

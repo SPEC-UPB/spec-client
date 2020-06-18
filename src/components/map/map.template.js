@@ -31,6 +31,16 @@ const MapTemplate = (props) => {
       {/*Mapa */}
       <div style={{position:'relative'}}>
 
+        {/*Interpolación */}
+        <div className="card ml-2" style={{position:'absolute', right:'10', top:150, zIndex:2}}>
+          <div className="card-body">
+            <h5 className="text-center text-muted">Interpolación del día</h5>
+            <img width={300}  height={300}
+              src="https://www.globalweatherclimatecenter.com/uploads/7/0/9/4/70941227/daneeja-rainfall-1_orig.png" 
+              class="img-fluid" alt="interpolación del día"/>
+          </div>
+        </div>
+        
         {/*Progress */}
         {message !== "" && (
           <div style={{ textAlign: "center" }} >

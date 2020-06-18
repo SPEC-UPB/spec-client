@@ -8,7 +8,7 @@ export default class Map extends React.Component {
 
     constructor(props){
         super(props)
-        this._center = [7.105771890547, -73.123729965916]
+        this._center = [6.767579526961214 , -73.48754882812501]
 
         this.state = {
             stations:[],
