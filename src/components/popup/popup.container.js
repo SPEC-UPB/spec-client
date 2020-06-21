@@ -1,5 +1,5 @@
 import React from 'react'
-import PopupTemplate from './popup.station.template'
+import PopupTemplate from './popup.template'
 
 export default class Popup extends React.Component {
     constructor(props){
@@ -11,6 +11,6 @@ export default class Popup extends React.Component {
     }
 
     render(){
-        return (<PopupTemplate station={this.props.station}/>)
+        return (<PopupTemplate object={this.props.object}/>)
     }
 }

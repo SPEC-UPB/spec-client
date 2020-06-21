@@ -17,8 +17,7 @@ export default function MaterialUIPickers() {
   };
 
   return (
-    <div className="card " style={{position:'absolute', top:10, zIndex:2, backgroundColor:'white', left:10}}>
-      <div className="card-body">
+      <div className="text-center">
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               disableToolbar
@@ -36,6 +35,5 @@ export default function MaterialUIPickers() {
             
         </MuiPickersUtilsProvider>
       </div>
-    </div>
   );
 }

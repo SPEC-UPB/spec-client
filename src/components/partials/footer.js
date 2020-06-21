@@ -6,19 +6,18 @@ export default function Footer() {
       {/* Footer */}
       <footer className="page-footer font-small info-color-dark pt-4">
         {/* Footer Links */}
-        <div className="container text-center text-md-left">
+        <div className="container text-center text-md-left mb-3">
           {/* Grid row */}
           <div className="row">
             {/* Grid column */}
             <div className="col-md-4 mx-auto">
               {/* Content */}
               <h5 className="font-weight-bold text-uppercase mt-3 mb-4">
-                Footer Content
+                Proyecto de radiación solar
               </h5>
               <p>
-                Here you can use rows and columns to organize your footer
-                content. Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit.
+                Este proyecto hace parte del semillero de prospectiva energética de Colombia
+                de la Universidad Pontificia Bolivariana seccional Bucaramanga.
               </p>
              <div className="row">
               <img src="logosemillero.png" class="img-fluid z-depth-1 rounded-circle"
@@ -59,36 +58,6 @@ export default function Footer() {
           {/* Grid row */}
         </div>
         {/* Footer Links */}
-
-        {/* Social buttons */}
-        <ul className="list-unstyled list-inline text-center">
-          <li className="list-inline-item">
-            <a className="btn-floating btn-fb mx-1">
-              <i className="fab fa-facebook-f"> </i>
-            </a>
-          </li>
-          <li className="list-inline-item">
-            <a className="btn-floating btn-tw mx-1">
-              <i className="fab fa-twitter"> </i>
-            </a>
-          </li>
-          <li className="list-inline-item">
-            <a className="btn-floating btn-gplus mx-1">
-              <i className="fab fa-google-plus-g"> </i>
-            </a>
-          </li>
-          <li className="list-inline-item">
-            <a className="btn-floating btn-li mx-1">
-              <i className="fab fa-linkedin-in"> </i>
-            </a>
-          </li>
-          <li className="list-inline-item">
-            <a className="btn-floating btn-dribbble mx-1">
-              <i className="fab fa-dribbble"> </i>
-            </a>
-          </li>
-        </ul>
-        {/* Social buttons */}
         {/* Copyright */}
         <div className="footer-copyright text-center py-3">
           © 2020 Copyright:

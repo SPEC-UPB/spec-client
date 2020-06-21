@@ -38,11 +38,12 @@ export default function AnalisisTemplate(props) {
                     alt="Sample project image"
                   />
             </div>
-            <p className="grey-text w-responsive mx-auto mb-5 text-center">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-              cupidatat non proident, sunt in culpa qui officia deserunt mollit
-              est laborum.
+            <p className="grey-text w-responsive mx-auto mb-5 text-center mt-2">
+             La información es mas facil de asimilar de forma gráfica, pero tambien es importante conocer
+             el comportamiento de  los datos  mediante el uso de medidas básicas que nos permitan entender
+             la tendencia que siguen dichos datos. A continuación podra conocer información sobre el
+             potencial energético durante el día para la fecha consultada, ademas podra visualizar un gráfica
+             que muestra el comportamiento de la radiación en base al tiempo.
             </p>
           </div>
       </div>
@@ -157,11 +158,15 @@ export default function AnalisisTemplate(props) {
                   />
                   </div>
             </div>
-            <p className="grey-text w-responsive mx-auto mb-5 text-center">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-              cupidatat non proident, sunt in culpa qui officia deserunt mollit
-              est laborum.
+            <p className="grey-text w-responsive mx-auto mb-5 text-center mt-2">
+              Ahora que conocemos el comportamiento de la radiación solar en el área metropolitana de Bucaramanga
+              y sabemos lo que significa el potencial electrico entregado por los paneles o estaciones. puede que 
+              se pregunte ¿ De que me sirve esta información? ¿ Que significan los valores de potencial calculados?.
+              No estaria nada mal saber cuanto dinero podria ahorrarse en su factura electricidad si usara energia renovable en su hogar, cierto.
+              Para ello hemos puesto a su disposición el siguiente apartado donde podra conocer la energía que usted
+              puede ahorrarse, conociendo la cantidad de vatios (Watts) que se genero a partir de la consulta definida.
+              A demas puede jugar con los valores de electricidad que su hogar o aparato electronico gasta en kw por hora
+              y conocer cuanto tiempo de electricidad a partir de energia renovable usted podria obtener.
             </p>
           </div>
           {/* Grid row */}
@@ -186,11 +191,11 @@ export default function AnalisisTemplate(props) {
               {/*Excerpt*/}
               <div className="card-body pb-0">
                 <h4 className="font-weight-bold my-3">
-                  Title of the news article
+                  Energía para su hogar
                 </h4>
                 <p className="grey-text">
-                  Temporibus autem quibusdam et aut officiis debitis aut rerum
-                  necessitatibus saepe eveniet ut et voluptates repudiandae.
+                  Si s casa consume en promedio <strong>X watts</strong> por hora usted podria tener energia electrica 
+                  durante <strong>X horas</strong>.
                 </p>
                 <TextField id="standard-basic" fullWidth label="Escriba los kWh que consume su hogar" type="number"/>
               </div>
@@ -216,11 +221,11 @@ export default function AnalisisTemplate(props) {
               {/*Excerpt*/}
               <div className="card-body pb-0">
                 <h4 className="font-weight-bold my-3">
-                  Title of the news article
+                  Tiempo de iluminación
                 </h4>
                 <p className="grey-text">
-                  Temporibus autem quibusdam et aut officiis debitis aut rerum
-                  necessitatibus saepe eveniet ut et voluptates repudiandae.
+                  Con este potencial usted podria encender una bombila que consume <strong>X Watss </strong> 
+                  en promedio durante <strong>X horas</strong>.
                 </p>
                 <TextField id="standard-basic" fullWidth label="KWh que consume en iluminación" type="number"/>
               </div>
@@ -245,13 +250,13 @@ export default function AnalisisTemplate(props) {
               {/*Excerpt*/}
               <div className="card-body pb-0">
                 <h4 className="font-weight-bold my-3">
-                  Title of the news article
+                  Carga de telefono celular
                 </h4>
                 <p className="grey-text">
-                  Temporibus autem quibusdam et aut officiis debitis aut rerum
-                  necessitatibus saepe eveniet ut et voluptates repudiandae.
+                  Si su telefono consume en promedio <strong>X watts </strong>para cargarlo, usted con este potencial  
+                  podria cargar su telefono <strong> X veces</strong>.
                 </p>
-                <TextField id="standard-basic" fullWidth label="Escriba los kWh que consume telefono" type="number"/>
+                <TextField id="standard-basic" fullWidth label="Escriba los kWh que consume su telefono" type="number"/>
               </div>
             </div>
             {/* Grid column */}

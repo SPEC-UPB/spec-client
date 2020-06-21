@@ -4,6 +4,10 @@ import Slider from "@material-ui/core/Slider";
 
 const marks = [
   {
+    value: 0,
+    label: "0",
+  },
+  {
     value: 1,
     label: "1",
   },
@@ -114,41 +118,7 @@ const marks = [
     value: 23,
     label: "23",
   }
-  ,
-  {
-    value: 24,
-    label: "24",
-  }
-  ,
-  {
-    value: 25,
-    label: "25",
-  }
-  ,
-  {
-    value: 26,
-    label: "26",
-  }
-  ,
-  {
-    value: 27,
-    label: "27",
-  }
-  ,
-  {
-    value: 28,
-    label: "28",
-  }
-  ,
-  {
-    value: 29,
-    label: "29",
-  }
-  ,
-  {
-    value: 30,
-    label: "30",
-  }
+
 ];
 
 function valuetext(value) {
@@ -161,18 +131,21 @@ export default function DiscreteSlider() {
       style={{ position: "absolute", bottom: 50, zIndex: 2 }}
       className="container-fluid"
     >
+      <div className="card-body" style={{backgroundColor:'white', height:50, width:250, zIndex:3}}>
+        <h6 className="text-muted">Escala de tiempo en horas</h6>
+      </div>
       <div className="card" style={{height:70}}>
         <div className="card-body">
           <Slider
-            style={{ color: "#f1c40f" }}
-            defaultValue={1}
+            style={{ color: "#f1c40f"}}
+            defaultValue={0}
             getAriaValueText={valuetext}
             aria-labelledby="discrete-slider"
             valueLabelDisplay="auto"
             step={1}
             marks={marks}
-            min={1}
-            max={31}
+            min={0}
+            max={23}
             valueLabelDisplay="on"
           />
         </div>

@@ -7,9 +7,14 @@ import Progress from "../progress/progress";
 import Footer from "../partials/footer";
 import Analisis from "../analisis/analisis.container";
 import Slider from "../partials/slider";
-import Picker from '../partials/picker'
-import Header from '../partials/header'
-import PopupStation from '../popup/popup.station.container'
+import Picker from "../partials/picker";
+import Header from "../partials/header";
+import MyPopup from "../popup/popup.container";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 const icon = new Icon({
   iconUrl: process.env.PUBLIC_URL + "/icons/svg/002-solar-energy.svg",
@@ -22,36 +27,105 @@ const MapTemplate = (props) => {
   const [zoom, setzoom] = useState(8);
   const [pointSelected, setpointSelected] = useState(null);
 
+  const [state, setState] = React.useState({
+    Scala: false,
+    Points: true,
+    Mapa: true,
+  });
+
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
   return (
     <React.Fragment>
-
       {/*Header */}
-      <Header/>
+      <Header />
 
       {/*Mapa */}
-      <div style={{position:'relative'}}>
+      <div style={{ position: "relative" }}>
+        {/*Switches */}
+        <div className="card-body" style={{position:'absolute', right:10, top:20, zIndex:2, backgroundColor:'white',  width:350}}>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Opciones</FormLabel>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    color="primary"
+                    checked={state.Scala}
+                    onChange={handleChange}
+                    name="Scala"
+                  />
+                }
+                label="Mostrar escala de tiempo"
+              />
+              <FormControlLabel
+                control={
+                  <Switch
+                    color="primary"
+                    checked={state.Points}
+                    onChange={handleChange}
+                    name="Points"
+                  />
+                }
+                label="Mostrar puntos interpolados"
+              />
+              <FormControlLabel
+                control={
+                  <Switch
+                    color="primary"
+                    checked={state.Mapa}
+                    onChange={handleChange}
+                    name="Mapa"
+                  />
+                }
+                label="Mostrar imagen mapa interpolado"
+              />
+            </FormGroup>
+          </FormControl>
+        </div>
 
         {/*Interpolación */}
-        <div className="card ml-2" style={{position:'absolute', right:'10', top:150, zIndex:2}}>
+        <div
+          className="card "
+          style={{
+            position: "absolute",
+            top: 10,
+            zIndex: 2,
+            backgroundColor: "white",
+            left: 10,
+            width: 350,
+          }}
+        >
           <div className="card-body">
-            <h5 className="text-center text-muted">Interpolación del día</h5>
-            <img width={300}  height={300}
-              src="https://www.globalweatherclimatecenter.com/uploads/7/0/9/4/70941227/daneeja-rainfall-1_orig.png" 
-              class="img-fluid" alt="interpolación del día"/>
+            <h5 className="text-center text-muted">
+              Conosca la radiación solar en el área metropolitana de Bucaramanga
+            </h5>
+            {/*Date Picker */}
+            <Picker />
+            {state.Mapa && 
+            <div className="text-center">
+            <img
+              width={300}
+              height={300}
+              src="https://www.globalweatherclimatecenter.com/uploads/7/0/9/4/70941227/daneeja-rainfall-1_orig.png"
+              class="img-fluid"
+              alt="interpolación del día"
+            />
+          </div>}
           </div>
         </div>
-        
+
         {/*Progress */}
         {message !== "" && (
-          <div style={{ textAlign: "center" }} >
+          <div style={{ textAlign: "center" }}>
             <Progress message={message} />
           </div>
         )}
 
-        {/*Date Picker */}
-        <Picker/>
-
-        <Map style={{zIndex:1}}
+        <Map
+          style={{ zIndex: 1 }}
           onclick={(e) =>
             setpointSelected({ lat: e.latlng.lat, lon: e.latlng.lng })
           }
@@ -76,21 +150,21 @@ const MapTemplate = (props) => {
 
           {stationSelected && (
             <Popup
-              maxWidth={650}
-              maxHeight={600}
+              maxWidth={500}
               position={[stationSelected.lat, stationSelected.lon]}
               onClose={() => setstation(null)}
             >
-              <PopupStation station={stationSelected}/>
+              <MyPopup object={stationSelected} />
             </Popup>
           )}
 
           {pointSelected && (
             <Popup
+              maxWidth={500}
               position={[pointSelected.lat, pointSelected.lon]}
               onClose={() => setpointSelected(null)}
             >
-              Lat: {pointSelected.lat} lng: {pointSelected.lon}
+              <MyPopup object={pointSelected} />
             </Popup>
           )}
 
@@ -113,11 +187,12 @@ const MapTemplate = (props) => {
             />
           )}
         </Map>
-        
+
         {/*Slider */}
-        <Slider />
+        {state.Scala &&
+        <Slider />}
       </div>
-      
+
       {/*Analisis*/}
       <Analisis />
 
