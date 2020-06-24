@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Map, Marker, Popup, TileLayer, GeoJSON } from "react-leaflet";
 import { Icon } from "leaflet";
-import SANTANDER_POLYGON from "./santander.geo.json.js";
-import COLOMBIA_POLYGON from "./colombia.geo.json";
+import SANTANDER_POLYGON from "./Santander.geo.json";
+import COLOMBIA_POLYGON from "./Colombia.geo.json";
 import Progress from "../progress/progress";
 import Footer from "../partials/footer";
 import Analisis from "../analisis/analisis.container";
@@ -15,6 +15,8 @@ import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+import {polygon as Polygon, Point} from './Polygon'
+
 
 const icon = new Icon({
   iconUrl: process.env.PUBLIC_URL + "/icons/svg/002-solar-energy.svg",
@@ -26,7 +28,6 @@ const MapTemplate = (props) => {
   const [stationSelected, setstation] = useState(null);
   const [zoom, setzoom] = useState(8);
   const [pointSelected, setpointSelected] = useState(null);
-
   const [state, setState] = React.useState({
     Scala: false,
     Points: true,
@@ -36,6 +37,7 @@ const MapTemplate = (props) => {
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
+
 
   return (
     <React.Fragment>
@@ -152,13 +154,26 @@ const MapTemplate = (props) => {
             <Popup
               maxWidth={500}
               position={[stationSelected.lat, stationSelected.lon]}
-              onClose={() => setstation(null)}
+              onClose={() =>setstation(null)}
             >
               <MyPopup object={stationSelected} />
             </Popup>
           )}
 
-          {pointSelected && (
+            <Popup
+              maxWidth={500}
+              position={center}
+            >
+              <div style={{width:200}}>
+                <p className="text-center">
+                  Haz click sobre el mapa para conocer el potencial
+                  electrico en un punto!
+                </p>
+              </div>
+            </Popup>
+
+
+          {pointSelected && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 && (
             <Popup
               maxWidth={500}
               position={[pointSelected.lat, pointSelected.lon]}
