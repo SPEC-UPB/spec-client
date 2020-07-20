@@ -72,30 +72,8 @@ export default function Header() {
                 Las energías renovables se obtienen a partir de fuente naturales, como el sol, el viento, las mareas. Son inagotables y se consideran limpias debido a que generan un bajo impacto negativo sobre el medio ambiente. 
                 El Área Metropolitana de Bucaramanga, por su posición geográfica, se presume posee un buen potencial para generación de energía eléctrica a partir de la radiación solar. En la región se encuentran varias estaciones meteorológicas donde también se registran señales de radiación solar. Luego de varios años de tomar estos registros, en este proyecto se han calculado valores promedios de radiación solar en diferentes puntos del Área Metropolitana de Bucaramanga, y se ha proyectado su potencial eléctrico. Los invitamos a consultar el mapa interactivo, y conocer las oportunidades para su aprovechamiento
                 </p>
-              </div>
-            </div>
-            {/* Grid row */}
-            {/* Grid row */}
-            <div className="row">
-              <div className="col-md-1 col-2">
-                <img
-                  src="/icons/svg/002-high-voltage.svg"
-                  width={30}
-                  height={30}
-                />
-              </div>
-              <div className="col-md-11 col-10">
-                <h5 className="font-weight-bold mb-3">Potencial</h5>
-                <p className="grey-text mb-0">
-                  La energía que capturamos la podemos convertir en electricidad,
-                  conocido tambien como potencial electrico, el cual podemos
-                  usar como energía en nuestros hogares. Conoce más sobre
-                  energia renovable haciend click en los sugientes videos.
-                </p>
-                <div className="row start-xs">
-                  {/*Iframe*/}
-                  <Iframe />
-                </div>
+                {/*Iframe*/}
+                <Iframe />
               </div>
             </div>
             {/* Grid row */}
