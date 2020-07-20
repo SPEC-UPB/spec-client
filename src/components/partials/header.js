@@ -12,12 +12,9 @@ export default function Header() {
         </h2>
         {/* Section description */}
         <p className="grey-text text-center w-responsive mx-auto mb-5">
-          El Semillero de Prospectiva Energética de Colombia (SPEC) de la
-          Universiad Pontificia Bolivariana en union con docentes y estudiantes
-          de la facultad de ingenieria civil e ingenieria de sistemas ponen a
-          dispocisión del publico este sitio web para la consulta, conocimiento
-          y entendiemiento de la radiación solar en el área metropolitana de
-          Bucaramanga.
+        El Semillero de Prospectiva Energética de Colombia (SPEC) de la Universidad Pontificia
+        Bolivariana coloca a disposición del público general este sitio de consulta sobre la radiación
+        solar en el Área Metropolitana de Bucaramanga
         </p>
         {/* Grid row */}
         <div className="row">
@@ -54,9 +51,8 @@ export default function Header() {
               <div className="col-md-11 col-10">
                 <h5 className="font-weight-bold mb-3">Objetivo</h5>
                 <p className="grey-text">
-                  Con este proyecto se busca que la radiación solar sea
-                  comprendida por el publico general y que conoscan su
-                  importancia y aplicaciones.
+                  Facilitar al público general la comprensión acerca de la radiación solar 
+                  en el Área Metropolitana de Bucaramanga y las posibilidades para su aprovechamiento.
                 </p>
               </div>
             </div>
@@ -73,10 +69,8 @@ export default function Header() {
               <div className="col-md-11 col-10">
                 <h5 className="font-weight-bold mb-3">Energia renovable</h5>
                 <p className="grey-text">
-                  Las energías renovables son aquellas que se obtienen a partir
-                  de fuentes naturales que producen energía de forma inagotable
-                  e indefinida. Por ejemplo, la energía solar, la cual la
-                  podemos capturar mediante paneles solares.
+                Las energías renovables se obtienen a partir de fuente naturales, como el sol, el viento, las mareas. Son inagotables y se consideran limpias debido a que generan un bajo impacto negativo sobre el medio ambiente. 
+                El Área Metropolitana de Bucaramanga, por su posición geográfica, se presume posee un buen potencial para generación de energía eléctrica a partir de la radiación solar. En la región se encuentran varias estaciones meteorológicas donde también se registran señales de radiación solar. Luego de varios años de tomar estos registros, en este proyecto se han calculado valores promedios de radiación solar en diferentes puntos del Área Metropolitana de Bucaramanga, y se ha proyectado su potencial eléctrico. Los invitamos a consultar el mapa interactivo, y conocer las oportunidades para su aprovechamiento
                 </p>
               </div>
             </div>
