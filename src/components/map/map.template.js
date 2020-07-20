@@ -102,7 +102,7 @@ const MapTemplate = (props) => {
         >
           <div className="card-body">
             <h5 className="text-center text-muted">
-              Conosca la radiación solar en el área metropolitana de Bucaramanga
+            Conozca la radiación solar en el Área Metropolitana de Bucaramanga
             </h5>
             {/*Date Picker */}
             <Picker />

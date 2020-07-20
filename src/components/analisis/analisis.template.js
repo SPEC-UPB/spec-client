@@ -38,7 +38,7 @@ export default function AnalisisTemplate(props) {
                     alt="Sample project image"
                   />
             </div>
-            <p className="grey-text w-responsive mx-auto mb-5 text-center mt-2">
+            <p style={{textAlign:"justify"}} className="grey-text w-responsive mx-auto mb-5  mt-2">
              La información es mas facil de asimilar de forma gráfica, pero tambien es importante conocer
              el comportamiento de  los datos  mediante el uso de medidas básicas que nos permitan entender
              la tendencia que siguen dichos datos. A continuación podra conocer información sobre el
@@ -61,9 +61,9 @@ export default function AnalisisTemplate(props) {
                     />
                   </div>
                   <div className="col-8">
-                    <h5 className="card-title">Potencial maximo</h5>
+                    <h5 className="card-title">Potencial máximo</h5>
                     <p className="card-text">
-                      Some quick example text to build Some quick example
+                      830 kWh
                     </p>
                   </div>
                 </div>
@@ -84,7 +84,7 @@ export default function AnalisisTemplate(props) {
                   <div className="col-8">
                     <h5 className="card-title">Potencial promedio</h5>
                     <p className="card-text">
-                      Some quick example text to build Some quick example
+                     570 kWh
                     </p>
                   </div>
                 </div>
@@ -103,9 +103,9 @@ export default function AnalisisTemplate(props) {
                     />
                   </div>
                   <div className="col-8">
-                    <h5 className="card-title">Potencial minimo</h5>
+                    <h5 className="card-title">Potencial mínimo</h5>
                     <p className="card-text">
-                      Some quick example text to build Some quick example
+                      450 kWh
                     </p>
                   </div>
                 </div>
@@ -158,7 +158,7 @@ export default function AnalisisTemplate(props) {
                   />
                   </div>
             </div>
-            <p className="grey-text w-responsive mx-auto mb-5 text-center mt-2">
+            <p style={{textAlign:"justify"}} className="grey-text w-responsive mx-auto mb-5  mt-2">
               Ahora que conocemos el comportamiento de la radiación solar en el área metropolitana de Bucaramanga
               y sabemos lo que significa el potencial electrico entregado por los paneles o estaciones. puede que 
               se pregunte ¿ De que me sirve esta información? ¿ Que significan los valores de potencial calculados?.
@@ -193,7 +193,7 @@ export default function AnalisisTemplate(props) {
                 <h4 className="font-weight-bold my-3">
                   Energía para su hogar
                 </h4>
-                <p className="grey-text">
+                <p  className="grey-text">
                   Si s casa consume en promedio <strong>X watts</strong> por hora usted podria tener energia electrica 
                   durante <strong>X horas</strong>.
                 </p>

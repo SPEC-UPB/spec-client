@@ -121,7 +121,6 @@ export default function Popup(props) {
             role="tabpanel"
             aria-labelledby="profile-tab"
           >
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam interdum quam a nunc tincidunt hendrerit. Nullam aliquet vitae ipsum sed eleifend. Ut scelerisque elementum accumsan.</p>
             <div className="mt-2">
               <div style={{ width: "100%" }}>
                 <div className="card" style={{ height: 60 }}>
@@ -137,8 +136,8 @@ export default function Popup(props) {
                       </div>
                       <div className="col-10">
                         <h5 className="card-title">
-                          Potencial maximo:
-                          <span className="text-muted"> 830 kw/h</span>
+                          Potencial máximo:
+                          <span className="text-muted"> 640 kw/h</span>
                         </h5>
                       </div>
                     </div>
@@ -158,7 +157,7 @@ export default function Popup(props) {
                       <div className="col-10">
                         <h5 className="card-title">
                           Potencial promedio:
-                          <span className="text-muted"> 830 kw/h</span>
+                          <span className="text-muted"> 480 kw/h</span>
                         </h5>
                       </div>
                     </div>
@@ -178,8 +177,8 @@ export default function Popup(props) {
                       </div>
                       <div className="col-10">
                         <h5 className="card-title">
-                          Potencial minimo:
-                          <span className="text-muted"> 830 kw/h</span>
+                          Potencial mínimo:
+                          <span className="text-muted"> 330 kw/h</span>
                         </h5>
                       </div>
                     </div>
