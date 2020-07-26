@@ -2,32 +2,14 @@ import React from "react";
 import { Line } from 'react-chartjs-2';
 import TextField from '@material-ui/core/TextField';
 
-const data = {
-  datasets: [{
-      label: 'Radiación para la fecha X',
-      data: [{
-          x: -10,
-          y: 0
-      }, {
-          x: 0,
-          y: 10
-      }, {
-          x: 10,
-          y: 5
-      }]
-  }]
-}
 
 export default function AnalisisTemplate(props) {
   return (
     <React.Fragment>
-      {/* Analisis basico*/}
-      <div className="container">
-        {/* Section heading */}
+      {/* <div className="container">
         <h2 className="h1-responsive font-weight-bold my-5">
           Comportamiento de los datos durante el día
           </h2>
-          {/* Section description */}
           <div>
             <div className="row center-xs">
                   <img
@@ -46,8 +28,8 @@ export default function AnalisisTemplate(props) {
              que muestra el comportamiento de la radiación en base al tiempo.
             </p>
           </div>
-      </div>
-      <div className="container my-5">
+      </div> */}
+      {/* <div className="container my-5">
         <div className="row">
         <div className="col-lg-4">
             <div className="card">
@@ -113,9 +95,9 @@ export default function AnalisisTemplate(props) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      {/*Grafica */}
+      {/* Grafica
       <div className="container mb-5 ">
           
         <div className="card ">
@@ -136,13 +118,13 @@ export default function AnalisisTemplate(props) {
             </div>
           </div>
         </div>
-        </div>
+        </div> */}
 
     {/*Uso del potencial*/}
       <div className="container my-5">
         <div>
           {/* Section heading */}
-          <h2 className="h1-responsive font-weight-bold my-5">
+          <h2 className="h1-responsive font-weight-bold my-5 text-center">
           Uso del potencial calculado
           </h2>
           {/* Section description */}

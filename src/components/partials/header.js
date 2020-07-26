@@ -8,7 +8,7 @@ export default function Header() {
       <section className="my-5 container">
         {/* Section heading */}
         <h2 className="h1-responsive font-weight-bold text-center my-5">
-          Radiación solar en el área metropolitana de Bucaramanga
+          Radiación solar en el Área Metropolitana de Bucaramanga
         </h2>
         {/* Section description */}
         <p style={{textAlign:"justify"}} className="grey-text  w-responsive mx-auto mb-5">

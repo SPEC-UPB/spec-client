@@ -31,13 +31,14 @@ const MapTemplate = (props) => {
   const [state, setState] = React.useState({
     Scala: false,
     Points: true,
-    Mapa: true,
+    Mapa: false,
   });
+
+  const [date, setDate] = useState(null)
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
-
 
   return (
     <React.Fragment>
@@ -105,7 +106,7 @@ const MapTemplate = (props) => {
             Conozca la radiación solar en el Área Metropolitana de Bucaramanga
             </h5>
             {/*Date Picker */}
-            <Picker />
+            <Picker date={props.date} onChange={(newDate) => props.changeDate(newDate)} />
             {state.Mapa && 
             <div className="text-center">
             <img
@@ -156,7 +157,7 @@ const MapTemplate = (props) => {
               position={[stationSelected.lat, stationSelected.lon]}
               onClose={() =>setstation(null)}
             >
-              <MyPopup object={stationSelected} />
+              <MyPopup object={stationSelected} date={props.date} potencial={props.potencial}/>
             </Popup>
           )}
 
@@ -179,7 +180,7 @@ const MapTemplate = (props) => {
               position={[pointSelected.lat, pointSelected.lon]}
               onClose={() => setpointSelected(null)}
             >
-              <MyPopup object={pointSelected} />
+              <MyPopup object={pointSelected} date={props.date}/>
             </Popup>
           )}
 

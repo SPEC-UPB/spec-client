@@ -2,7 +2,7 @@ import React from 'react';
 import MapTemplate from './map.template'
 import Message from '../message/message'
 import estacionService from '../../services/estacion.service'
-
+import potencialService from '../../services/potencial.service'
 
 export default class Map extends React.Component {
 
@@ -15,7 +15,9 @@ export default class Map extends React.Component {
             message:'',
             openMessage:false,
             messageType:'info',
-            messageForSnackbar:''
+            messageForSnackbar:'',
+            currentDate : new Date('2016-08-18'),
+            potencial:[]
         }
 
         this.getEstaciones = this.getEstaciones.bind(this)
@@ -23,6 +25,18 @@ export default class Map extends React.Component {
 
    componentDidMount(){
        this.getEstaciones()
+       this.getPotencial()
+   }
+
+   changeDate(newDate){
+    this.setState({currentDate:newDate})
+    this.getPotencial()
+   }
+
+   getPotencial(){
+    potencialService.getPotencial(this.state.currentDate)
+    .then(res => console.log(res.data))
+    .catch(err => console.error(err))
    }
 
    getEstaciones(){
@@ -57,7 +71,9 @@ export default class Map extends React.Component {
         return (
             <React.Fragment>
                 <MapTemplate center={this._center} stations={this.state.stations}
-                    message={this.state.message}/>
+                    message={this.state.message} date={this.state.currentDate} 
+                    changeDate={this.changeDate.bind(this)}
+                    potencial={this.state.potencial}/>
                 <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
                     type={this.state.messageType} message={this.state.messageForSnackbar}/>
             </React.Fragment>

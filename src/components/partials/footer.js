@@ -37,19 +37,10 @@ export default function Footer() {
               </h5>
               <ul className="list-unstyled">
                 <li>
-                   <a href="https://reactjs.org/">Framework de desarrollo: React.js</a>
-                </li>
-                <li>
                   <a href="https://leafletjs.com/">Framework SIG: Leafletjs</a>
                 </li>
                 <li>
                   <a href="https://www.flaticon.com/">Iconos y vectores:  Flaticon.com</a>
-                </li>
-                <li>
-                  <a href="https://mdbootstrap.com/">UI: MDB.com</a>
-                </li>
-                <li>
-                  <a href="https://www.chartjs.org/">Graficas: Chart.js</a>
                 </li>
               </ul>
             </div>

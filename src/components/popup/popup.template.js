@@ -1,29 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
-const data = {
-  datasets: [
-    {
-      label: "Comportamiento de la radiación solar para la fecha X",
-      data: [
-        {
-          x: -10,
-          y: 0,
-        },
-        {
-          x: 0,
-          y: 10,
-        },
-        {
-          x: 10,
-          y: 5,
-        },
-      ],
-    },
-  ],
-};
+import { useEffect } from "react";
+import estacionService from '../../services/estacion.service'
 
 export default function Popup(props) {
-  const { object } = props;
+  const { object, potencial } = props;
+
+  const [datasets, setDatasets] = useState({
+    datasets: [
+        {
+          label: "Radiación",
+          data: []
+        }
+      ]
+  })
+
+  let potencialEstacion = {maximo:0, minimo:0, promedio:0}
+
+
+  useEffect(() => {
+    if(props.object.nombre){
+      props.getRadiation(props.object.nombre)
+      .then(res => {
+        setDatasets({
+          datasets: [
+              {
+                label: "Radiación",
+                data: res.data.map(r => {return {x:new Date(r.fecha).getHours(), y:r.radiacion}})
+              }
+            ]
+        })
+      })
+      .catch(err => console.error(err)) 
+      potencial.forEach(p => {
+        if(p.estacion == object.nombre){
+            potencialEstacion.maximo = p.maximo
+            potencialEstacion.minimo = p.minimo
+            potencialEstacion.promedio = p.radiacion
+        }
+    });
+      }
+  })
 
   return (
     <React.Fragment>
@@ -137,7 +154,7 @@ export default function Popup(props) {
                       <div className="col-10">
                         <h5 className="card-title">
                           Potencial máximo:
-                          <span className="text-muted"> 640 kw/h</span>
+                          <span className="text-muted"> {potencialEstacion.maximo} kw/h</span>
                         </h5>
                       </div>
                     </div>
@@ -157,7 +174,7 @@ export default function Popup(props) {
                       <div className="col-10">
                         <h5 className="card-title">
                           Potencial promedio:
-                          <span className="text-muted"> 480 kw/h</span>
+                          <span className="text-muted">{potencialEstacion.promedio} kw/h</span>
                         </h5>
                       </div>
                     </div>
@@ -178,7 +195,7 @@ export default function Popup(props) {
                       <div className="col-10">
                         <h5 className="card-title">
                           Potencial mínimo:
-                          <span className="text-muted"> 330 kw/h</span>
+                          <span className="text-muted"> {potencialEstacion.minimo} kw/h</span>
                         </h5>
                       </div>
                     </div>
@@ -199,11 +216,12 @@ export default function Popup(props) {
                 <div>
                   <div className="card">
                     <div className="card-body">
+                      <h6 className="text-center text-muted">Comportamiento para la fecha: {estacionService.formatDate(props.date)}</h6>
                       <div className="row middle-xs">
                         <Line
-                          data={data}
+                          data={datasets}
                           options={{
-                            backgroundColor: "#00a8ff",
+                            backgroundColor: "#FFEB3B",
                             scales: {
                               xAxes: [
                                 {
@@ -215,6 +233,7 @@ export default function Popup(props) {
                           }}
                         />
                       </div>
+                      <p className="text-center text-muted">Horas del día vs radiación</p>
                     </div>
                   </div>
                 </div>
