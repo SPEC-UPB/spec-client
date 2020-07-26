@@ -16,6 +16,8 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import {polygon as Polygon, Point} from './Polygon'
+import Alert from '@material-ui/lab/Alert';
+
 
 
 const icon = new Icon({
@@ -30,7 +32,7 @@ const MapTemplate = (props) => {
   const [pointSelected, setpointSelected] = useState(null);
   const [state, setState] = React.useState({
     Scala: false,
-    Points: true,
+    Points: false,
     Mapa: false,
   });
 
@@ -47,9 +49,48 @@ const MapTemplate = (props) => {
 
       {/*Mapa */}
       <div style={{ position: "relative" }}>
-        {/*Switches */}
-        <div className="card-body" style={{position:'absolute', right:10, top:20, zIndex:2, backgroundColor:'white',  width:350}}>
-          <FormControl component="fieldset">
+  
+      <div style={{position:'absolute', right:10, top:20, zIndex:2, backgroundColor:'white',
+            borderRadius:10}}>
+          {stationSelected && (
+             <MyPopup object={stationSelected} date={props.date} potencial={props.potencial}/>
+          )}
+
+          {pointSelected && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 && (
+            <MyPopup object={pointSelected} date={props.date}/>
+          )}
+
+          {stationSelected == null && pointSelected == null && 
+          (<div style={{width:500}}>
+            <Alert severity="info">Haga click dentro del mapa de Santander para conocer el potencial energético.
+              <p>
+                <strong>Nota:</strong> A mayor distancia del Área Metropolitana de Bucaramanga, mayor es el margen de error para
+              el potencial calculado.
+              </p>
+            </Alert>
+          </div>)}
+      </div>
+
+        {/*Interpolación */}
+        <div
+          className="card "
+          style={{
+            position: "absolute",
+            top: 10,
+            zIndex: 2,
+            backgroundColor: "white",
+            left: 10,
+            width: 350,
+          }}
+        >
+          <div className="card-body">
+            <h5 className="text-center text-muted">
+            Conozca la radiación solar en el Área Metropolitana de Bucaramanga
+            </h5>
+            {/*Date Picker */}
+            <Picker date={props.date} onChange={(newDate) => props.changeDate(newDate)} />
+
+            <FormControl component="fieldset">
             <FormLabel component="legend">Opciones</FormLabel>
             <FormGroup>
               <FormControlLabel
@@ -87,26 +128,7 @@ const MapTemplate = (props) => {
               />
             </FormGroup>
           </FormControl>
-        </div>
 
-        {/*Interpolación */}
-        <div
-          className="card "
-          style={{
-            position: "absolute",
-            top: 10,
-            zIndex: 2,
-            backgroundColor: "white",
-            left: 10,
-            width: 350,
-          }}
-        >
-          <div className="card-body">
-            <h5 className="text-center text-muted">
-            Conozca la radiación solar en el Área Metropolitana de Bucaramanga
-            </h5>
-            {/*Date Picker */}
-            <Picker date={props.date} onChange={(newDate) => props.changeDate(newDate)} />
             {state.Mapa && 
             <div className="text-center">
             <img
@@ -130,7 +152,10 @@ const MapTemplate = (props) => {
         <Map
           style={{ zIndex: 1 }}
           onclick={(e) =>
-            setpointSelected({ lat: e.latlng.lat, lon: e.latlng.lng })
+            {
+              setpointSelected({ lat: e.latlng.lat, lon: e.latlng.lng })
+              setstation(null)
+            }
           }
           center={center}
           zoom={8}
@@ -147,43 +172,13 @@ const MapTemplate = (props) => {
                 key={index}
                 position={[estation.lat, estation.lon]}
                 icon={icon}
-                onclick={() => setstation(estation)}
+                onclick={() => {
+                  setstation(estation)
+                  setpointSelected(null)
+                }}
               />
             ))}
-
-          {stationSelected && (
-            <Popup
-              maxWidth={500}
-              position={[stationSelected.lat, stationSelected.lon]}
-              onClose={() =>setstation(null)}
-            >
-              <MyPopup object={stationSelected} date={props.date} potencial={props.potencial}/>
-            </Popup>
-          )}
-
-            <Popup
-              maxWidth={500}
-              position={center}
-            >
-              <div style={{width:200}}>
-                <p className="text-center">
-                  Haz click sobre el mapa para conocer el potencial
-                  electrico en un punto!
-                </p>
-              </div>
-            </Popup>
-
-
-          {pointSelected && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 && (
-            <Popup
-              maxWidth={500}
-              position={[pointSelected.lat, pointSelected.lon]}
-              onClose={() => setpointSelected(null)}
-            >
-              <MyPopup object={pointSelected} date={props.date}/>
-            </Popup>
-          )}
-
+          
           <GeoJSON
             data={COLOMBIA_POLYGON}
             color="#fed330"

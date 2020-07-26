@@ -21,21 +21,19 @@ const handleDateChange = (date) => {
 };
 
   return (
-      <div className="text-center">
+      <div>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="MM/dd/yyyy"
-              margin="normal"
-              id="date-picker-inline"
-              label="Seleccione una fecha"
-              value={selectedDate}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
+          <KeyboardDatePicker
+            margin="normal"
+            id="date-picker-dialog"
+            label="Date picker dialog"
+            format="MM/dd/yyyy"
+            value={selectedDate}
+            onChange={handleDateChange}
+            KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+          />
             
         </MuiPickersUtilsProvider>
       </div>

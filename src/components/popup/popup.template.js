@@ -38,13 +38,16 @@ export default function Popup(props) {
             potencialEstacion.minimo = p.minimo
             potencialEstacion.promedio = p.radiacion
         }
-    });
-      }
+      });
+    }
+    return ()=>{
+
+    }
   })
 
   return (
     <React.Fragment>
-      <div style={{width:500}}>
+      <div className="my-3 mx-2">
         <ul className="nav nav-tabs" id="myTab" role="tablist">
           <li className="nav-item">
             <a
@@ -56,7 +59,7 @@ export default function Popup(props) {
               aria-controls="home"
               aria-selected="true"
             >
-              Información de la estación
+              {object.nombre ? "Información de la estación":"Información del punto"}
             </a>
           </li>
           <li className="nav-item">
