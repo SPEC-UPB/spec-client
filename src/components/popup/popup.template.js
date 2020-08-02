@@ -59,7 +59,20 @@ export default function Popup(props) {
               aria-controls="home"
               aria-selected="true"
             >
-              {object.nombre ? "Información de la estación":"Información del punto"}
+              {object.nombre ? "Inf. de la estación":"Información del punto"}
+            </a>
+          </li>
+          <li className="nav-item">
+            <a
+              className="nav-link"
+              id="radiacion-tab"
+              data-toggle="tab"
+              href="#radiacion"
+              role="tab"
+              aria-controls="radiacion"
+              aria-selected="false"
+            >
+              Radiación
             </a>
           </li>
           <li className="nav-item">
@@ -73,19 +86,6 @@ export default function Popup(props) {
               aria-selected="false"
             >
              Resumen básico
-            </a>
-          </li>
-          <li className="nav-item">
-            <a
-              className="nav-link"
-              id="contact-tab"
-              data-toggle="tab"
-              href="#contact"
-              role="tab"
-              aria-controls="contact"
-              aria-selected="false"
-            >
-              Grafica
             </a>
           </li>
         </ul>
@@ -209,9 +209,9 @@ export default function Popup(props) {
           </div>
           <div
             className="tab-pane fade"
-            id="contact"
+            id="radiacion"
             role="tabpanel"
-            aria-labelledby="contact-tab"
+            aria-labelledby="radiacion-tab"
           >
             <div className="mt-2">
               <div>

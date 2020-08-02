@@ -17,6 +17,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import {polygon as Polygon, Point} from './Polygon'
 import Alert from '@material-ui/lab/Alert';
+import "./scroll.css"
 
 
 
@@ -28,8 +29,8 @@ const icon = new Icon({
 const MapTemplate = (props) => {
   const { stations, center, message } = props;
   const [stationSelected, setstation] = useState(null);
-  const [zoom, setzoom] = useState(8);
-  const [pointSelected, setpointSelected] = useState(null);
+  const [zoom, setzoom] = useState(13);
+  const [pointSelected, setpointSelected] = useState({lat:center[0], lon: center[1]});
   const [state, setState] = React.useState({
     Scala: false,
     Points: false,
@@ -50,8 +51,14 @@ const MapTemplate = (props) => {
       {/*Mapa */}
       <div style={{ position: "relative" }}>
   
-      <div style={{position:'absolute', right:10, top:20, zIndex:2, backgroundColor:'white',
-            borderRadius:10}}>
+        <div id="scroll" className="card" style={{position:'absolute', right:10, top:3, zIndex:2, backgroundColor:'white',
+            borderRadius:10, width:520, height:"98vh", overflowY:"auto"}}>
+
+          <div className="card-body">
+          <h5 className="text-center  mx-3">
+                Conozca la radiación solar en el Área Metropolitana de Bucaramanga
+          </h5>
+
           {stationSelected && (
              <MyPopup object={stationSelected} date={props.date} potencial={props.potencial}/>
           )}
@@ -60,19 +67,43 @@ const MapTemplate = (props) => {
             <MyPopup object={pointSelected} date={props.date}/>
           )}
 
-          {stationSelected == null && pointSelected == null && 
-          (<div style={{width:500}}>
-            <Alert severity="info">Haga click dentro del mapa de Santander para conocer el potencial energético.
-              <p>
-                <strong>Nota:</strong> A mayor distancia del Área Metropolitana de Bucaramanga, mayor es el margen de error para
-              el potencial calculado.
-              </p>
-            </Alert>
-          </div>)}
+
+
+          <div className="mx-3 mt-2">
+            {/*Date Picker */}
+            <Picker date={props.date} onChange={(newDate) => props.changeDate(newDate)} />
+            <FormControl component="fieldset">
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          color="primary"
+                          checked={state.Scala}
+                          onChange={handleChange}
+                          name="Scala"
+                        />
+                      }
+                      label="Mostrar escala de tiempo"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          color="primary"
+                          checked={state.Mapa}
+                          onChange={handleChange}
+                          name="Mapa"
+                        />
+                      }
+                      label="Mostrar imagen mapa interpolado"
+                    /> 
+                  </FormGroup>
+              </FormControl>
+          </div>
+          </div>
       </div>
 
-        {/*Interpolación */}
-        <div
+        {/*Mapa interpolado*/}
+        {state.Mapa && <div
           className="card "
           style={{
             position: "absolute",
@@ -80,67 +111,19 @@ const MapTemplate = (props) => {
             zIndex: 2,
             backgroundColor: "white",
             left: 10,
-            width: 350,
+            width: 300,
           }}
         >
           <div className="card-body">
-            <h5 className="text-center text-muted">
-            Conozca la radiación solar en el Área Metropolitana de Bucaramanga
-            </h5>
-            {/*Date Picker */}
-            <Picker date={props.date} onChange={(newDate) => props.changeDate(newDate)} />
-
-            <FormControl component="fieldset">
-            <FormLabel component="legend">Opciones</FormLabel>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Switch
-                    color="primary"
-                    checked={state.Scala}
-                    onChange={handleChange}
-                    name="Scala"
-                  />
-                }
-                label="Mostrar escala de tiempo"
+          <img
+                width={300}
+                height={300}
+                src="https://www.globalweatherclimatecenter.com/uploads/7/0/9/4/70941227/daneeja-rainfall-1_orig.png"
+                class="img-fluid"
+                alt="interpolación del día"
               />
-              <FormControlLabel
-                control={
-                  <Switch
-                    color="primary"
-                    checked={state.Points}
-                    onChange={handleChange}
-                    name="Points"
-                  />
-                }
-                label="Mostrar puntos interpolados"
-              />
-              <FormControlLabel
-                control={
-                  <Switch
-                    color="primary"
-                    checked={state.Mapa}
-                    onChange={handleChange}
-                    name="Mapa"
-                  />
-                }
-                label="Mostrar imagen mapa interpolado"
-              />
-            </FormGroup>
-          </FormControl>
-
-            {state.Mapa && 
-            <div className="text-center">
-            <img
-              width={300}
-              height={300}
-              src="https://www.globalweatherclimatecenter.com/uploads/7/0/9/4/70941227/daneeja-rainfall-1_orig.png"
-              class="img-fluid"
-              alt="interpolación del día"
-            />
-          </div>}
           </div>
-        </div>
+        </div>}
 
         {/*Progress */}
         {message !== "" && (
@@ -158,9 +141,19 @@ const MapTemplate = (props) => {
             }
           }
           center={center}
-          zoom={8}
+          zoom={zoom}
           onzoomend={(e) => setzoom(e.target._zoom)}
         >
+
+          <Popup
+            position={[7.069867588701679, -73.15624237060548]}>
+            <Alert severity="info">Haga click dentro del mapa de Santander para conocer el potencial energético.
+              <p>
+                <strong>Nota:</strong> A mayor distancia del Área Metropolitana de Bucaramanga, mayor es el margen de error para
+              el potencial calculado.
+              </p>
+            </Alert>
+          </Popup>
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
