@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { useEffect } from "react";
 import estacionService from '../../services/estacion.service'
+import { hi } from "date-fns/locale";
+
+const lowRadiationColor = "#fbc531"
+const mediaRadiationColor = "#e67e22"
+const hightRadiationColor = "#e84118"
 
 export default function Popup(props) {
   const { object, potencial } = props;
@@ -26,12 +31,26 @@ export default function Popup(props) {
           datasets: [
               {
                 label: "Radiación",
-                data: res.data.map(r => {return {x:new Date(r.fecha).getHours(), y:r.radiacion}})
-              }
+                data: res.data.map(r => {return {x:new Date(r.fecha).getHours(), y:r.radiacion}}),
+                backgroundColor:function(context) {
+                  let index = context.dataIndex;
+                  let value = context.dataset.data[index];
+                  let color = "#f5f6fa"
+                  if(value){
+                    if (value.y < 500 )
+                      color = lowRadiationColor
+                    else if( value.y >= 500 && value.y <= 700)
+                      color = mediaRadiationColor
+                    else
+                      color = hightRadiationColor
+                  }
+                  return color
+                  
+              }}
             ]
         })
       })
-      .catch(err => console.error(err)) 
+      .catch(err => props.showError("Lo sentimos ocurrio un error al obtener la radiación")) 
       potencial.forEach(p => {
         if(p.estacion == object.nombre){
             potencialEstacion.maximo = p.maximo
@@ -224,7 +243,6 @@ export default function Popup(props) {
                         <Line
                           data={datasets}
                           options={{
-                            backgroundColor: "#FFEB3B",
                             scales: {
                               xAxes: [
                                 {
@@ -249,7 +267,30 @@ export default function Popup(props) {
                             },
                           }}
                         />
+
+                        
                       </div>): <p className="text-center">No se encontraron resultados.</p>}
+                      {/* Indicadore de nivel */}
+                      <div className="row mt-2">
+                            <div className="col">
+                              <div className="row around-xs">
+                                <div  style={{width:20, height:20, backgroundColor:lowRadiationColor, borderRadius:50}}></div>
+                                <div><span style={{fontSize:15}} className="text-muted ">Baja radiación</span></div>
+                              </div>
+                            </div>
+                            <div className="col">
+                              <div className="row around-xs">
+                                <div  style={{width:20, height:20, backgroundColor:mediaRadiationColor, borderRadius:50}}></div>
+                                <div><span style={{fontSize:15}} className="text-muted ">Promedio</span></div>
+                              </div>
+                            </div>
+                            <div className="col">
+                              <div className="row around-xs">
+                                <div  style={{width:20, height:20, backgroundColor:hightRadiationColor, borderRadius:50}}></div>
+                                <div><span style={{fontSize:15}} className="text-muted ">Alta radiación</span></div>
+                              </div>
+                            </div>
+                        </div>
                       
                     </div>
                   </div>
