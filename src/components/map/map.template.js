@@ -146,8 +146,8 @@ const MapTemplate = (props) => {
         >
 
           <Popup
-            position={[7.069867588701679, -73.15624237060548]}>
-            <Alert severity="info">Haga click dentro del mapa de Santander para conocer el potencial energético.
+            position={[7.0436319896086745, -73.11658859252931]}>
+            <Alert severity="info">Haga sobre el Área Metropolitana de Bucaramanga para conocer el potencial energético.
               <p>
                 <strong>Nota:</strong> A mayor distancia del Área Metropolitana de Bucaramanga, mayor es el margen de error para
               el potencial calculado.

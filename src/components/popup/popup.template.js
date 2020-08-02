@@ -43,7 +43,7 @@ export default function Popup(props) {
     return ()=>{
 
     }
-  })
+  },[object, potencial])
 
   return (
     <React.Fragment>
@@ -220,7 +220,7 @@ export default function Popup(props) {
                   <div className="card">
                     <div className="card-body">
                       <h6 className="text-center text-muted">Comportamiento para la fecha: {estacionService.formatDate(props.date)}</h6>
-                      <div className="row middle-xs">
+                      {datasets.datasets[0].data.length > 0 ? (<div className="row middle-xs">
                         <Line
                           data={datasets}
                           options={{
@@ -230,13 +230,27 @@ export default function Popup(props) {
                                 {
                                   type: "linear",
                                   position: "bottom",
+                                  scaleLabel:{
+                                    display:true,
+                                    labelString: "Horas del día (24H)"
+                                  }
                                 },
                               ],
+                              yAxes: [
+                                {
+                                  type: "linear",
+                                  position: "bottom",
+                                  scaleLabel:{
+                                    display:true,
+                                    labelString: "Radiación (KW/h)"
+                                  }
+                                },
+                              ]
                             },
                           }}
                         />
-                      </div>
-                      <p className="text-center text-muted">Horas del día vs radiación</p>
+                      </div>): <p className="text-center">No se encontraron resultados.</p>}
+                      
                     </div>
                   </div>
                 </div>

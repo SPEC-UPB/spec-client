@@ -8,7 +8,7 @@ export default class Map extends React.Component {
 
     constructor(props){
         super(props)
-        this._center = [7.106258496507909,-73.11195373535158]
+        this._center = [7.079748142697787,   -73.05427551269533]
 
         this.state = {
             stations:[],
@@ -35,7 +35,7 @@ export default class Map extends React.Component {
 
    getPotencial(){
     potencialService.getPotencial(this.state.currentDate)
-    .then(res => console.log(res.data))
+    .then(res => this.setState({potencial:[]}))
     .catch(err => console.error(err))
    }
 
