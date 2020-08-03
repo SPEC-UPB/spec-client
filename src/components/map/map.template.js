@@ -19,8 +19,6 @@ import {polygon as Polygon, Point} from './Polygon'
 import Alert from '@material-ui/lab/Alert';
 import "./scroll.css"
 
-
-
 const icon = new Icon({
   iconUrl: process.env.PUBLIC_URL + "/icons/svg/002-solar-energy.svg",
   iconSize: [40, 40],
@@ -209,7 +207,9 @@ const MapTemplate = (props) => {
       </div>
 
       {/*Analisis*/}
-      <Analisis />
+      <div id="potencial">
+        <Analisis />
+      </div>
 
       {/*Footer */}
       <Footer />

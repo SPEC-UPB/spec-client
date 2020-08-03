@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { useEffect } from "react";
 import estacionService from '../../services/estacion.service'
-import { hi } from "date-fns/locale";
 
-const lowRadiationColor = "#fbc531"
-const mediaRadiationColor = "#e67e22"
-const hightRadiationColor = "#e84118"
-
+const lowRadiationColor = "#4cd137"
+const mediaRadiationColor = "#fbc531"
+const hightRadiationColor = "#e67e22"
+const veryHightRadiationColor = "#e84118"
 export default function Popup(props) {
   const { object, potencial } = props;
 
@@ -104,7 +103,7 @@ export default function Popup(props) {
               aria-controls="profile"
               aria-selected="false"
             >
-             Resumen básico
+             Potencial
             </a>
           </li>
         </ul>
@@ -225,6 +224,9 @@ export default function Popup(props) {
                 </div>
               </div>
             </div>
+            <div className="my-3">
+            <a  href="#potencial">¿ Como puedo aprovechar este potencial ?</a>
+            </div>
           </div>
           <div
             className="tab-pane fade"
@@ -273,21 +275,27 @@ export default function Popup(props) {
                       {/* Indicadore de nivel */}
                       <div className="row mt-2">
                             <div className="col">
-                              <div className="row around-xs">
-                                <div  style={{width:20, height:20, backgroundColor:lowRadiationColor, borderRadius:50}}></div>
-                                <div><span style={{fontSize:15}} className="text-muted ">Baja radiación</span></div>
+                                <div className="row around-xs">
+                                  <div  style={{width:20, height:20, backgroundColor:lowRadiationColor, borderRadius:50}}></div>
+                                  <div><span style={{fontSize:15}} className="text-muted ">Baja</span></div>
+                                </div>
                               </div>
-                            </div>
                             <div className="col">
                               <div className="row around-xs">
                                 <div  style={{width:20, height:20, backgroundColor:mediaRadiationColor, borderRadius:50}}></div>
-                                <div><span style={{fontSize:15}} className="text-muted ">Promedio</span></div>
+                                <div><span style={{fontSize:15}} className="text-muted ">Moderada</span></div>
                               </div>
                             </div>
                             <div className="col">
                               <div className="row around-xs">
                                 <div  style={{width:20, height:20, backgroundColor:hightRadiationColor, borderRadius:50}}></div>
-                                <div><span style={{fontSize:15}} className="text-muted ">Alta radiación</span></div>
+                                <div><span style={{fontSize:15}} className="text-muted ">Alta</span></div>
+                              </div>
+                            </div>
+                            <div className="col">
+                              <div className="row around-xs">
+                                <div  style={{width:20, height:20, backgroundColor:veryHightRadiationColor, borderRadius:50}}></div>
+                                <div><span style={{fontSize:15}} className="text-muted ">Muy alta</span></div>
                               </div>
                             </div>
                         </div>

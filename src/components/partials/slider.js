@@ -128,7 +128,7 @@ function valuetext(value) {
 export default function DiscreteSlider() {
   return (
     <div
-      style={{ position: "absolute", bottom: 5, zIndex: 2 }}
+      style={{ position: "absolute", bottom: 5, zIndex: 2 , width:800}}
       className="container-fluid"
     >
       <div className="card-body" style={{backgroundColor:'white', height:50, width:250, zIndex:3}}>
