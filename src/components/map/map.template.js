@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Map, Marker, Popup, TileLayer, GeoJSON } from "react-leaflet";
+import { Map, Marker, Popup, TileLayer, GeoJSON, Circle } from "react-leaflet";
 import { Icon } from "leaflet";
 import SANTANDER_POLYGON from "./Santander.geo.json";
 import COLOMBIA_POLYGON from "./Colombia.geo.json";
@@ -154,6 +154,7 @@ const MapTemplate = (props) => {
               </p>
             </Alert>
           </Popup>
+
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -161,15 +162,25 @@ const MapTemplate = (props) => {
 
           {zoom >= 8 &&
             stations.map((estation, index) => (
-              <Marker
-                key={index}
-                position={[estation.lat, estation.lon]}
-                icon={icon}
-                onclick={() => {
-                  setstation(estation)
-                  setpointSelected(null)
-                }}
-              />
+                <React.Fragment>
+                  <Marker
+                  key={index}
+                  position={[estation.lat, estation.lon]}
+                  icon={icon}
+                  onclick={() => {
+                    setstation(estation)
+                    setpointSelected(null)
+                  }}
+                />
+                <Circle
+                  center={[estation.lat, estation.lon]}
+                  color="red"
+                  fillColor="#f03"
+                  fillOpacity={0.5}
+                  radius={500}
+                />
+              </React.Fragment>
+             
             ))}
           
           <GeoJSON
