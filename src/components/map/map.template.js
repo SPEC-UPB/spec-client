@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Map, Marker, Popup, TileLayer, GeoJSON, Circle } from "react-leaflet";
 import { Icon } from "leaflet";
-import SANTANDER_POLYGON from "./Santander.geo.json";
+import AREA_METROPOLITANA_BUCARAMANGA_POLYGON from "./Metropolitana.border.geo.json";
 import COLOMBIA_POLYGON from "./Colombia.geo.json";
 import Progress from "../progress/progress";
 import Footer from "../partials/footer";
@@ -10,7 +10,6 @@ import Slider from "../partials/slider";
 import Picker from "../partials/picker";
 import Header from "../partials/header";
 import MyPopup from "../popup/popup.container";
-import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -61,9 +60,12 @@ const MapTemplate = (props) => {
              <MyPopup object={stationSelected} date={props.date} potencial={props.potencial}/>
           )}
 
-          {pointSelected && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 && (
+          {pointSelected && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 ? (
             <MyPopup object={pointSelected} date={props.date}/>
-          )}
+          ):
+          <Alert severity="info">
+            No es posible mostrar información de radiación solar fuera del Área Metropolitana de Bucaramanga
+          </Alert>}
 
 
 
@@ -145,11 +147,8 @@ const MapTemplate = (props) => {
 
           <Popup
             position={[7.0436319896086745, -73.11658859252931]}>
-            <Alert severity="info">Haga sobre el Área Metropolitana de Bucaramanga para conocer el potencial energético.
-              <p>
-                <strong>Nota:</strong> A mayor distancia del Área Metropolitana de Bucaramanga, mayor es el margen de error para
-              el potencial calculado.
-              </p>
+            <Alert severity="info">Haga click sobre algún punto del Área Metropolitana de Bucaramanga para conocer la radiación y el potencial energético.
+              
             </Alert>
           </Popup>
 
@@ -181,17 +180,17 @@ const MapTemplate = (props) => {
              
             ))}
           
-          <GeoJSON
+          {/* <GeoJSON
             data={COLOMBIA_POLYGON}
             color="#fed330"
             opacity={zoom <= 10 ? 0.2 : 0}
             fillOpacity={zoom <= 10 ? 0.2 : 0}
-          />
+          /> */}
           {zoom <= 10 && (
             <GeoJSON
-              data={SANTANDER_POLYGON}
+              data={AREA_METROPOLITANA_BUCARAMANGA_POLYGON}
               style={{
-                fillColor: "#26de81",
+                fillColor: "#FFEB3B",
                 color: "white",
                 weight: 2,
                 opacity: 0.5,

@@ -1,4 +1,4 @@
-const Santander = require('./Santander.geo.json')
+const AMB = require('./Metropolitana.border.geo.json')
 
 class Point{
     constructor(x,y){
@@ -45,7 +45,7 @@ class Point{
 
     start(){
         this.points = []
-        const coord = Santander.features[0].geometry.coordinates[0]
+        const coord = AMB.geometries[0].coordinates[0]
         coord.forEach(element => {
             this.points.push(new Point(element[0], element[1]))
         });

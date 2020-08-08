@@ -241,6 +241,7 @@ export default function Popup(props) {
                   <div className="card">
                     <div className="card-body">
                       <h6 className="text-center text-muted">Comportamiento para la fecha: {estacionService.formatDate(props.date)}</h6>
+                      {object.nombre && <h7 className="text-center text-muted">Estación {object.nombre}</h7>}
                       {datasets.datasets[0].data.length > 0 ? (<div className="row middle-xs">
                         <Line
                           data={datasets}

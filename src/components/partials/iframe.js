@@ -11,7 +11,10 @@ export default function Iframe() {
         data-toggle="modal"
         data-target="#modalYT"
       >
-        ¿Qué es la energía solar?
+       <div className="row middle-xs">
+        <i class="fas fa-play-circle mr-2" style={{fontSize:20}}></i> 
+        <span>¿Qué es la energía solar?</span>
+       </div>
       </button>
       <button
         onClick={() => seturlVideo("https://www.youtube.com/embed/mmDFW8vJw7U")}
@@ -20,7 +23,10 @@ export default function Iframe() {
         data-toggle="modal"
         data-target="#modalYT"
       >
-        ¿Cómo se genera?
+        <div className="row middle-xs">
+          <i class="fas fa-play-circle mr-2" style={{fontSize:20}}></i> 
+          <span> ¿Cómo se genera?</span>
+       </div>
       </button>
       <div
         class="modal fade"
