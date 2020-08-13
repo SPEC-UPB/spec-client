@@ -16,7 +16,7 @@ export default class Map extends React.Component {
             openMessage:false,
             messageType:'info',
             messageForSnackbar:'',
-            currentDate : '2016-08-18',
+            currentDate : '2016-08-17',
             potencial:[]
         }
 

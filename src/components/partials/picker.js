@@ -10,13 +10,14 @@ import {
 
 export default function MaterialUIPickers(props) {
   // The first commit of Material-UI
-  const [selectedDate, setSelectedDate] = React.useState('2016-08-18');
+  const [selectedDate, setSelectedDate] = React.useState('08-17-2016');
 
   
 
 
 const handleDateChange = (date) => {
   if(date != "Invalid Date"){
+    console.log(date);
     setSelectedDate(date);
     props.onChange(date)
   }else{

@@ -23,15 +23,29 @@ export default function Popup(props) {
 
 
   useEffect(() => {
-    console.log("Se ejecuta")
     if(props.object.nombre){
       props.getRadiation(props.object.nombre)
       .then(res => {
+        console.log(res.data[0]);
+        console.log(new Date(res.data[0].fecha).getHours());
+        console.log(new Date(res.data[0].fecha).getMinutes());
+        let data = res.data.map(r => {return {x: parseFloat(new Date(r.fecha).getHours() + (new Date(r.fecha).getMinutes()/60) + (new Date(r.fecha).getSeconds()/3600)), 
+          y:r.radiacion}})
+
+          data.sort((firstEl, secondEl) => {
+              if(firstEl.x < secondEl.x)
+                return -1;
+              if (firstEl.x > secondEl.x)
+                return 1;
+              return 0;
+          });
+
+          console.log(data);
         setDatasets({
           datasets: [
               {
                 label: "Radiación",
-                data: res.data.map(r => {return {x:new Date(r.fecha).getHours(), y:r.radiacion}}),
+                data,
                 backgroundColor:function(context) {
                   let index = context.dataIndex;
                   let value = context.dataset.data[index];
@@ -241,7 +255,7 @@ export default function Popup(props) {
                 <div>
                   <div className="card">
                     <div className="card-body">
-                      <h6 className="text-center text-muted">Comportamiento para la fecha: {estacionService.formatDate(props.date)}</h6>
+                      <h6 className="text-center text-muted">Comportamiento para la fecha: {props.date}</h6>
                       {object.nombre && <p className="text-center text-muted">Estación {object.nombre}</p>}
                       {datasets.datasets[0].data.length > 0 ? (<div className="row middle-xs">
                         <Line
