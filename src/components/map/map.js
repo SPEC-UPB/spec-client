@@ -16,7 +16,7 @@ export default class Map extends React.Component {
             openMessage:false,
             messageType:'info',
             messageForSnackbar:'',
-            currentDate : new Date('2016-08-18'),
+            currentDate : '2016-08-18',
             potencial:[]
         }
 
@@ -29,7 +29,7 @@ export default class Map extends React.Component {
    }
 
    changeDate(newDate){
-    this.setState({currentDate:newDate})
+    this.setState({currentDate:estacionService.formatDate(newDate)})
     this.getPotencial()
    }
 

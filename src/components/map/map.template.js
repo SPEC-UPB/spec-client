@@ -60,7 +60,7 @@ const MapTemplate = (props) => {
              <MyPopup object={stationSelected} date={props.date} potencial={props.potencial}/>
           )}
 
-          {pointSelected && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 ? (
+          {pointSelected !=null  && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 ? (
             <MyPopup object={pointSelected} date={props.date}/>
           ):
           <Alert severity="info">
@@ -71,7 +71,7 @@ const MapTemplate = (props) => {
 
           <div className="mx-3 mt-2">
             {/*Date Picker */}
-            <Picker date={props.date} onChange={(newDate) => props.changeDate(newDate)} />
+            <Picker  onChange={(newDate) => props.changeDate(newDate)} />
             <FormControl component="fieldset">
                   <FormGroup>
                     <FormControlLabel

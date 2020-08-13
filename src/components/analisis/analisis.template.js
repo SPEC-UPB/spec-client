@@ -1,7 +1,9 @@
 import React from "react";
-import { Line } from 'react-chartjs-2';
+import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
-
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 export default function AnalisisTemplate(props) {
   return (
@@ -140,9 +142,9 @@ export default function AnalisisTemplate(props) {
                   />
                   </div>
             </div>
-            <p style={{textAlign:"justify"}} className="grey-text w-responsive mx-auto mb-5  mt-2">
+            <p style={{textAlign:"justify"}} className="grey-text w-responsive mx-auto mb-1  mt-2">
               Ahora que conocemos el comportamiento de la radiación solar en el área metropolitana de Bucaramanga
-              y sabemos lo que significa el potencial electrico entregado por los paneles o estaciones. puede que 
+              y sabemos lo que significa el potencial electrico entregado por las estaciones. puede que 
               se pregunte ¿ De que me sirve esta información? ¿ Que significan los valores de potencial calculados?.
               No estaria nada mal saber cuanto dinero podria ahorrarse en su factura electricidad si usara energia renovable en su hogar, cierto.
               Para ello hemos puesto a su disposición el siguiente apartado donde podra conocer la energía que usted
@@ -150,6 +152,19 @@ export default function AnalisisTemplate(props) {
               A demas puede jugar con los valores de electricidad que su hogar o aparato electronico gasta en kw por hora
               y conocer cuanto tiempo de electricidad a partir de energia renovable usted podria obtener.
             </p>
+            <div className="text-center mb-3">
+              <FormControl >
+                <Input
+                  value={17}
+                  endAdornment={<InputAdornment position="end">%</InputAdornment>}
+                  aria-describedby="standard-weight-helper-text"
+                  inputProps={{
+                    'aria-label': 'weight',
+                  }}
+                />
+                <FormHelperText id="standard-weight-helper-text">Porcentaje de eficiencia</FormHelperText>
+              </FormControl>
+            </div>
           </div>
           {/* Grid row */}
           <div className="row text-center">
@@ -176,7 +191,7 @@ export default function AnalisisTemplate(props) {
                   Energía para su hogar
                 </h4>
                 <p  className="grey-text">
-                  Si s casa consume en promedio <strong>X watts</strong> por hora usted podria tener energia electrica 
+                  Si su casa consume en promedio <strong>X watts</strong> por hora usted podria tener energia electrica 
                   durante <strong>X horas</strong>.
                 </p>
                 <TextField id="standard-basic" fullWidth label="Escriba los kWh que consume su hogar" type="number"/>

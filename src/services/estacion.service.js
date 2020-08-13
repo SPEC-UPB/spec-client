@@ -22,7 +22,7 @@ class EstacionService {
     }
 
     getRadiacionByDate(station, date){
-        return axios.get(env.SERVER_URL + '/api/getRadiacionByEstacionAndDate/'+station+'/'+this.formatDate(date) + " 00:00:00")
+        return axios.get(env.SERVER_URL + '/api/getRadiacionByEstacionAndDate/'+station+'/'+date + " 00:00:00")
     }
 }
 
