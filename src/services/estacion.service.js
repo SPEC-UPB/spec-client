@@ -22,6 +22,7 @@ class EstacionService {
     }
 
     getRadiacionByDate(station, date){
+        console.log("Buscando radiación para la estacion " + station + " en la fecha " + date); 
         return axios.get(env.SERVER_URL + '/api/getRadiacionByEstacionAndDate/'+station+'/'+date + " 00:00:00")
     }
 }

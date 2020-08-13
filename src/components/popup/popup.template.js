@@ -8,7 +8,7 @@ const mediaRadiationColor = "#fbc531"
 const hightRadiationColor = "#e67e22"
 const veryHightRadiationColor = "#e84118"
 export default function Popup(props) {
-  const { object, potencial } = props;
+  const { object, potencial,date} = props;
 
   const [datasets, setDatasets] = useState({
     datasets: [
@@ -23,6 +23,7 @@ export default function Popup(props) {
 
 
   useEffect(() => {
+    console.log("Se ejecuta")
     if(props.object.nombre){
       props.getRadiation(props.object.nombre)
       .then(res => {
@@ -61,7 +62,7 @@ export default function Popup(props) {
     return ()=>{
 
     }
-  },[object, potencial])
+  },[object, potencial, date])
 
   return (
     <React.Fragment>
