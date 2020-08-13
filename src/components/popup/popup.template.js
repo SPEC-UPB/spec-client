@@ -26,9 +26,6 @@ export default function Popup(props) {
     if(props.object.nombre){
       props.getRadiation(props.object.nombre)
       .then(res => {
-        console.log(res.data[0]);
-        console.log(new Date(res.data[0].fecha).getHours());
-        console.log(new Date(res.data[0].fecha).getMinutes());
         let data = res.data.map(r => {return {x: parseFloat(new Date(r.fecha).getHours() + (new Date(r.fecha).getMinutes()/60) + (new Date(r.fecha).getSeconds()/3600)), 
           y:r.radiacion}})
 
