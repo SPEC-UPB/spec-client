@@ -19,7 +19,14 @@ export default function Popup(props) {
   })
 
   const [potencialEstacion, setPotencialEstacion] = useState({maximo:0, minimo:0, promedio:0})
-
+  const calcularSizePoint = () => {
+    if(object.nombre){
+      if( object.nombre != 'Paralela Bosque' &&  object.nombre != 'UPB - Piedecuesta'){
+        return 3
+      }
+      return 1;
+    }
+  }
 
   useEffect(() => {
     if(props.object.nombre){
@@ -42,6 +49,7 @@ export default function Popup(props) {
               {
                 label: "Radiación",
                 data,
+                pointRadius: calcularSizePoint(),
                 backgroundColor:function(context) {
                   let index = context.dataIndex;
                   let value = context.dataset.data[index];
