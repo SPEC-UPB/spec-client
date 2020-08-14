@@ -61,6 +61,8 @@ export default function Popup(props) {
         })
       })
       .catch(err => props.showError("Lo sentimos ocurrio un error al obtener la radiación")) 
+      
+      let hayPotencial = false;
       potencial.forEach(p => {
         if(p.estacion == object.nombre){
             setPotencialEstacion({
@@ -68,8 +70,16 @@ export default function Popup(props) {
               minimo : p.minimo,
               promedio : p.radiacion
             })
+            hayPotencial = true;
         }
       });
+      if(!hayPotencial){
+        setPotencialEstacion({
+          maximo : 0,
+          minimo : 0,
+          promedio : 0
+        })
+      }
     }
     return ()=>{
 

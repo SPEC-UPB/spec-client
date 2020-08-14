@@ -33,20 +33,12 @@ export default class Map extends React.Component {
         this.setState({efficiencyPercentage:(parseFloat(efficiencyPercentage)/100)})
    }
 
-   changeDate(newDate){
-    this.setState({currentDate:estacionService.formatDate(newDate)})
+   async changeDate(newDate){
+    await this.setState({currentDate:estacionService.formatDate(newDate)})
     this.getPotencial()
    }
 
    getPotencial(){
-
-    // potencialService.getPotencial()
-    // .then(res => {
-    //     console.log(res.data.data);
-    //     this.setState({potencial:res.data.data})
-    // })
-    // .catch(err => this.setState({messageType:'error', messageForSnackbar:'Lo sentimos ocurrio un error al obtener el potencial'}))
-
     potencialService.getPotenciaByDate(this.state.currentDate)
     .then(res => {
         console.log(res.data.data);
