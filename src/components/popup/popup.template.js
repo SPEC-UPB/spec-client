@@ -203,7 +203,9 @@ export default function Popup(props) {
                       <div className="col-10">
                         <h5 className="card-title">
                           Potencial máximo:
-                          <span className="text-muted"> {potencialEstacion.maximo ? ((potencialEstacion.maximo * efficiencyPercentage)/1000).toFixed(2):0} kwh/m2</span>
+                          <span className="text-muted"> 
+                            {potencialEstacion.maximo ? (potencialEstacion.maximo * efficiencyPercentage).toFixed(2):0} Wh/m<sup>2</sup>
+                          </span>
                         </h5>
                       </div>
                     </div>
@@ -219,7 +221,7 @@ export default function Popup(props) {
                       <div className="col-10">
                         <h5 className="card-title">
                           Promedio:
-                          <span className="text-muted">{potencialEstacion.promedio ? ((potencialEstacion.promedio * efficiencyPercentage)/1000).toFixed(2):0} kwh/m2</span>
+                          <span className="text-muted">{potencialEstacion.promedio ? (potencialEstacion.promedio * efficiencyPercentage).toFixed(2):0}  Wh/m<sup>2</sup></span>
                         </h5>
                       </div>
                     </div>
@@ -235,7 +237,7 @@ export default function Popup(props) {
                       <div className="col-10">
                         <h5 className="card-title">
                           Potencial mínimo:
-                          <span className="text-muted"> {potencialEstacion.minimo ? ((potencialEstacion.minimo * efficiencyPercentage)/1000).toFixed(2):0} kwh/m2</span>
+                          <span className="text-muted"> {potencialEstacion.minimo ? (potencialEstacion.minimo * efficiencyPercentage).toFixed(2):0} Wh/m<sup>2</sup></span>
                         </h5>
                       </div>
                     </div>
