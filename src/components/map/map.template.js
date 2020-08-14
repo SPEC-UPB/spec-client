@@ -73,7 +73,7 @@ const MapTemplate = (props) => {
           </h5>
 
           {stationSelected && (
-             <MyPopup object={stationSelected} date={props.date} potencial={props.potencial}/>
+             <MyPopup efficiencyPercentage={props.efficiencyPercentage} object={stationSelected} date={props.date} potencial={props.potencial}/>
           )}
 
           {pointSelected !=null  && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 ? (

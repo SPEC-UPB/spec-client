@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import { useEffect } from "react";
-import estacionService from '../../services/estacion.service'
 
 const lowRadiationColor = "#4cd137"
 const mediaRadiationColor = "#fbc531"
 const hightRadiationColor = "#e67e22"
 const veryHightRadiationColor = "#e84118"
 export default function Popup(props) {
-  const { object, potencial,date} = props;
+  const { object, potencial, date, efficiencyPercentage} = props;
 
   const [datasets, setDatasets] = useState({
     datasets: [
@@ -19,7 +18,7 @@ export default function Popup(props) {
       ]
   })
 
-  let potencialEstacion = {maximo:0, minimo:0, promedio:0}
+  const [potencialEstacion, setPotencialEstacion] = useState({maximo:0, minimo:0, promedio:0})
 
 
   useEffect(() => {
@@ -64,16 +63,18 @@ export default function Popup(props) {
       .catch(err => props.showError("Lo sentimos ocurrio un error al obtener la radiación")) 
       potencial.forEach(p => {
         if(p.estacion == object.nombre){
-            potencialEstacion.maximo = p.maximo
-            potencialEstacion.minimo = p.minimo
-            potencialEstacion.promedio = p.radiacion
+            setPotencialEstacion({
+              maximo : p.maximo,
+              minimo : p.minimo,
+              promedio : p.radiacion
+            })
         }
       });
     }
     return ()=>{
 
     }
-  },[object, potencial, date])
+  },[object, potencial, date, efficiencyPercentage])
 
   return (
     <React.Fragment>
@@ -187,7 +188,7 @@ export default function Popup(props) {
                       <div className="col-10">
                         <h5 className="card-title">
                           Potencial máximo:
-                          <span className="text-muted"> {potencialEstacion.maximo} kw/h</span>
+                          <span className="text-muted"> {potencialEstacion.maximo ? (potencialEstacion.maximo * efficiencyPercentage).toFixed(2):0} kw/h</span>
                         </h5>
                       </div>
                     </div>
@@ -206,8 +207,8 @@ export default function Popup(props) {
                       </div>
                       <div className="col-10">
                         <h5 className="card-title">
-                          Potencial promedio:
-                          <span className="text-muted">{potencialEstacion.promedio} kw/h</span>
+                          Promedio:
+                          <span className="text-muted">{potencialEstacion.promedio ? (potencialEstacion.promedio * efficiencyPercentage).toFixed(2):0} kw/h</span>
                         </h5>
                       </div>
                     </div>
@@ -228,7 +229,7 @@ export default function Popup(props) {
                       <div className="col-10">
                         <h5 className="card-title">
                           Potencial mínimo:
-                          <span className="text-muted"> {potencialEstacion.minimo} kw/h</span>
+                          <span className="text-muted"> {potencialEstacion.minimo ? (potencialEstacion.minimo * efficiencyPercentage).toFixed(2):0} kw/h</span>
                         </h5>
                       </div>
                     </div>

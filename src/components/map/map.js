@@ -30,7 +30,7 @@ export default class Map extends React.Component {
    }
 
    changeEfficiencyPercentage(efficiencyPercentage){
-        this.setState({efficiencyPercentage:parseFloat(efficiencyPercentage)/100})
+        this.setState({efficiencyPercentage:(parseFloat(efficiencyPercentage)/100)})
    }
 
    changeDate(newDate){
