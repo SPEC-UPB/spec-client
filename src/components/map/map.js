@@ -29,6 +29,10 @@ export default class Map extends React.Component {
        this.getPotencial()
    }
 
+   changeEfficiencyPercentage(efficiencyPercentage){
+        this.setState({efficiencyPercentage:parseFloat(efficiencyPercentage)/100})
+   }
+
    changeDate(newDate){
     this.setState({currentDate:estacionService.formatDate(newDate)})
     this.getPotencial()
@@ -87,7 +91,8 @@ export default class Map extends React.Component {
                     message={this.state.message} date={this.state.currentDate} 
                     changeDate={this.changeDate.bind(this)}
                     potencial={this.state.potencial}
-                    efficiencyPercentage={this.state.efficiencyPercentage}/>
+                    efficiencyPercentage={this.state.efficiencyPercentage}
+                    changeEfficiencyPercentage={this.changeEfficiencyPercentage.bind(this)}/>
                 <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
                     type={this.state.messageType} message={this.state.messageForSnackbar}/>
             </React.Fragment>

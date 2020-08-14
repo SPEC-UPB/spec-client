@@ -54,7 +54,7 @@ const MapTemplate = (props) => {
     return () => {
 
     }
-  }, [props.potencial])
+  }, [props.potencial, props.efficiencyPercentage])
 
   return (
     <React.Fragment>
@@ -161,7 +161,7 @@ const MapTemplate = (props) => {
           }
           center={center}
           zoom={zoom}
-          onzoomend={(e) => setzoom(e.target._zoom)}
+          onzoomend={(e) => {setzoom(e.target._zoom); console.log(e.target._zoom);}}
         >
 
           <Popup
@@ -192,7 +192,7 @@ const MapTemplate = (props) => {
              
             ))}
 
-            {zoom >= 8 && props.potencial.length > 0 &&
+            {zoom <= 16 && props.potencial.length > 0 &&
                      stations.map((estation, index) => (
                       <Circle
                         center={[estation.lat, estation.lon]}
@@ -232,7 +232,7 @@ const MapTemplate = (props) => {
 
       {/*Analisis*/}
       <div id="potencial">
-        <Analisis />
+        <Analisis changeEfficiencyPercentage={props.changeEfficiencyPercentage} />
       </div>
 
       {/*Footer */}

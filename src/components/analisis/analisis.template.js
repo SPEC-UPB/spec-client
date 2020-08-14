@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -6,6 +6,16 @@ import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
 export default function AnalisisTemplate(props) {
+
+  const [efficiencyPercentage, setEfficiencyPercentage] = useState(17)
+  const changeEfficiencyPercentage  = (e) => {
+    const value = e.target.value
+    if(value <= 25){
+      setEfficiencyPercentage(value)
+      props.changeEfficiencyPercentage(value)
+    }
+  }
+
   return (
     <React.Fragment>
       {/* <div className="container">
@@ -155,7 +165,9 @@ export default function AnalisisTemplate(props) {
             <div className="text-center mb-3">
               <FormControl >
                 <Input
-                  value={17}
+                  onChange={changeEfficiencyPercentage}
+                  value={efficiencyPercentage}
+                  type="number"
                   endAdornment={<InputAdornment position="end">%</InputAdornment>}
                   aria-describedby="standard-weight-helper-text"
                   inputProps={{
