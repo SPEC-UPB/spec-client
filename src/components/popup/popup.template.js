@@ -192,21 +192,18 @@ export default function Popup(props) {
           >
             <div className="mt-2">
               <div style={{ width: "100%" }}>
+              {object.nombre && <p className="text-center text-muted mx-5">Potencial registrado en kilovatios-hora al día  para la fecha: {props.date}</p>}
+              {object.nombre && <p className="text-center text-muted">Estación {object.nombre}</p>}
                 <div className="card" style={{ height: 60 }}>
                   <div className="card-body">
                     <div className="row middle-xs">
                       <div className="col-2 ">
-                        <img
-                          className="mb-3"
-                          src="/icons/svg/006-up-arrow.svg"
-                          height={30}
-                          width={30}
-                        />
+                        <i class="fas fa-arrow-up" style={{fontSize:30, color:"#FFC107"}}></i>
                       </div>
                       <div className="col-10">
                         <h5 className="card-title">
                           Potencial máximo:
-                          <span className="text-muted"> {potencialEstacion.maximo ? (potencialEstacion.maximo * efficiencyPercentage).toFixed(2):0} kw/h</span>
+                          <span className="text-muted"> {potencialEstacion.maximo ? ((potencialEstacion.maximo * efficiencyPercentage)/1000).toFixed(2):0} kwh/m2</span>
                         </h5>
                       </div>
                     </div>
@@ -217,16 +214,12 @@ export default function Popup(props) {
                   <div className="card-body">
                     <div className="row">
                       <div className="col-2 ">
-                        <img
-                          src="/icons/svg/008-balance.svg"
-                          height={30}
-                          width={30}
-                        />
+                        <i class="fas fa-bolt" style={{fontSize:30, color:"#FFC107"}}></i>
                       </div>
                       <div className="col-10">
                         <h5 className="card-title">
                           Promedio:
-                          <span className="text-muted">{potencialEstacion.promedio ? (potencialEstacion.promedio * efficiencyPercentage).toFixed(2):0} kw/h</span>
+                          <span className="text-muted">{potencialEstacion.promedio ? ((potencialEstacion.promedio * efficiencyPercentage)/1000).toFixed(2):0} kwh/m2</span>
                         </h5>
                       </div>
                     </div>
@@ -237,17 +230,12 @@ export default function Popup(props) {
                   <div className="card-body">
                     <div className="row middle-xs">
                       <div className="col-2 ">
-                        <img
-                          className="mb-3"
-                          src="/icons/svg/004-down-arrow.svg"
-                          height={30}
-                          width={30}
-                        />
+                        <i class="fas fa-arrow-down" style={{fontSize:30, color:"#FFC107"}}></i>
                       </div>
                       <div className="col-10">
                         <h5 className="card-title">
                           Potencial mínimo:
-                          <span className="text-muted"> {potencialEstacion.minimo ? (potencialEstacion.minimo * efficiencyPercentage).toFixed(2):0} kw/h</span>
+                          <span className="text-muted"> {potencialEstacion.minimo ? ((potencialEstacion.minimo * efficiencyPercentage)/1000).toFixed(2):0} kwh/m2</span>
                         </h5>
                       </div>
                     </div>

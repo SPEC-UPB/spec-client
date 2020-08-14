@@ -39,9 +39,10 @@ export default class Map extends React.Component {
    }
 
    getPotencial(){
+       console.log("siii");
     potencialService.getPotenciaByDate(this.state.currentDate)
     .then(res => {
-        console.log(res.data.data);
+        console.log(res.data);
         this.setState({potencial:res.data.data})
     })
     .catch(err => this.setState({messageType:'error', messageForSnackbar:'Lo sentimos ocurrio un error al obtener el potencial'}))
