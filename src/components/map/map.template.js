@@ -63,9 +63,12 @@ const MapTemplate = (props) => {
           {pointSelected !=null  && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 ? (
             <MyPopup object={pointSelected} date={props.date}/>
           ):
-          <Alert severity="info">
+          <div>
+            {stationSelected == null && <Alert severity="info">
             No es posible mostrar información de radiación solar fuera del Área Metropolitana de Bucaramanga
           </Alert>}
+          </div>
+          }
 
 
 
