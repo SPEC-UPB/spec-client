@@ -10,7 +10,7 @@ export default function AnalisisTemplate(props) {
   const [efficiencyPercentage, setEfficiencyPercentage] = useState(17)
   const changeEfficiencyPercentage  = (e) => {
     const value = e.target.value
-    if(value <= 25){
+    if(value <= 25 && value > 0){
       setEfficiencyPercentage(value)
       props.changeEfficiencyPercentage(value)
     }
