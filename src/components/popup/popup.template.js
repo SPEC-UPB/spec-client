@@ -18,7 +18,7 @@ export default function Popup(props) {
       ]
   })
 
-  const [potencialEstacion, setPotencialEstacion] = useState({maximo:0, minimo:0, promedio:0})
+  const [potencialEstacion, setPotencialEstacion] = useState({maximo:null, minimo:null, promedio:null})
   const calcularSizePoint = () => {
     if(object.nombre){
       if( object.nombre != 'Paralela Bosque' &&  object.nombre != 'UPB - Piedecuesta'){
@@ -193,7 +193,9 @@ export default function Popup(props) {
             <div className="mt-2">
               <div style={{ width: "100%" }}>
               {object.nombre && <p className="text-center text-muted mx-5">Potencial registrado en kilovatios-hora al día  para la fecha: {props.date}</p>}
-              {object.nombre && <p className="text-center text-muted">Estación {object.nombre}</p>}
+              {potencialEstacion.promedio  ? 
+               (<React.Fragment>
+                 <p className="text-center text-muted">Estación {object.nombre}</p>
                 <div className="card" style={{ height: 60 }}>
                   <div className="card-body">
                     <div className="row middle-xs">
@@ -211,42 +213,48 @@ export default function Popup(props) {
                     </div>
                   </div>
                 </div>
-
                 <div className="card my-2" style={{ height: 60 }}>
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-2 ">
-                        <i class="fas fa-bolt" style={{fontSize:30, color:"#FFC107"}}></i>
+                        <div className="card-body">
+                          <div className="row">
+                            <div className="col-2 ">
+                              <i class="fas fa-bolt" style={{fontSize:30, color:"#FFC107"}}></i>
+                            </div>
+                            <div className="col-10">
+                              <h5 className="card-title">
+                                Promedio:
+                                <span className="text-muted">{potencialEstacion.promedio ? (potencialEstacion.promedio * efficiencyPercentage).toFixed(2):0}  Wh/m<sup>2</sup></span>
+                              </h5>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="col-10">
-                        <h5 className="card-title">
-                          Promedio:
-                          <span className="text-muted">{potencialEstacion.promedio ? (potencialEstacion.promedio * efficiencyPercentage).toFixed(2):0}  Wh/m<sup>2</sup></span>
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <div className="card" style={{ height: 60 }}>
-                  <div className="card-body">
-                    <div className="row middle-xs">
-                      <div className="col-2 ">
-                        <i class="fas fa-arrow-down" style={{fontSize:30, color:"#FFC107"}}></i>
+                      <div className="card" style={{ height: 60 }}>
+                        <div className="card-body">
+                          <div className="row middle-xs">
+                            <div className="col-2 ">
+                              <i class="fas fa-arrow-down" style={{fontSize:30, color:"#FFC107"}}></i>
+                            </div>
+                            <div className="col-10">
+                              <h5 className="card-title">
+                                Potencial mínimo:
+                                <span className="text-muted"> {potencialEstacion.minimo ? (potencialEstacion.minimo * efficiencyPercentage).toFixed(2):0} Wh/m<sup>2</sup></span>
+                              </h5>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="col-10">
-                        <h5 className="card-title">
-                          Potencial mínimo:
-                          <span className="text-muted"> {potencialEstacion.minimo ? (potencialEstacion.minimo * efficiencyPercentage).toFixed(2):0} Wh/m<sup>2</sup></span>
-                        </h5>
+
+                      <div className="my-3">
+                          <a  href="#potencial">¿ Como puedo aprovechar este potencial ?</a>
                       </div>
-                    </div>
-                  </div>
-                </div>
+               </React.Fragment>):(<p className="text-center">No se encontraron resultados.</p>)
+               }
+
+                
+
+                
               </div>
-            </div>
-            <div className="my-3">
-            <a  href="#potencial">¿ Como puedo aprovechar este potencial ?</a>
             </div>
           </div>
           <div
