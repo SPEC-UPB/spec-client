@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Map, Marker, Popup, TileLayer, GeoJSON, Circle } from "react-leaflet";
 import { Icon } from "leaflet";
 import AREA_METROPOLITANA_BUCARAMANGA_POLYGON from "./Metropolitana.border.geo.json";
-import COLOMBIA_POLYGON from "./Colombia.geo.json";
 import Progress from "../progress/progress";
 import Footer from "../partials/footer";
 import Analisis from "../analisis/analisis.container";
@@ -34,11 +33,28 @@ const MapTemplate = (props) => {
     Mapa: false,
   });
 
-  const [date, setDate] = useState(null)
+  const getPotential = (nombreEstacion) => {
+    const potencial =  props.potencial.filter(p => p.estacion == nombreEstacion)
+    let radio = 0;
+    if(potencial[0]){
+      if(potencial[0].radiacion){
+        radio = potencial[0].radiacion
+      }
+    }
+    console.log(radio);
+    return radio * props.efficiencyPercentage
+  }
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
+
+  useEffect(() => {
+    console.log("update");
+    return () => {
+
+    }
+  }, [props.potencial])
 
   return (
     <React.Fragment>
@@ -172,16 +188,22 @@ const MapTemplate = (props) => {
                     setpointSelected(null)
                   }}
                 />
-                <Circle
-                  center={[estation.lat, estation.lon]}
-                  color="red"
-                  fillColor="#f03"
-                  fillOpacity={0.5}
-                  radius={500}
-                />
               </React.Fragment>
              
             ))}
+
+            {zoom >= 8 && props.potencial.length > 0 &&
+                     stations.map((estation, index) => (
+                      <Circle
+                        center={[estation.lat, estation.lon]}
+                        color="#FFEB3B"
+                        fillColor="#FFC107"
+                        fillOpacity={0.5}
+                        radius={getPotential(estation.nombre)}
+                      />
+                  ))
+            }
+                
           
           {/* <GeoJSON
             data={COLOMBIA_POLYGON}

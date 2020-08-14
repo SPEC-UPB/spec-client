@@ -17,7 +17,8 @@ export default class Map extends React.Component {
             messageType:'info',
             messageForSnackbar:'',
             currentDate : '2016-08-17',
-            potencial:[]
+            potencial:[],
+            efficiencyPercentage:0.17
         }
 
         this.getEstaciones = this.getEstaciones.bind(this)
@@ -34,10 +35,22 @@ export default class Map extends React.Component {
    }
 
    getPotencial(){
-    potencialService.getPotencial(this.state.currentDate)
-    .then(res => this.setState({potencial:[]}))
+
+    // potencialService.getPotencial()
+    // .then(res => {
+    //     console.log(res.data.data);
+    //     this.setState({potencial:res.data.data})
+    // })
+    // .catch(err => this.setState({messageType:'error', messageForSnackbar:'Lo sentimos ocurrio un error al obtener el potencial'}))
+
+    potencialService.getPotenciaByDate(this.state.currentDate)
+    .then(res => {
+        console.log(res.data.data);
+        this.setState({potencial:res.data.data})
+    })
     .catch(err => this.setState({messageType:'error', messageForSnackbar:'Lo sentimos ocurrio un error al obtener el potencial'}))
-   }
+   
+}
 
    getEstaciones(){
     this.showProgress('Cargando estaciones')
@@ -73,7 +86,8 @@ export default class Map extends React.Component {
                 <MapTemplate center={this._center} stations={this.state.stations}
                     message={this.state.message} date={this.state.currentDate} 
                     changeDate={this.changeDate.bind(this)}
-                    potencial={this.state.potencial}/>
+                    potencial={this.state.potencial}
+                    efficiencyPercentage={this.state.efficiencyPercentage}/>
                 <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
                     type={this.state.messageType} message={this.state.messageForSnackbar}/>
             </React.Fragment>
