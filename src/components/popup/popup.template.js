@@ -192,8 +192,8 @@ export default function Popup(props) {
           >
             <div className="mt-2">
               <div style={{ width: "100%" }}>
-              {object.nombre && <p className="text-center text-muted mx-5">Potencial registrado en kilovatios-hora al día  para la fecha: {props.date}</p>}
-              {potencialEstacion.promedio  ? 
+              <p className="text-center text-muted mx-5">Potencial registrado en kilovatios-hora al día  para la fecha: {props.date}</p>
+              {potencialEstacion.promedio && object.nombre ? 
                (<React.Fragment>
                  <p className="text-center text-muted">Estación {object.nombre}</p>
                 <div className="card" style={{ height: 60 }}>
