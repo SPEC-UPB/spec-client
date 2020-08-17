@@ -5,7 +5,9 @@ export default function Header() {
   return (
     <React.Fragment>
       {/* Projects section v.3 */}
-      <section className="my-5 container">
+      <div className="card">
+        <div className="card-body">
+          <section className="my-5 container">
         {/* Section heading */}
         <h2 className="h1-responsive font-weight-bold text-center my-5">
           Radiación solar en el Área Metropolitana de Bucaramanga
@@ -83,6 +85,8 @@ export default function Header() {
         </div>
         {/* Grid row */}
       </section>
+        </div>
+      </div>
       {/* Projects section v.3 */}
     </React.Fragment>
   );

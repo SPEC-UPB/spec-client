@@ -59,7 +59,9 @@ const MapTemplate = (props) => {
   return (
     <React.Fragment>
       {/*Header */}
-      <Header />
+        <div className="container-fluid my-4">
+          <Header />
+        </div>
 
       {/*Mapa */}
       <div style={{ position: "relative" }}>
@@ -231,8 +233,10 @@ const MapTemplate = (props) => {
       </div>
 
       {/*Analisis*/}
-      <div id="potencial">
+      <div className="my-5">
+      <div id="potencial" className="container-fluid ">
         <Analisis changeEfficiencyPercentage={props.changeEfficiencyPercentage} />
+      </div>
       </div>
 
       {/*Footer */}

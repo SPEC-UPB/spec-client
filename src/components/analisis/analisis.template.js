@@ -133,7 +133,9 @@ export default function AnalisisTemplate(props) {
         </div> */}
 
     {/*Uso del potencial*/}
-      <div className="container my-5">
+      <div className="card">
+        <div className="card-body mx-2">
+        <div className="container my-5">
         <div>
           {/* Section heading */}
           <h2 className="h1-responsive font-weight-bold my-5 text-center">
@@ -270,6 +272,8 @@ export default function AnalisisTemplate(props) {
             </div>
             {/* Grid column */}
           </div>
+        </div>
+      </div>
         </div>
       </div>
     </React.Fragment>
