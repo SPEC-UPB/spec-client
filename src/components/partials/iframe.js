@@ -11,7 +11,7 @@ export default function Iframe() {
         data-toggle="modal"
         data-target="#modalYT"
       >
-       <div className="row middle-xs">
+       <div className="row middle-lg middle-sm center-xs">
         <i class="fas fa-play-circle mr-2" style={{fontSize:20}}></i> 
         <span>¿Qué es la energía solar?</span>
        </div>
@@ -23,7 +23,7 @@ export default function Iframe() {
         data-toggle="modal"
         data-target="#modalYT"
       >
-        <div className="row middle-xs">
+        <div className="row middle-lg middle-sm center-xs">
           <i class="fas fa-play-circle mr-2" style={{fontSize:20}}></i> 
           <span> ¿Cómo se genera?</span>
        </div>

@@ -19,17 +19,24 @@ export default function Footer() {
                 Este proyecto hace parte del semillero de prospectiva energética de Colombia
                 de la Universidad Pontificia Bolivariana seccional Bucaramanga.
               </p>
-             <div className="row">
-              <img src="logosemillero.png" class="img-fluid z-depth-1 rounded-circle"
-                alt="Logo semillero SPEC"
-                height={100}
-                width={100}/>
-                <div className="row middle-xs ml-3">
-                  <h4 className="text-white">SPEC</h4>
+
+              <div class="row start-lg start-sm start-md center-xs">
+                <div class="col-xs-6 col-sm-10 col-md-12">
+                  <div class="box">
+                    <div className="row">
+                    <img src="logosemillero.png" class="img-fluid z-depth-1 rounded-circle"
+                      alt="Logo semillero SPEC"
+                      height={100}
+                      width={100} />
+                    <div className="row middle-xs ml-3">
+                      <h4 className="text-white">SPEC</h4>
+                    </div>
+                    </div>
+                  </div>
                 </div>
-             </div>
+              </div>
             </div>
-           
+
             <div className="col-md-2 mx-auto">
               {/* Links */}
               <h5 className="font-weight-bold text-uppercase mt-3 mb-4">
