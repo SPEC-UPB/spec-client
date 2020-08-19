@@ -134,8 +134,17 @@ export default function DiscreteSlider(props) {
   const [selectedValue, setSelectedValue] = React.useState('dia');
 
   const handleChange = (event) => {
-    setSelectedValue(event.target.value);
+    const value = event.target.value
+    props.changeTypeScale(value)
+    setSelectedValue(value);
   };
+
+  React.useState(() => {
+    console.log(props.isRequest);
+    return () => {
+
+    }
+  })
 
   return (
     <div
@@ -148,6 +157,7 @@ export default function DiscreteSlider(props) {
         <div className="row">
           <div className="col">
             <Radio
+              disabled={props.isRequest}
               color="primary"
               checked={selectedValue === 'dia'}
               onChange={handleChange}
@@ -158,6 +168,7 @@ export default function DiscreteSlider(props) {
           </div>
           <div className="col">
             <Radio
+              disabled={props.isRequest}
               color="primary"
               checked={selectedValue === 'mes'}
               onChange={handleChange}
@@ -168,7 +179,8 @@ export default function DiscreteSlider(props) {
           </div>
           <div className="col">
             <Radio
-            color="primary"
+              disabled={props.isRequest}
+              color="primary"
               checked={selectedValue === 'año'}
               onChange={handleChange}
               value="año"

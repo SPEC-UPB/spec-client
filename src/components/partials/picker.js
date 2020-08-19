@@ -41,6 +41,7 @@ const handleDateEndChange = (date) => {
         <div className="col">
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
+              disabled={props.isRequest}
               margin="normal"
               id="date-picker-dialog"
               label={props.scale ? "Fecha de inicio":"Seleccione una fecha"}
@@ -58,6 +59,7 @@ const handleDateEndChange = (date) => {
           {props.scale && 
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
+            disabled={props.isRequest}
             margin="normal"
             id="date-picker-dialog"
             label={props.scale ? "Fecha final":"Seleccione una fecha"}

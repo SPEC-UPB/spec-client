@@ -23,7 +23,7 @@ const icon = new Icon({
 });
 
 const MapTemplate = (props) => {
-  const { stations, center, message } = props;
+  const { stations, center } = props;
   const [stationSelected, setstation] = useState(null);
   const [zoom, setzoom] = useState(13);
   const [pointSelected, setpointSelected] = useState({lat:center[0], lon: center[1]});
@@ -45,6 +45,12 @@ const MapTemplate = (props) => {
   }
 
   const handleChange = (event) => {
+    if(event.target.name=="Scala" && event.target.checked){
+      const dateBase = new Date(props.date)
+      dateBase.setMonth(dateBase.getMonth() + 2);
+      props.onChangeDateEnd(dateBase)
+      props.changeTypeScale(props.typeScale)
+    }
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
@@ -52,7 +58,7 @@ const MapTemplate = (props) => {
     return () => {
 
     }
-  }, [props.potencial, props.efficiencyPercentage])
+  }, [props.potencial, props.efficiencyPercentage, props.message])
 
   return (
     <React.Fragment>
@@ -90,11 +96,12 @@ const MapTemplate = (props) => {
 
           <div className="mx-3 mt-2">
             {/*Date Picker */}
-            <Picker onChangeDateEnd={(newDate) => props.onChangeDateEnd(newDate)} 
+            <Picker isRequest={props.isRequest} onChangeDateEnd={(newDate) => props.onChangeDateEnd(newDate)} 
             scale={state.Scala} onChange={(newDate) => props.changeDate(newDate, state.Scala)} />
             <FormControl component="fieldset">
                   <FormGroup>
                     <FormControlLabel
+                      disabled={props.isRequest}
                       control={
                         <Switch
                           color="primary"
@@ -146,9 +153,9 @@ const MapTemplate = (props) => {
         </div>}
 
         {/*Progress */}
-        {message !== "" && (
+        {props.message != "" && (
           <div style={{ textAlign: "center" }}>
-            <Progress message={message} />
+            <Progress message={props.message} />
           </div>
         )}
 
@@ -228,7 +235,7 @@ const MapTemplate = (props) => {
 
         {/*Slider */}
         {state.Scala &&
-        <Slider />}
+        <Slider isRequest={props.isRequest} changeTypeScale={props.changeTypeScale}/>}
       </div>
 
       {/*Analisis*/}

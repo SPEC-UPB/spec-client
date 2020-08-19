@@ -18,7 +18,9 @@ export default class Map extends React.Component {
             messageForSnackbar:'',
             currentDate : '2016-08-17',
             currentDateEnd : '2016-09-17',
+            typeScale:'dia',
             potencial:[],
+            isRequest:false,
             efficiencyPercentage:0.17
         }
 
@@ -46,17 +48,42 @@ export default class Map extends React.Component {
     
    }
 
+   async changeTypeScale(type){
+        await this.setState({typeScale:type})
+        this.getPotencialByDateRange()
+    }
+
+
    getPotencial(){
+    this.showProgress('Consultando datos')
     potencialService.getPotenciaByDate(this.state.currentDate)
     .then(res => {
         this.setState({potencial:res.data.data})
+        this.hideProgress();
     })
-    .catch(err => { this.hideProgress(); this.openMessage();
-        this.setState({messageType:'error', messageForSnackbar:'Lo sentimos ocurrio un error al calcular el potencial'})})
-}
+    .catch(err => { 
+        this.hideProgress(); 
+        this.openMessage();
+        this.setState({messageType:'error', messageForSnackbar:'Lo sentimos ocurrio un error al calcular el potencial'})
+        })
+    }
+
+    getPotencialByDateRange(){
+        this.showProgress('Calculando potencial')
+        potencialService.getPotencialByDateRange(this.state.currentDate, this.state.currentDateEnd, this.state.typeScale)
+        .then(res => {
+            console.log(res.data.data);
+            this.setState({potencial:res.data.data})
+            this.hideProgress();
+        })
+        .catch(err => { 
+            this.hideProgress(); this.openMessage();
+            this.setState({messageType:'error', messageForSnackbar:'Lo sentimos ocurrio un error al calcular el potencial'})
+        })
+    }
 
    getEstaciones(){
-    this.showProgress('Cargando estaciones')
+    this.showProgress('Consultando estaciones')
     estacionService.getEstaciones()
     .then(res => {this.setState({stations:res.data}); this.hideProgress()})
     .catch(err => { this.hideProgress(); this.openMessage();
@@ -65,11 +92,12 @@ export default class Map extends React.Component {
    }
 
    showProgress(message){
-    this.setState({message})
+    this.setState({message, isRequest:true})
    }
 
    hideProgress(){
-       this.setState({message:''})
+       console.log("OJOO CERRO XD");
+       this.setState({message:'', isRequest:false})
    }
 
    openMessage = () => {
@@ -92,7 +120,10 @@ export default class Map extends React.Component {
                     onChangeDateEnd={this.changeDateEnd.bind(this)}
                     potencial={this.state.potencial}
                     efficiencyPercentage={this.state.efficiencyPercentage}
-                    changeEfficiencyPercentage={this.changeEfficiencyPercentage.bind(this)}/>
+                    changeEfficiencyPercentage={this.changeEfficiencyPercentage.bind(this)}
+                    changeTypeScale={this.changeTypeScale.bind(this)}
+                    typeScale={this.state.typeScale}
+                    isRequest={this.state.isRequest}/>
                 <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
                     type={this.state.messageType} message={this.state.messageForSnackbar}/>
             </React.Fragment>

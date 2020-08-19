@@ -46,7 +46,6 @@ export default function Popup(props) {
   }
 
   useEffect(() => {
-    console.log("-->", scale);
     if (props.object.nombre && !scale) {
         props.getRadiation(props.object.nombre)
         .then(res => {
