@@ -13,11 +13,13 @@ const hightRadiationColor = "#e67e22"
 const veryHightRadiationColor = "#e84118"
 export default function Popup(props) {
   const { object, potencial, date } = props;
+  const menorEfficiencyPercentage = 17
+  const mayorEfficiencyPercentage = 25
 
   const [efficiencyPercentage, setEfficiencyPercentage] = useState(17)
   const changeEfficiencyPercentage = (e) => {
     const value = e.target.value
-    if (value <= 25 && value > 0) {
+    if (value <= mayorEfficiencyPercentage && value >= menorEfficiencyPercentage) {
       setEfficiencyPercentage(value)
       props.changeEfficiencyPercentage(value)
     }
@@ -257,7 +259,7 @@ export default function Popup(props) {
                           <div className="col-10">
                             <h5 className="card-title">
                               Potencial máximo:
-                          <span className="text-muted">
+                                <span className="text-muted ml-2">
                                 {potencialEstacion.maximo ? (potencialEstacion.maximo * efficiencyPercentage).toFixed(2) : 0} Wh/m<sup>2</sup>
                               </span>
                             </h5>
@@ -274,7 +276,7 @@ export default function Popup(props) {
                           <div className="col-10">
                             <h5 className="card-title">
                               Promedio:
-                                <span className="text-muted">{potencialEstacion.promedio ? (potencialEstacion.promedio * efficiencyPercentage).toFixed(2) : 0}  Wh/m<sup>2</sup></span>
+                                <span className="text-muted ml-2">{potencialEstacion.promedio ? (potencialEstacion.promedio * efficiencyPercentage).toFixed(2) : 0}  Wh/m<sup>2</sup></span>
                             </h5>
                           </div>
                         </div>
@@ -290,7 +292,7 @@ export default function Popup(props) {
                           <div className="col-10">
                             <h5 className="card-title">
                               Potencial mínimo:
-                                <span className="text-muted"> {potencialEstacion.minimo ? (potencialEstacion.minimo * efficiencyPercentage).toFixed(2) : 0} Wh/m<sup>2</sup></span>
+                                <span className="text-muted ml-2"> {potencialEstacion.minimo ? (potencialEstacion.minimo * efficiencyPercentage).toFixed(2) : 0} Wh/m<sup>2</sup></span>
                             </h5>
                           </div>
                         </div>

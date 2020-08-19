@@ -41,7 +41,6 @@ const MapTemplate = (props) => {
         radio = potencial[0].radiacion
       }
     }
-    console.log(radio);
     return radio * props.efficiencyPercentage
   }
 
@@ -50,7 +49,6 @@ const MapTemplate = (props) => {
   };
 
   useEffect(() => {
-    console.log("update");
     return () => {
 
     }

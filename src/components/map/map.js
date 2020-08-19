@@ -39,21 +39,19 @@ export default class Map extends React.Component {
    }
 
    getPotencial(){
-       console.log("siii");
     potencialService.getPotenciaByDate(this.state.currentDate)
     .then(res => {
-        console.log(res.data);
         this.setState({potencial:res.data.data})
     })
-    .catch(err => this.setState({messageType:'error', messageForSnackbar:'Lo sentimos ocurrio un error al obtener el potencial'}))
-   
+    .catch(err => { this.hideProgress(); this.openMessage();
+        this.setState({messageType:'error', messageForSnackbar:'Lo sentimos ocurrio un error al calcular el potencial'})})
 }
 
    getEstaciones(){
     this.showProgress('Cargando estaciones')
     estacionService.getEstaciones()
     .then(res => {this.setState({stations:res.data}); this.hideProgress()})
-    .catch(err => {console.error(err); this.hideProgress(); this.openMessage();
+    .catch(err => { this.hideProgress(); this.openMessage();
     this.setState({messageType:'error', messageForSnackbar:'Lo sentimos ocurrio un error al cargar las estaciones'})})
     
    }
