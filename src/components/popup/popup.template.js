@@ -12,7 +12,7 @@ const mediaRadiationColor = "#fbc531"
 const hightRadiationColor = "#e67e22"
 const veryHightRadiationColor = "#e84118"
 export default function Popup(props) {
-  const { object, potencial, date } = props;
+  const { object, potencial, date , scale} = props;
   const menorEfficiencyPercentage = 17
   const mayorEfficiencyPercentage = 25
 
@@ -46,8 +46,9 @@ export default function Popup(props) {
   }
 
   useEffect(() => {
-    if (props.object.nombre) {
-      props.getRadiation(props.object.nombre)
+    console.log("-->", scale);
+    if (props.object.nombre && !scale) {
+        props.getRadiation(props.object.nombre)
         .then(res => {
           let data = res.data.map(r => {
             return {
@@ -114,7 +115,7 @@ export default function Popup(props) {
     return () => {
 
     }
-  }, [object, potencial, date, efficiencyPercentage])
+  }, [object, potencial, date, efficiencyPercentage, scale])
 
   return (
     <React.Fragment>

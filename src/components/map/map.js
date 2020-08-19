@@ -17,6 +17,7 @@ export default class Map extends React.Component {
             messageType:'info',
             messageForSnackbar:'',
             currentDate : '2016-08-17',
+            currentDateEnd : '2016-09-17',
             potencial:[],
             efficiencyPercentage:0.17
         }
@@ -33,9 +34,16 @@ export default class Map extends React.Component {
         this.setState({efficiencyPercentage:(parseFloat(efficiencyPercentage)/100)})
    }
 
-   async changeDate(newDate){
-    await this.setState({currentDate:estacionService.formatDate(newDate)})
-    this.getPotencial()
+   async changeDate(newDate, isRangeDate){
+        await this.setState({currentDate:estacionService.formatDate(newDate)})
+        if(!isRangeDate){
+            this.getPotencial()
+        }
+   }
+
+   async changeDateEnd(newDate){
+        await this.setState({currentDateEnd:estacionService.formatDate(newDate)})
+    
    }
 
    getPotencial(){
@@ -81,6 +89,7 @@ export default class Map extends React.Component {
                 <MapTemplate center={this._center} stations={this.state.stations}
                     message={this.state.message} date={this.state.currentDate} 
                     changeDate={this.changeDate.bind(this)}
+                    onChangeDateEnd={this.changeDateEnd.bind(this)}
                     potencial={this.state.potencial}
                     efficiencyPercentage={this.state.efficiencyPercentage}
                     changeEfficiencyPercentage={this.changeEfficiencyPercentage.bind(this)}/>

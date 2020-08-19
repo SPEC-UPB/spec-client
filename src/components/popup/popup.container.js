@@ -44,7 +44,8 @@ export default class Popup extends React.Component {
                 <PopupTemplate showError={this.showError.bind(this)} object={this.props.object} getRadiation={this.getRadiation.bind(this)} 
                     date={this.props.date} potencial={this.props.potencial}
                     efficiencyPercentage={this.props.efficiencyPercentage}
-                    changeEfficiencyPercentage={this.props.changeEfficiencyPercentage} />
+                    changeEfficiencyPercentage={this.props.changeEfficiencyPercentage} 
+                    scale={this.props.scale}/>
                 <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
                     type={this.state.messageType} message={this.state.messageForSnackbar}/>
             </React.Fragment>

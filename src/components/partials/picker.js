@@ -11,13 +11,13 @@ import {
 export default function MaterialUIPickers(props) {
   // The first commit of Material-UI
   const [selectedDate, setSelectedDate] = React.useState('08-17-2016');
+  const [selectedDateEnd, setSelectedDateEnd] = React.useState('09-17-2016');
 
   
 
 
 const handleDateChange = (date) => {
   if(date != "Invalid Date"){
-    console.log(date);
     setSelectedDate(date);
     props.onChange(date)
   }else{
@@ -26,22 +26,52 @@ const handleDateChange = (date) => {
   
 };
 
+const handleDateEndChange = (date) => {
+  if(date != "Invalid Date"){
+    setSelectedDateEnd(date);
+    props.onChangeDateEnd(date)
+  }else{
+    console.log("Fecha invalida");
+  }
+  
+};
+
   return (
-      <div>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <div className="row">
+        <div className="col">
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              margin="normal"
+              id="date-picker-dialog"
+              label={props.scale ? "Fecha de inicio":"Seleccione una fecha"}
+              format="MM/dd/yyyy"
+              value={selectedDate}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+              
+          </MuiPickersUtilsProvider>
+        </div>
+        <div className="col">
+          {props.scale && 
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
             margin="normal"
             id="date-picker-dialog"
-            label="Seleccione una fecha"
+            label={props.scale ? "Fecha final":"Seleccione una fecha"}
             format="MM/dd/yyyy"
-            value={selectedDate}
-            onChange={handleDateChange}
+            value={selectedDateEnd}
+            onChange={handleDateEndChange}
             KeyboardButtonProps={{
               'aria-label': 'change date',
             }}
           />
             
-        </MuiPickersUtilsProvider>
+        </MuiPickersUtilsProvider>}
+          
+        </div>
       </div>
   );
 }

@@ -1,6 +1,10 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 const marks = [
   {
@@ -125,14 +129,54 @@ function valuetext(value) {
   return  value;
 }
 
-export default function DiscreteSlider() {
+export default function DiscreteSlider(props) {
+
+  const [selectedValue, setSelectedValue] = React.useState('dia');
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
   return (
     <div
-      style={{ position: "absolute", bottom: 5, zIndex: 2 , width:800}}
+      style={{ position: "absolute", bottom: 5, zIndex: 2 , width:800, overflowX:"auto"}}
       className="container-fluid"
     >
-      <div className="card-body" style={{backgroundColor:'white', height:50, width:250, zIndex:3}}>
-        <h6 className="text-muted">Escala de tiempo en horas</h6>
+     
+      <div className="card-body" style={{backgroundColor:'white', height:100, width:450, zIndex:3}}>
+        <h6 className="text-muted text-center">Deslice para ver el cambio en el tiempo</h6>
+        <div className="row">
+          <div className="col">
+            <Radio
+              color="primary"
+              checked={selectedValue === 'dia'}
+              onChange={handleChange}
+              value="dia"
+              name="radio-button-demo"
+              inputProps={{ 'aria-label': 'A' }}
+            /> Por día
+          </div>
+          <div className="col">
+            <Radio
+              color="primary"
+              checked={selectedValue === 'mes'}
+              onChange={handleChange}
+              value="mes"
+              name="radio-button-demo"
+              inputProps={{ 'aria-label': 'A' }}
+            /> Por mes
+          </div>
+          <div className="col">
+            <Radio
+            color="primary"
+              checked={selectedValue === 'año'}
+              onChange={handleChange}
+              value="año"
+              name="radio-button-demo"
+              inputProps={{ 'aria-label': 'A' }}
+            /> Por año
+          </div>
+      </div>
       </div>
       <div className="card" style={{height:70}}>
         <div className="card-body">

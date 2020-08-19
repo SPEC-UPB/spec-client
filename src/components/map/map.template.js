@@ -73,11 +73,11 @@ const MapTemplate = (props) => {
           </h5>
 
           {stationSelected && (
-             <MyPopup changeEfficiencyPercentage={props.changeEfficiencyPercentage}  efficiencyPercentage={props.efficiencyPercentage} object={stationSelected} date={props.date} potencial={props.potencial}/>
+             <MyPopup  scale={state.Scala} changeEfficiencyPercentage={props.changeEfficiencyPercentage}  efficiencyPercentage={props.efficiencyPercentage} object={stationSelected} date={props.date} potencial={props.potencial}/>
           )}
 
           {pointSelected !=null  && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 ? (
-            <MyPopup changeEfficiencyPercentage={props.changeEfficiencyPercentage}  object={pointSelected} date={props.date}/>
+            <MyPopup  scale={state.Scala} changeEfficiencyPercentage={props.changeEfficiencyPercentage}  object={pointSelected} date={props.date}/>
           ):
           <div>
             {stationSelected == null && <Alert severity="info">
@@ -90,7 +90,8 @@ const MapTemplate = (props) => {
 
           <div className="mx-3 mt-2">
             {/*Date Picker */}
-            <Picker  onChange={(newDate) => props.changeDate(newDate)} />
+            <Picker onChangeDateEnd={(newDate) => props.onChangeDateEnd(newDate)} 
+            scale={state.Scala} onChange={(newDate) => props.changeDate(newDate, state.Scala)} />
             <FormControl component="fieldset">
                   <FormGroup>
                     <FormControlLabel
@@ -102,7 +103,7 @@ const MapTemplate = (props) => {
                           name="Scala"
                         />
                       }
-                      label="Mostrar escala de tiempo"
+                      label="Ver el cambio de radiación en el tiempo"
                     />
                     <FormControlLabel
                       control={
