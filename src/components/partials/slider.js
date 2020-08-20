@@ -6,132 +6,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
-const marks = [
-  {
-    value: 0,
-    label: "0",
-  },
-  {
-    value: 1,
-    label: "1",
-  },
-  {
-    value: 2,
-    label: "2",
-  },
-  {
-    value: 3,
-    label: "3",
-  },
-  {
-    value: 4,
-    label: "4",
-  },
-  ,
-  {
-    value: 5,
-    label: "5",
-  }
-  ,
-  {
-    value: 6,
-    label: "6",
-  }
-  ,
-  {
-    value: 7,
-    label: "7",
-  }
-  ,
-  {
-    value: 8,
-    label: "8",
-  }
-  ,
-  {
-    value: 9,
-    label: "9",
-  }
-  ,
-  {
-    value: 10,
-    label: "10",
-  }
-  ,
-  {
-    value: 11,
-    label: "11",
-  }
-  ,
-  {
-    value: 12,
-    label: "12",
-  }
-  ,
-  {
-    value: 13,
-    label: "13",
-  }
-  ,
-  {
-    value: 14,
-    label: "14",
-  }
-  ,
-  {
-    value: 15,
-    label: "15",
-  }
-  ,
-  {
-    value: 16,
-    label: "16",
-  }
-  ,
-  {
-    value: 17,
-    label: "17",
-  }
-  ,
-  {
-    value: 18,
-    label: "18",
-  }
-  ,
-  {
-    value: 19,
-    label: "19",
-  }
-  ,
-  {
-    value: 20,
-    label: "20",
-  }
-  ,
-  {
-    value: 21,
-    label: "21",
-  }
-  ,
-  {
-    value: 22,
-    label: "22",
-  }
-  ,
-  {
-    value: 23,
-    label: "23",
-  }
-
-];
-
-function valuetext(value) {
-  return  value;
-}
 
 export default function DiscreteSlider(props) {
 
-  const [selectedValue, setSelectedValue] = React.useState('dia');
+  const [selectedValue, setSelectedValue] = React.useState('día');
 
   const handleChange = (event) => {
     const value = event.target.value
@@ -141,6 +19,10 @@ export default function DiscreteSlider(props) {
     }
     
   };
+
+  const onChangeCommitted = (event, index) =>{
+      props.onChangeDateScale(index)
+  }
 
   React.useState(() => {
     console.log(props.isRequest);
@@ -155,16 +37,16 @@ export default function DiscreteSlider(props) {
       className="container-fluid"
     >
      
-      <div className="card-body" style={{backgroundColor:'white', height:100, width:450, zIndex:3}}>
+      <div className="card-body" style={{backgroundColor:'white', height:130, width:450, zIndex:3}}>
         <h6 className="text-muted text-center">Deslice para ver el cambio en el tiempo</h6>
         <div className="row">
           <div className="col">
             <Radio
               disabled={props.isRequest}
               color="primary"
-              checked={selectedValue === 'dia'}
+              checked={selectedValue === 'día'}
               onChange={handleChange}
-              value="dia"
+              value="día"
               name="radio-button-demo"
               inputProps={{ 'aria-label': 'A' }}
             /> Por día
@@ -192,20 +74,28 @@ export default function DiscreteSlider(props) {
             /> Por año
           </div>
       </div>
+      {props.currentDateRange != "" &&
+      <div class="row center-xs">
+          <div class="col-xs-6">
+              <div class="box">
+                <h6 className="text-muted">Fecha: {props.currentDateRange}</h6>
+              </div>
+          </div>
+      </div>
+      }
       </div>
       <div className="card" style={{height:70}}>
         <div className="card-body">
-          <Slider
+           <Slider
+            disabled={props.isRequest}
+            valueLabelDisplay="f"
             style={{ color: "#f1c40f"}}
-            defaultValue={0}
-            getAriaValueText={valuetext}
-            aria-labelledby="discrete-slider"
-            valueLabelDisplay="auto"
-            step={1}
-            marks={marks}
-            min={0}
-            max={23}
+            defaultValue={1}
             valueLabelDisplay="on"
+            step={1}
+            min={1}
+            max={selectedValue == "día" ? 31 : selectedValue == "mes" ? 12 : 10}
+            onChangeCommitted={onChangeCommitted}
           />
         </div>
       </div>

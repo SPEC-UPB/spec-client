@@ -25,7 +25,6 @@ export default function Popup(props) {
     }
   }
 
-
   const [datasets, setDatasets] = useState({
     datasets: [
       {
@@ -46,7 +45,8 @@ export default function Popup(props) {
   }
 
   useEffect(() => {
-    if (props.object.nombre && !scale) {
+    console.log("--->>",props.typeScale);
+    if (props.object.nombre) {
         props.getRadiation(props.object.nombre)
         .then(res => {
           let data = res.data.map(r => {
@@ -214,7 +214,8 @@ export default function Popup(props) {
           >
             <div className="mt-2">
               <div style={{ width: "100%" }}>
-                <p className="text-center text-muted mx-5">Potencial registrado en kilovatios-hora al día  para la fecha: {props.date}</p>
+                <p className="text-center text-muted mx-5">Potencial registrado en kilovatios-hora al {" " + props.typeScale + " "}  
+                para la fecha: {!props.scale ? props.date:props.currentDateRange}</p>
                 {potencialEstacion.promedio && object.nombre ?
                   (<React.Fragment>
                     <p className="text-center text-muted">Estación {object.nombre}</p>
@@ -326,7 +327,7 @@ export default function Popup(props) {
                 <div>
                   <div className="card">
                     <div className="card-body">
-                      <h6 className="text-center text-muted">Comportamiento para la fecha: {props.date}</h6>
+                      <h6 className="text-center text-muted">Comportamiento para la fecha: {!props.scale ? props.date:props.currentDateRange}</h6>
                       {object.nombre && <p className="text-center text-muted">Estación {object.nombre}</p>}
                       {datasets.datasets[0].data.length > 0 ? (<div className="row middle-xs">
                         <Line

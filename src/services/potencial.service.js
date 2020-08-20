@@ -12,7 +12,7 @@ class PotencialService {
      }
 
      getPotencialByDateRange(start_date, end_date, type){
-      if(type == "dia"){
+      if(type == "día"){
          // request for day
          return axios.get(env.SERVER_PYTHON_URL + '/getPotencialByDateRangeDay/'+ start_date + "/" + end_date)
        }else if(type == "mes"){

@@ -21,13 +21,22 @@ export default class Map extends React.Component {
             messageForSnackbar:'',
             currentDate : '2016-08-17',
             currentDateEnd : '2016-08-17',
-            typeScale:'dia',
+            typeScale:'día',
             potencial:[],
+            potentialForRange:[],
             isRequest:false,
+            dateRangesForPotential:[],
+            currentDateRange:"",
             efficiencyPercentage:0.17
         }
 
         this.getEstaciones = this.getEstaciones.bind(this)
+    }
+
+    closeScale(){
+        console.log("closeScale");
+        this.setState({currentDateRange:""})
+        this.getPotencial()
     }
 
    componentDidMount(){
@@ -74,7 +83,7 @@ export default class Map extends React.Component {
         let end_date = new Date(this.state.currentDateEnd)
         const dayResult = 1000 * 60 * 60 * 24
 
-        if(this.state.typeScale == "dia"){
+        if(this.state.typeScale == "día"){
             if( ( (end_date - start_date)/dayResult) > this._limitDay){
                 isValid = false 
                 this.openMessage();
@@ -106,7 +115,7 @@ export default class Map extends React.Component {
         let end_date = new Date(this.state.currentDateEnd)
         const dayResult = 1000 * 60 * 60 * 24
 
-        if(newType=="dia" &&  this.state.typeScale=="año"){
+        if(newType=="día" &&  this.state.typeScale=="año"){
             if( ( (end_date - start_date)/dayResult) > this._limitDay){
                 isValid = false 
                 this.openMessage();
@@ -124,7 +133,7 @@ export default class Map extends React.Component {
             
         }
 
-        if(newType=="dia" &&  this.state.typeScale=="mes"){
+        if(newType=="día" &&  this.state.typeScale=="mes"){
             if( ( (end_date - start_date)/dayResult) > this._limitDay){
                 isValid = false 
                 this.openMessage();
@@ -141,11 +150,19 @@ export default class Map extends React.Component {
         this.getPotencialByDateRange()
     }
 
+    async onChangeDateScale(index){
+        const date = this.state.potentialForRange[index].fecha
+        console.log(date);
+        const newPotencial = await this.state.potentialForRange.filter(p => p.fecha == date)
+        console.log(newPotencial);
+        this.setState({potencial:newPotencial, currentDateRange:date})
+    }
 
    getPotencial(){
     this.showProgress('Consultando datos')
     potencialService.getPotenciaByDate(this.state.currentDate)
     .then(res => {
+        console.log(res.data.data)
         this.setState({potencial:res.data.data})
         this.hideProgress();
     })
@@ -156,13 +173,19 @@ export default class Map extends React.Component {
         })
     }
 
+    onlyUnique(value, index, self) { 
+        return self.indexOf(value) === index;
+    }
+
     getPotencialByDateRange(){
         this.showProgress('Calculando potencial')
         potencialService.getPotencialByDateRange(this.state.currentDate, this.state.currentDateEnd, this.state.typeScale)
-        .then(res => {
-            console.log(res.data.data);
-            this.setState({potencial:res.data.data})
+        .then(async res => {
+            const dateRangesForPotential = await [...new Set( res.data.data.map(item => item.fecha))]
+            console.log(dateRangesForPotential);
+            this.setState({potentialForRange:res.data.data, dateRangesForPotential})
             this.hideProgress();
+            this.onChangeDateScale(0)
         })
         .catch(err => { 
             this.hideProgress(); this.openMessage();
@@ -212,7 +235,10 @@ export default class Map extends React.Component {
                     changeTypeScale={this.changeTypeScale.bind(this)}
                     typeScale={this.state.typeScale}
                     isRequest={this.state.isRequest}
-                    validDateRange={this.validOptionTypeScale.bind(this)}/>
+                    validDateRange={this.validOptionTypeScale.bind(this)}
+                    onChangeDateScale={this.onChangeDateScale.bind(this)}
+                    currentDateRange={this.state.currentDateRange}
+                    closeScale={this.closeScale.bind(this)}/>
                 <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
                     type={this.state.messageType} message={this.state.messageForSnackbar}/>
             </React.Fragment>
