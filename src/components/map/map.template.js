@@ -47,7 +47,7 @@ const MapTemplate = (props) => {
   const handleChange = (event) => {
     if(event.target.name=="Scala" && event.target.checked){
       const dateBase = new Date(props.date)
-      dateBase.setMonth(dateBase.getMonth() + 2);
+      dateBase.setMonth(dateBase.getMonth() + 1);
       props.onChangeDateEnd(dateBase)
       props.changeTypeScale(props.typeScale)
     }
@@ -235,7 +235,7 @@ const MapTemplate = (props) => {
 
         {/*Slider */}
         {state.Scala &&
-        <Slider isRequest={props.isRequest} changeTypeScale={props.changeTypeScale}/>}
+        <Slider validDateRange={props.validDateRange} isRequest={props.isRequest} changeTypeScale={props.changeTypeScale}/>}
       </div>
 
       {/*Analisis*/}

@@ -135,8 +135,11 @@ export default function DiscreteSlider(props) {
 
   const handleChange = (event) => {
     const value = event.target.value
-    props.changeTypeScale(value)
-    setSelectedValue(value);
+    if(props.validDateRange(value)){
+      props.changeTypeScale(value)
+      setSelectedValue(value);
+    }
+    
   };
 
   React.useState(() => {

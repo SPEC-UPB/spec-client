@@ -9,6 +9,9 @@ export default class Map extends React.Component {
     constructor(props){
         super(props)
         this._center = [7.079748142697787,   -73.05427551269533]
+        this._limitDay = 31
+        this._limitMonth = 365 // en días
+        this._limitYear = 3651
 
         this.state = {
             stations:[],
@@ -17,7 +20,7 @@ export default class Map extends React.Component {
             messageType:'info',
             messageForSnackbar:'',
             currentDate : '2016-08-17',
-            currentDateEnd : '2016-09-17',
+            currentDateEnd : '2016-08-17',
             typeScale:'dia',
             potencial:[],
             isRequest:false,
@@ -38,14 +41,99 @@ export default class Map extends React.Component {
 
    async changeDate(newDate, isRangeDate){
         await this.setState({currentDate:estacionService.formatDate(newDate)})
-        if(!isRangeDate){
-            this.getPotencial()
+        if(this.validDateRange()){
+            if(!isRangeDate){// si no es para escala de tiempo
+                this.getPotencial()
+            }else{ // escala de tiempo
+                if(new Date(this.state.currentDate) < new Date(this.state.currentDateEnd)){
+                    this.getPotencialByDateRange()
+                }else{
+                    this.openMessage();
+                    this.setState({messageType:'info', messageForSnackbar:'El rango de fechas no puede ser negativo'})
+                }
+            }
         }
    }
 
    async changeDateEnd(newDate){
+        // al cambiar la fecha final si es valida se hace la petición
         await this.setState({currentDateEnd:estacionService.formatDate(newDate)})
-    
+        if(this.validDateRange()){
+            if(new Date(this.state.currentDate) < new Date(this.state.currentDateEnd)){
+                this.getPotencialByDateRange()
+            }else{
+                this.openMessage();
+                this.setState({messageType:'info', messageForSnackbar:'El rango de fechas no puede ser negativo'})
+            }
+        }
+   }
+
+   validDateRange(){
+        let isValid = true;
+        let start_date = new Date(this.state.currentDate)
+        let end_date = new Date(this.state.currentDateEnd)
+        const dayResult = 1000 * 60 * 60 * 24
+
+        if(this.state.typeScale == "dia"){
+            if( ( (end_date - start_date)/dayResult) > this._limitDay){
+                isValid = false 
+                this.openMessage();
+                this.setState({messageType:'info', messageForSnackbar:'Rango de fecha superado, valido maximo 30 días'})
+            }
+                
+        }else if(this.state.typeScale == "mes"){
+            if( ( (end_date - start_date)/dayResult) > this._limitMonth){
+                isValid = false 
+                this.openMessage();
+                this.setState({messageType:'info', messageForSnackbar:'Rango de fecha superado, valido maximo 12 meses'})
+            }
+                
+        }else if(this.state.typeScale == "año"){
+            if( ( (end_date - start_date)/dayResult) > this._limitYear){
+                isValid = false 
+                this.openMessage();
+                this.setState({messageType:'info', messageForSnackbar:'Rango de fecha superado, valido  maximo 10 años'})
+            }
+                
+        }
+
+        return isValid
+   }
+
+   validOptionTypeScale(newType){
+        let isValid = true;
+        let start_date = new Date(this.state.currentDate)
+        let end_date = new Date(this.state.currentDateEnd)
+        const dayResult = 1000 * 60 * 60 * 24
+
+        if(newType=="dia" &&  this.state.typeScale=="año"){
+            if( ( (end_date - start_date)/dayResult) > this._limitDay){
+                isValid = false 
+                this.openMessage();
+                this.setState({messageType:'info', messageForSnackbar:'Corrija el rango de fechas para deslizar por días'})
+            }
+            
+        }
+
+        if(newType=="mes" &&  this.state.typeScale=="año"){
+            if( ( (end_date - start_date)/dayResult) > this._limitMonth){
+                isValid = false 
+                this.openMessage();
+                this.setState({messageType:'info', messageForSnackbar:'Corrija el rango de fechas para deslizar por mes'})
+            }
+            
+        }
+
+        if(newType=="dia" &&  this.state.typeScale=="mes"){
+            if( ( (end_date - start_date)/dayResult) > this._limitDay){
+                isValid = false 
+                this.openMessage();
+                this.setState({messageType:'info', messageForSnackbar:'Corrija el rango de fechas para deslizar por días'})
+            }
+            
+        }
+
+        return isValid
    }
 
    async changeTypeScale(type){
@@ -123,7 +211,8 @@ export default class Map extends React.Component {
                     changeEfficiencyPercentage={this.changeEfficiencyPercentage.bind(this)}
                     changeTypeScale={this.changeTypeScale.bind(this)}
                     typeScale={this.state.typeScale}
-                    isRequest={this.state.isRequest}/>
+                    isRequest={this.state.isRequest}
+                    validDateRange={this.validOptionTypeScale.bind(this)}/>
                 <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
                     type={this.state.messageType} message={this.state.messageForSnackbar}/>
             </React.Fragment>
