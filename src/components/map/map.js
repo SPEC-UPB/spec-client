@@ -151,8 +151,7 @@ export default class Map extends React.Component {
     }
 
     async onChangeDateScale(index){
-        const date = this.state.potentialForRange[index].fecha
-        console.log(date);
+        const date = this.state.dateRangesForPotential[index]
         const newPotencial = await this.state.potentialForRange.filter(p => p.fecha == date)
         console.log(newPotencial);
         this.setState({potencial:newPotencial, currentDateRange:date})
@@ -181,9 +180,10 @@ export default class Map extends React.Component {
         this.showProgress('Calculando potencial')
         potencialService.getPotencialByDateRange(this.state.currentDate, this.state.currentDateEnd, this.state.typeScale)
         .then(async res => {
+            console.log(res.data.data);
             const dateRangesForPotential = await [...new Set( res.data.data.map(item => item.fecha))]
             console.log(dateRangesForPotential);
-            this.setState({potentialForRange:res.data.data, dateRangesForPotential})
+            this.setState({potentialForRange:res.data.data, dateRangesForPotential, currentDateRange:""})
             this.hideProgress();
             this.onChangeDateScale(0)
         })

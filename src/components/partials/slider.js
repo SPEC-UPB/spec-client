@@ -88,7 +88,6 @@ export default function DiscreteSlider(props) {
         <div className="card-body">
            <Slider
             disabled={props.isRequest}
-            valueLabelDisplay="f"
             style={{ color: "#f1c40f"}}
             defaultValue={1}
             valueLabelDisplay="on"
