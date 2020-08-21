@@ -64,7 +64,6 @@ export default function Popup(props) {
             return 0;
           });
 
-          console.log(data);
           setDatasets({
             datasets: [
               {
