@@ -3,6 +3,7 @@ import MapTemplate from './map.template'
 import Message from '../message/message'
 import estacionService from '../../services/estacion.service'
 import potencialService from '../../services/potencial.service'
+import RadiationColor from '../../constants/colors'
 
 export default class Map extends React.Component {
 
@@ -20,21 +21,28 @@ export default class Map extends React.Component {
             messageType:'info',
             messageForSnackbar:'',
             currentDate : '2016-08-17',
-            currentDateEnd : '2016-08-17',
+            currentDateEnd : '2016-09-17',
             typeScale:'día',
             potencial:[],
             potentialForRange:[],
             isRequest:false,
             dateRangesForPotential:[],
             currentDateRange:"",
-            efficiencyPercentage:0.17
+            efficiencyPercentage:0.17,
+            datasets:{
+                datasets: [
+                    {
+                      label: "Radiación",
+                      data: []
+                    }
+                  ]
+            }
         }
 
         this.getEstaciones = this.getEstaciones.bind(this)
     }
 
     closeScale(){
-        console.log("closeScale");
         this.setState({currentDateRange:""})
         this.getPotencial()
     }
@@ -51,6 +59,7 @@ export default class Map extends React.Component {
    async changeDate(newDate, isRangeDate){
         await this.setState({currentDate:estacionService.formatDate(newDate)})
         if(this.validDateRange()){
+            this.getRadiation(this.state.currentStationName)
             if(!isRangeDate){// si no es para escala de tiempo
                 this.getPotencial()
             }else{ // escala de tiempo
@@ -77,6 +86,8 @@ export default class Map extends React.Component {
         }
    }
 
+   
+
    validDateRange(){
         let isValid = true;
         let start_date = new Date(this.state.currentDate)
@@ -84,21 +95,21 @@ export default class Map extends React.Component {
         const dayResult = 1000 * 60 * 60 * 24
 
         if(this.state.typeScale == "día"){
-            if( ( (end_date - start_date)/dayResult) > this._limitDay){
+            if( ( (end_date - start_date)/dayResult) > this._limitDay && this.state.currentDateRange != ""){
                 isValid = false 
                 this.openMessage();
                 this.setState({messageType:'info', messageForSnackbar:'Rango de fecha superado, valido maximo 30 días'})
             }
                 
         }else if(this.state.typeScale == "mes"){
-            if( ( (end_date - start_date)/dayResult) > this._limitMonth){
+            if( ( (end_date - start_date)/dayResult) > this._limitMonth && this.state.currentDateRange != ""){
                 isValid = false 
                 this.openMessage();
                 this.setState({messageType:'info', messageForSnackbar:'Rango de fecha superado, valido maximo 12 meses'})
             }
                 
         }else if(this.state.typeScale == "año"){
-            if( ( (end_date - start_date)/dayResult) > this._limitYear){
+            if( ( (end_date - start_date)/dayResult) > this._limitYear && this.state.currentDateRange != ""){
                 isValid = false 
                 this.openMessage();
                 this.setState({messageType:'info', messageForSnackbar:'Rango de fecha superado, valido  maximo 10 años'})
@@ -153,14 +164,89 @@ export default class Map extends React.Component {
     async onChangeDateScale(index){
         const date = this.state.dateRangesForPotential[index]
         const newPotencial = await this.state.potentialForRange.filter(p => p.fecha == date)
-        await this.setState({potencial:newPotencial, currentDateRange:date, currentDate:date})
+        await this.setState({potencial:newPotencial, currentDateRange:date})
+
+        if(this.state.typeScale == "día"){
+            console.log("la fecha para radiacon es ->",date);
+            await this.setState({currentDate:date})
+            this.getRadiation(this.state.currentStationName)
+            this.getPotencial()
+        }
     }
+
+    calcularSizePoint = () => {
+        const stattionName = this.state.currentStationName
+        if (stattionName) {
+          if (stattionName != 'Paralela Bosque' && stattionName != 'UPB - Piedecuesta') {
+            return 3
+          }
+          return 1;
+        }
+      }
+
+    getRadiation(station){
+        return estacionService.getRadiacionByDate(station, this.state.currentDate)
+        .then(async res => {
+            let data = res.data.map(r => {
+                return {
+                  x: parseFloat(new Date(r.fecha).getHours() + (new Date(r.fecha).getMinutes() / 60) + (new Date(r.fecha).getSeconds() / 3600)),
+                  y: r.radiacion
+                }
+              })
+    
+              await data.sort((firstEl, secondEl) => {
+                if (firstEl.x < secondEl.x)
+                  return -1;
+                if (firstEl.x > secondEl.x)
+                  return 1;
+                return 0;
+              });
+
+              console.log(data);
+              await this.setState({datasets:{
+                datasets: [
+                  {
+                    label: "Radiación",
+                    data,
+                    pointRadius: this.calcularSizePoint(),
+                    backgroundColor: function (context) {
+                      let index = context.dataIndex;
+                      let value = context.dataset.data[index];
+                      let color = "#f5f6fa"
+                      if (value) {
+                        if (value.y < RadiationColor.lowRadiationValue)
+                          color = RadiationColor.lowRadiationColor
+                        else if (value.y >= RadiationColor.lowRadiationValue && value.y <= RadiationColor.mediaRadiationValue)
+                          color = RadiationColor.mediaRadiationColor
+                        else if (value.y >= RadiationColor.mediaRadiationValue && value.y <= RadiationColor.hightRadiationValue)
+                          color = RadiationColor.hightRadiationColor
+                        else
+                          color = RadiationColor.veryHightRadiationColor
+                      }
+                      return color
+    
+                    }
+                  }
+                ]
+              }})
+    
+        })
+        .catch(err => {
+            this.hideProgress(); 
+            this.openMessage();
+            this.setState({messageType:'error', messageForSnackbar:'Lo sentimos ocurrio un error al calcular el potencial'})
+        })
+     }
+
+     setCurrentStationName(name){
+        this.setState({currentStationName:name})
+        this.getRadiation(name)
+     }
 
     async getRadiacionWithRange(){
         const date = this.state.currentDateRange
         const typeScale = this.state.typeScale
         let  potencialPorEscala = []
-        console.log(this.state.potentialForRange);
         if(typeScale == "mes"){
             potencialPorEscala = await this.state.potentialForRange.filter(p => p.fecha == date)
         }else if(typeScale == "año"){
@@ -248,7 +334,11 @@ export default class Map extends React.Component {
                     onChangeDateScale={this.onChangeDateScale.bind(this)}
                     currentDateRange={this.state.currentDateRange}
                     closeScale={this.closeScale.bind(this)}
-                    potentialForRange={this.getRadiacionWithRange.bind(this)}/>
+                    potentialForRange={this.getRadiacionWithRange.bind(this)}
+                    dateRangesForPotential={this.state.dateRangesForPotential}
+                    getRadiation={this.getRadiation.bind(this)}
+                    setCurrentStationName={this.setCurrentStationName.bind(this)}
+                    datasets={this.state.datasets}/>
                 <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
                     type={this.state.messageType} message={this.state.messageForSnackbar}/>
             </React.Fragment>

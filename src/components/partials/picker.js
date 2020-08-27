@@ -26,6 +26,7 @@ const handleDateChange = (date) => {
 };
 
 const handleDateEndChange = (date) => {
+  console.log("envio-->", date);
   if(date != "Invalid Date"){
     setSelectedDateEnd(date);
     props.onChangeDateEnd(date)
@@ -61,7 +62,7 @@ const handleDateEndChange = (date) => {
             disabled={props.isRequest}
             margin="normal"
             id="date-picker-dialog"
-            label={props.scale ? "Fecha final":"Seleccione una fecha"}
+            label="Fecha final"
             format="MM/dd/yyyy"
             value={selectedDateEnd}
             onChange={handleDateEndChange}

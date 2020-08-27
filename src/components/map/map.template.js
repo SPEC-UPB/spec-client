@@ -72,6 +72,7 @@ const MapTemplate = (props) => {
     if(event.target.name=="Scala" && event.target.checked){
       const dateBase = new Date(props.date)
       dateBase.setMonth(dateBase.getMonth() + 1);
+      dateBase.setDate(dateBase.getDate() + 1);
       props.onChangeDateEnd(dateBase)
       props.changeTypeScale(props.typeScale)
     }else if(event.target.name=="Scala" && !event.target.checked){
@@ -106,15 +107,19 @@ const MapTemplate = (props) => {
 
           {stationSelected && (
              <MyPopup currentDateRange={props.currentDateRange} scale={state.Scala} 
-             typeScale={props.typeScale} 
+             datasets={props.datasets}
+             typeScale={props.typeScale}
              changeEfficiencyPercentage={props.changeEfficiencyPercentage}  
              efficiencyPercentage={props.efficiencyPercentage} 
              object={stationSelected} date={props.date} potencial={props.potencial}
-             potentialForRange={props.potentialForRange}/>
+             potentialForRange={props.potentialForRange}
+             getRadiation={props.getRadiation}/>
           )}
 
           {pointSelected !=null  && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 ? (
             <MyPopup currentDateRange={props.currentDateRange} scale={state.Scala}
+            getRadiation={props.getRadiation}
+            datasets={props.datasets}
             typeScale={props.typeScale} 
             changeEfficiencyPercentage={props.changeEfficiencyPercentage}  
             object={pointSelected} date={props.date}
@@ -228,6 +233,7 @@ const MapTemplate = (props) => {
                   icon={icon}
                   onclick={() => {
                     setstation(estation)
+                    props.setCurrentStationName(estation.nombre)
                     setpointSelected(null)
                   }}
                 />
@@ -273,7 +279,8 @@ const MapTemplate = (props) => {
         <Slider validDateRange={props.validDateRange} isRequest={props.isRequest} 
           changeTypeScale={props.changeTypeScale}
           onChangeDateScale={props.onChangeDateScale}
-          currentDateRange={props.currentDateRange}/>}
+          currentDateRange={props.currentDateRange}
+          dateRangesForPotential={props.dateRangesForPotential}/>}
       </div>
 
       {/*Analisis*/}

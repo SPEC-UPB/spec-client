@@ -31,7 +31,7 @@ export default function DiscreteSlider(props) {
     return () => {
 
     }
-  },[selectedValue, props.isRequest, props.currentDateRange])
+  },[selectedValue, props.isRequest, props.currentDateRange, props.dateRangesForPotential])
 
   return (
     <div
@@ -95,8 +95,8 @@ export default function DiscreteSlider(props) {
             valueLabelDisplay="on"
             step={1}
             min={1}
-            max={selectedValue == "día" ? 31 : selectedValue == "mes" ? 12 : 10}
-            onChangeCommitted={onChangeCommitted}
+            max={props.dateRangesForPotential.length >=2 ? props.dateRangesForPotential.length-1:1}
+            onChange={onChangeCommitted}
           />
         </div>
       </div>

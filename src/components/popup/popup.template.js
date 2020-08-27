@@ -23,15 +23,7 @@ export default function Popup(props) {
     }
   }
 
-  const [datasets, setDatasets] = useState({
-    datasets: [
-      {
-        label: "Radiación",
-        data: []
-      }
-    ]
-  })
-
+  
   const [datasetsScale, setDatasetsScale] = useState({
     datasets: [
       {
@@ -44,64 +36,12 @@ export default function Popup(props) {
  
 
   const [potencialEstacion, setPotencialEstacion] = useState({ maximo: null, minimo: null, promedio: null })
-  const calcularSizePoint = () => {
-    if (object.nombre) {
-      if (object.nombre != 'Paralela Bosque' && object.nombre != 'UPB - Piedecuesta') {
-        return 3
-      }
-      return 1;
-    }
-  }
+ 
 
   useEffect(() => {
 
     // si la escala esta desactiva hace petición
     if (props.object.nombre && props.typeScale == "día")  {
-        props.getRadiation(props.object.nombre)
-        .then(res => {
-          let data = res.data.map(r => {
-            return {
-              x: parseFloat(new Date(r.fecha).getHours() + (new Date(r.fecha).getMinutes() / 60) + (new Date(r.fecha).getSeconds() / 3600)),
-              y: r.radiacion
-            }
-          })
-
-          data.sort((firstEl, secondEl) => {
-            if (firstEl.x < secondEl.x)
-              return -1;
-            if (firstEl.x > secondEl.x)
-              return 1;
-            return 0;
-          });
-
-          setDatasets({
-            datasets: [
-              {
-                label: "Radiación",
-                data,
-                pointRadius: calcularSizePoint(),
-                backgroundColor: function (context) {
-                  let index = context.dataIndex;
-                  let value = context.dataset.data[index];
-                  let color = "#f5f6fa"
-                  if (value) {
-                    if (value.y < RadiationColor.lowRadiationValue)
-                      color = RadiationColor.lowRadiationColor
-                    else if (value.y >= RadiationColor.lowRadiationValue && value.y <= RadiationColor.mediaRadiationValue)
-                      color = RadiationColor.mediaRadiationColor
-                    else if (value.y >= RadiationColor.mediaRadiationValue && value.y <= RadiationColor.hightRadiationValue)
-                      color = RadiationColor.hightRadiationColor
-                    else
-                      color = RadiationColor.veryHightRadiationColor
-                  }
-                  return color
-
-                }
-              }
-            ]
-          })
-        })
-        .catch(err => props.showError("Lo sentimos ocurrio un error al obtener la radiación"))
 
       let hayPotencial = false;
       potencial.forEach(p => {
@@ -169,7 +109,7 @@ export default function Popup(props) {
     return () => {
 
     }
-  }, [object, potencial, date, efficiencyPercentage, scale])
+  }, [object, potencial, date, efficiencyPercentage, scale, props.datasets])
 
   return (
     <React.Fragment>
@@ -384,9 +324,9 @@ export default function Popup(props) {
                     <div className="card-body">
                       <h6 className="text-center text-muted">Comportamiento para la fecha: {!props.scale ? props.date:props.currentDateRange}</h6>
                       {object.nombre && <p className="text-center text-muted">Estación {object.nombre}</p>}
-                      {datasets.datasets[0].data.length > 0  && props.typeScale == "día" && (<div className="row middle-xs">
+                      {props.datasets.datasets[0].data.length > 0  && props.typeScale == "día" && (<div className="row middle-xs">
                         <Line
-                          data={datasets}
+                          data={props.datasets}
                           options={{
                             scales: {
                               xAxes: [
@@ -415,17 +355,17 @@ export default function Popup(props) {
 
 
                       </div>)}
-                      { datasetsScale.datasets[0].data.length == 0 && datasets.datasets[0].data.length == 0 &&
+                      { datasetsScale.datasets[0].data.length == 0 && props.datasets.datasets[0].data.length == 0 &&
                         <p className="text-center">No se encontraron resultados.</p>
                       }
-                      {props.typeScale!= "día" && props.scale && 
+                      {props.typeScale!= "día" && props.scale && datasetsScale.datasets[0].data.length > 0 &&
                         <Bar
                         type="bar"
                         data={datasetsScale}
                       />
                       }
                       {/* Indicadore de nivel */}
-                      <div className="row mt-2">
+                      { props.typeScale == "día" && <div className="row mt-2">
                         <div className="col">
                           <div className="row around-xs">
                             <div style={{ width: 20, height: 20, backgroundColor: RadiationColor.lowRadiationColor, borderRadius: 50 }}></div>
@@ -450,7 +390,7 @@ export default function Popup(props) {
                             <div><span style={{ fontSize: 15 }} className="text-muted ">Muy alta</span></div>
                           </div>
                         </div>
-                      </div>
+                      </div>}
 
                     </div>
                   </div>
