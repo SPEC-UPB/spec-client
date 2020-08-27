@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import { Line } from "react-chartjs-2";
+import { Line, Bar} from "react-chartjs-2";
 import { useEffect } from "react";
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import RadiationColor from '../../constants/colors'
 
-const lowRadiationColor = "#4cd137"
-const mediaRadiationColor = "#fbc531"
-const hightRadiationColor = "#e67e22"
-const veryHightRadiationColor = "#e84118"
+
 export default function Popup(props) {
   const { object, potencial, date , scale} = props;
   const menorEfficiencyPercentage = 17
@@ -34,6 +32,17 @@ export default function Popup(props) {
     ]
   })
 
+  const [datasetsScale, setDatasetsScale] = useState({
+    datasets: [
+      {
+        label:"Potencial",
+        data: []
+      }
+    ]
+  })
+
+ 
+
   const [potencialEstacion, setPotencialEstacion] = useState({ maximo: null, minimo: null, promedio: null })
   const calcularSizePoint = () => {
     if (object.nombre) {
@@ -45,8 +54,9 @@ export default function Popup(props) {
   }
 
   useEffect(() => {
-    console.log("--->>",props.typeScale);
-    if (props.object.nombre) {
+
+    // si la escala esta desactiva hace petición
+    if (props.object.nombre && props.typeScale == "día")  {
         props.getRadiation(props.object.nombre)
         .then(res => {
           let data = res.data.map(r => {
@@ -75,12 +85,14 @@ export default function Popup(props) {
                   let value = context.dataset.data[index];
                   let color = "#f5f6fa"
                   if (value) {
-                    if (value.y < 500)
-                      color = lowRadiationColor
-                    else if (value.y >= 500 && value.y <= 700)
-                      color = mediaRadiationColor
+                    if (value.y < RadiationColor.lowRadiationValue)
+                      color = RadiationColor.lowRadiationColor
+                    else if (value.y >= RadiationColor.lowRadiationValue && value.y <= RadiationColor.mediaRadiationValue)
+                      color = RadiationColor.mediaRadiationColor
+                    else if (value.y >= RadiationColor.mediaRadiationValue && value.y <= RadiationColor.hightRadiationValue)
+                      color = RadiationColor.hightRadiationColor
                     else
-                      color = hightRadiationColor
+                      color = RadiationColor.veryHightRadiationColor
                   }
                   return color
 
@@ -110,6 +122,50 @@ export default function Popup(props) {
         })
       }
     }
+    
+    if(props.scale){// sino usa el la data que se consulta con el rango de fechas
+          
+      props.potentialForRange()
+      .then(async potencialPorEscala => {
+        if(potencialPorEscala.length > 0){
+          const potencialParaEstacionSeleccionada = await potencialPorEscala.filter(p => p.estacion = props.object.nombre)
+          console.log(potencialParaEstacionSeleccionada);
+          const labels = potencialParaEstacionSeleccionada.map((p =>  p.fecha))
+          const data = potencialParaEstacionSeleccionada.map((p =>  p.radiacion/1000))
+          console.log(data);
+          setDatasetsScale({
+            labels,
+            datasets: [
+              {
+                label: "Potencial por " + props.typeScale + " (kw)",
+                data,
+                backgroundColor: function (context) {
+                  let index = context.dataIndex;
+                  let value = context.dataset.data[index];
+                  let color = "#f5f6fa"
+                  if (value) {
+                    if (value.y < RadiationColor.lowRadiationValue)
+                      color = RadiationColor.lowRadiationColor
+                    else if (value.y >= RadiationColor.lowRadiationValue && value.y <= RadiationColor.mediaRadiationValue)
+                      color = RadiationColor.mediaRadiationColor
+                    else if (value.y >= RadiationColor.mediaRadiationValue && value.y <= RadiationColor.hightRadiationValue)
+                      color = RadiationColor.hightRadiationColor
+                    else
+                      color = RadiationColor.veryHightRadiationColor
+                  }
+                  return color
+
+                }
+              }
+            ]
+          })
+        }
+      })
+      .catch(err => console.log(err))
+    }
+    
+
+    
     return () => {
 
     }
@@ -142,7 +198,7 @@ export default function Popup(props) {
               aria-controls="radiacion"
               aria-selected="false"
             >
-              Radiación
+              {props.typeScale != "día" && props.scale ? "Comportamiento":"Radiación"}
             </a>
           </li>
           <li className="nav-item">
@@ -260,7 +316,7 @@ export default function Popup(props) {
                             <h5 className="card-title">
                               Potencial máximo:
                                 <span className="text-muted ml-2">
-                                {potencialEstacion.maximo ? (potencialEstacion.maximo * efficiencyPercentage).toFixed(2) : 0} Wh/m<sup>2</sup>
+                                {potencialEstacion.maximo ? ((potencialEstacion.maximo * efficiencyPercentage)/1000).toFixed(2): 0} Kwh/m<sup>2</sup>
                               </span>
                             </h5>
                           </div>
@@ -276,7 +332,7 @@ export default function Popup(props) {
                           <div className="col-10">
                             <h5 className="card-title">
                               Promedio:
-                                <span className="text-muted ml-2">{potencialEstacion.promedio ? (potencialEstacion.promedio * efficiencyPercentage).toFixed(2) : 0}  Wh/m<sup>2</sup></span>
+                                <span className="text-muted ml-2">{potencialEstacion.promedio ? ((potencialEstacion.promedio * efficiencyPercentage)/1000).toFixed(2) : 0}  Kwh/m<sup>2</sup></span>
                             </h5>
                           </div>
                         </div>
@@ -292,7 +348,7 @@ export default function Popup(props) {
                           <div className="col-10">
                             <h5 className="card-title">
                               Potencial mínimo:
-                                <span className="text-muted ml-2"> {potencialEstacion.minimo ? (potencialEstacion.minimo * efficiencyPercentage).toFixed(2) : 0} Wh/m<sup>2</sup></span>
+                                <span className="text-muted ml-2"> {potencialEstacion.minimo ? ((potencialEstacion.minimo * efficiencyPercentage)/1000).toFixed(2): 0} Kwh/m<sup>2</sup></span>
                             </h5>
                           </div>
                         </div>
@@ -328,7 +384,7 @@ export default function Popup(props) {
                     <div className="card-body">
                       <h6 className="text-center text-muted">Comportamiento para la fecha: {!props.scale ? props.date:props.currentDateRange}</h6>
                       {object.nombre && <p className="text-center text-muted">Estación {object.nombre}</p>}
-                      {datasets.datasets[0].data.length > 0 ? (<div className="row middle-xs">
+                      {datasets.datasets[0].data.length > 0  && props.typeScale == "día" && (<div className="row middle-xs">
                         <Line
                           data={datasets}
                           options={{
@@ -339,7 +395,7 @@ export default function Popup(props) {
                                   position: "bottom",
                                   scaleLabel: {
                                     display: true,
-                                    labelString: "Horas del día (24H)"
+                                    labelString: props.scale && props.typeScale!= "día" ? "Potencial por " + props.typeScale:"Horas del día (24H)"
                                   }
                                 },
                               ],
@@ -349,7 +405,7 @@ export default function Popup(props) {
                                   position: "bottom",
                                   scaleLabel: {
                                     display: true,
-                                    labelString: "Radiación (KW/h)"
+                                    labelString: props.scale ? "Potencial (Wh / m^2)":"Radiación (Wh / m^2)"
                                   }
                                 },
                               ]
@@ -358,30 +414,39 @@ export default function Popup(props) {
                         />
 
 
-                      </div>) : <p className="text-center">No se encontraron resultados.</p>}
+                      </div>)}
+                      { datasetsScale.datasets[0].data.length == 0 && datasets.datasets[0].data.length == 0 &&
+                        <p className="text-center">No se encontraron resultados.</p>
+                      }
+                      {props.typeScale!= "día" && props.scale && 
+                        <Bar
+                        type="bar"
+                        data={datasetsScale}
+                      />
+                      }
                       {/* Indicadore de nivel */}
                       <div className="row mt-2">
                         <div className="col">
                           <div className="row around-xs">
-                            <div style={{ width: 20, height: 20, backgroundColor: lowRadiationColor, borderRadius: 50 }}></div>
+                            <div style={{ width: 20, height: 20, backgroundColor: RadiationColor.lowRadiationColor, borderRadius: 50 }}></div>
                             <div><span style={{ fontSize: 15 }} className="text-muted ">Baja</span></div>
                           </div>
                         </div>
                         <div className="col">
                           <div className="row around-xs">
-                            <div style={{ width: 20, height: 20, backgroundColor: mediaRadiationColor, borderRadius: 50 }}></div>
+                            <div style={{ width: 20, height: 20, backgroundColor: RadiationColor.mediaRadiationColor, borderRadius: 50 }}></div>
                             <div><span style={{ fontSize: 15 }} className="text-muted ">Moderada</span></div>
                           </div>
                         </div>
                         <div className="col">
                           <div className="row around-xs">
-                            <div style={{ width: 20, height: 20, backgroundColor: hightRadiationColor, borderRadius: 50 }}></div>
+                            <div style={{ width: 20, height: 20, backgroundColor: RadiationColor.hightRadiationColor, borderRadius: 50 }}></div>
                             <div><span style={{ fontSize: 15 }} className="text-muted ">Alta</span></div>
                           </div>
                         </div>
                         <div className="col">
                           <div className="row around-xs">
-                            <div style={{ width: 20, height: 20, backgroundColor: veryHightRadiationColor, borderRadius: 50 }}></div>
+                            <div style={{ width: 20, height: 20, backgroundColor: RadiationColor.veryHightRadiationColor, borderRadius: 50 }}></div>
                             <div><span style={{ fontSize: 15 }} className="text-muted ">Muy alta</span></div>
                           </div>
                         </div>

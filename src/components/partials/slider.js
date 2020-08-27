@@ -1,10 +1,7 @@
 import React from "react";
 import Slider from "@material-ui/core/Slider";
 import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+
 
 
 export default function DiscreteSlider(props) {
@@ -25,11 +22,16 @@ export default function DiscreteSlider(props) {
   }
 
   React.useState(() => {
-    console.log(props.isRequest);
     return () => {
 
     }
   })
+
+  React.useEffect(() => {
+    return () => {
+
+    }
+  },[selectedValue, props.isRequest, props.currentDateRange])
 
   return (
     <div

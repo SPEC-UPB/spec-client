@@ -33,6 +33,7 @@ export default class Popup extends React.Component {
        return estacionService.getRadiacionByDate(station, this.props.date)
     }
 
+    
     showError(msg){
         this.openMessage()
         this.setState({messageType:'error', messageForSnackbar:msg})
@@ -47,7 +48,8 @@ export default class Popup extends React.Component {
                     changeEfficiencyPercentage={this.props.changeEfficiencyPercentage} 
                     scale={this.props.scale}
                     typeScale={this.props.typeScale}
-                    currentDateRange={this.props.currentDateRange}/>
+                    currentDateRange={this.props.currentDateRange}
+                    potentialForRange={this.props.potentialForRange}/>
                 <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
                     type={this.state.messageType} message={this.state.messageForSnackbar}/>
             </React.Fragment>

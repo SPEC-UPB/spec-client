@@ -16,6 +16,7 @@ import Switch from "@material-ui/core/Switch";
 import {polygon as Polygon, Point} from './Polygon'
 import Alert from '@material-ui/lab/Alert';
 import "./scroll.css"
+import RadiationColor from '../../constants/colors'
 
 const icon = new Icon({
   iconUrl: process.env.PUBLIC_URL + "/icons/svg/002-solar-energy.svg",
@@ -32,6 +33,7 @@ const MapTemplate = (props) => {
     Points: false,
     Mapa: false,
   });
+  
 
   const getPotential = (nombreEstacion) => {
     const potencial =  props.potencial.filter(p => p.estacion == nombreEstacion)
@@ -42,6 +44,28 @@ const MapTemplate = (props) => {
       }
     }
     return radio * props.efficiencyPercentage
+  }
+
+  const getColor = (nombreEstacion) => {
+    let color = ""
+    const potencial =  props.potencial.filter(p => p.estacion == nombreEstacion)
+    let radio = 0;
+    if(potencial[0]){
+      if(potencial[0].radiacion){
+        radio = potencial[0].radiacion
+      }
+    }
+
+    if (radio < RadiationColor.lowRadiationValue)
+      color = RadiationColor.lowRadiationColor
+    else if (radio >= RadiationColor.lowRadiationValue && radio <= RadiationColor.mediaRadiationValue)
+      color = RadiationColor.mediaRadiationColor
+    else if (radio >= RadiationColor.mediaRadiationValue && radio <= RadiationColor.hightRadiationValue)
+      color = RadiationColor.hightRadiationColor
+    else
+      color = RadiationColor.veryHightRadiationColor
+
+    return color
   }
 
   const handleChange = (event) => {
@@ -85,14 +109,16 @@ const MapTemplate = (props) => {
              typeScale={props.typeScale} 
              changeEfficiencyPercentage={props.changeEfficiencyPercentage}  
              efficiencyPercentage={props.efficiencyPercentage} 
-             object={stationSelected} date={props.date} potencial={props.potencial}/>
+             object={stationSelected} date={props.date} potencial={props.potencial}
+             potentialForRange={props.potentialForRange}/>
           )}
 
           {pointSelected !=null  && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 ? (
             <MyPopup currentDateRange={props.currentDateRange} scale={state.Scala}
             typeScale={props.typeScale} 
             changeEfficiencyPercentage={props.changeEfficiencyPercentage}  
-            object={pointSelected} date={props.date}/>
+            object={pointSelected} date={props.date}
+            potentialForRange={props.potentialForRange}/>
           ):
           <div>
             {stationSelected == null && <Alert severity="info">
@@ -213,8 +239,8 @@ const MapTemplate = (props) => {
                      stations.map((estation, index) => (
                       <Circle
                         center={[estation.lat, estation.lon]}
-                        color="#FFEB3B"
-                        fillColor="#FFC107"
+                        color={getColor(estation.nombre)}
+                        fillColor={getColor(estation.nombre)}
                         fillOpacity={0.5}
                         radius={getPotential(estation.nombre)}
                       />

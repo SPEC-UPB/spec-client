@@ -153,15 +153,27 @@ export default class Map extends React.Component {
     async onChangeDateScale(index){
         const date = this.state.dateRangesForPotential[index]
         const newPotencial = await this.state.potentialForRange.filter(p => p.fecha == date)
-        console.log(newPotencial);
-        this.setState({potencial:newPotencial, currentDateRange:date})
+        await this.setState({potencial:newPotencial, currentDateRange:date, currentDate:date})
+    }
+
+    async getRadiacionWithRange(){
+        const date = this.state.currentDateRange
+        const typeScale = this.state.typeScale
+        let  potencialPorEscala = []
+        console.log(this.state.potentialForRange);
+        if(typeScale == "mes"){
+            potencialPorEscala = await this.state.potentialForRange.filter(p => p.fecha == date)
+        }else if(typeScale == "año"){
+            potencialPorEscala = await this.state.potentialForRange.filter(p => p.fecha == date)
+        }
+        
+        return potencialPorEscala
     }
 
    getPotencial(){
     this.showProgress('Consultando datos')
     potencialService.getPotenciaByDate(this.state.currentDate)
     .then(res => {
-        console.log(res.data.data)
         this.setState({potencial:res.data.data})
         this.hideProgress();
     })
@@ -180,9 +192,7 @@ export default class Map extends React.Component {
         this.showProgress('Calculando potencial')
         potencialService.getPotencialByDateRange(this.state.currentDate, this.state.currentDateEnd, this.state.typeScale)
         .then(async res => {
-            console.log(res.data.data);
             const dateRangesForPotential = await [...new Set( res.data.data.map(item => item.fecha))]
-            console.log(dateRangesForPotential);
             this.setState({potentialForRange:res.data.data, dateRangesForPotential, currentDateRange:""})
             this.hideProgress();
             this.onChangeDateScale(0)
@@ -207,7 +217,6 @@ export default class Map extends React.Component {
    }
 
    hideProgress(){
-       console.log("OJOO CERRO XD");
        this.setState({message:'', isRequest:false})
    }
 
@@ -238,7 +247,8 @@ export default class Map extends React.Component {
                     validDateRange={this.validOptionTypeScale.bind(this)}
                     onChangeDateScale={this.onChangeDateScale.bind(this)}
                     currentDateRange={this.state.currentDateRange}
-                    closeScale={this.closeScale.bind(this)}/>
+                    closeScale={this.closeScale.bind(this)}
+                    potentialForRange={this.getRadiacionWithRange.bind(this)}/>
                 <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
                     type={this.state.messageType} message={this.state.messageForSnackbar}/>
             </React.Fragment>
