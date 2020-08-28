@@ -10,7 +10,7 @@ import RadiationColor from '../../constants/colors'
 
 
 export default function Popup(props) {
-  const { object, potencial, date , scale} = props;
+  const { object, date , scale} = props;
   const menorEfficiencyPercentage = 17
   const mayorEfficiencyPercentage = 25
 
@@ -24,14 +24,6 @@ export default function Popup(props) {
   }
 
   
-  const [datasetsScale, setDatasetsScale] = useState({
-    datasets: [
-      {
-        label:"Potencial",
-        data: []
-      }
-    ]
-  })
 
  
 
@@ -41,10 +33,10 @@ export default function Popup(props) {
   useEffect(() => {
 
     // si la escala esta desactiva hace petición
-    if (props.object.nombre && props.typeScale == "día")  {
+    if (props.object.nombre )  {
 
       let hayPotencial = false;
-      potencial.forEach(p => {
+      props.potencial.forEach(p => {
         if (p.estacion == object.nombre) {
           setPotencialEstacion({
             maximo: p.maximo,
@@ -54,6 +46,8 @@ export default function Popup(props) {
           hayPotencial = true;
         }
       });
+
+      console.log(props.potencial);
       if (!hayPotencial) {
         setPotencialEstacion({
           maximo: 0,
@@ -63,53 +57,11 @@ export default function Popup(props) {
       }
     }
     
-    if(props.scale){// sino usa el la data que se consulta con el rango de fechas
-          
-      props.potentialForRange()
-      .then(async potencialPorEscala => {
-        if(potencialPorEscala.length > 0){
-          const potencialParaEstacionSeleccionada = await potencialPorEscala.filter(p => p.estacion = props.object.nombre)
-          console.log(potencialParaEstacionSeleccionada);
-          const labels = potencialParaEstacionSeleccionada.map((p =>  p.fecha))
-          const data = potencialParaEstacionSeleccionada.map((p =>  p.radiacion/1000))
-          console.log(data);
-          setDatasetsScale({
-            labels,
-            datasets: [
-              {
-                label: "Potencial por " + props.typeScale + " (kw)",
-                data,
-                backgroundColor: function (context) {
-                  let index = context.dataIndex;
-                  let value = context.dataset.data[index];
-                  let color = "#f5f6fa"
-                  if (value) {
-                    if (value.y < RadiationColor.lowRadiationValue)
-                      color = RadiationColor.lowRadiationColor
-                    else if (value.y >= RadiationColor.lowRadiationValue && value.y <= RadiationColor.mediaRadiationValue)
-                      color = RadiationColor.mediaRadiationColor
-                    else if (value.y >= RadiationColor.mediaRadiationValue && value.y <= RadiationColor.hightRadiationValue)
-                      color = RadiationColor.hightRadiationColor
-                    else
-                      color = RadiationColor.veryHightRadiationColor
-                  }
-                  return color
-
-                }
-              }
-            ]
-          })
-        }
-      })
-      .catch(err => console.log(err))
-    }
-    
-
-    
     return () => {
 
     }
-  }, [object, potencial, date, efficiencyPercentage, scale, props.datasets])
+
+  }, [object, props.potencial, date, efficiencyPercentage, scale, props.datasets, props.datasetsScale])
 
   return (
     <React.Fragment>
@@ -138,7 +90,7 @@ export default function Popup(props) {
               aria-controls="radiacion"
               aria-selected="false"
             >
-              {props.typeScale != "día" && props.scale ? "Comportamiento":"Radiación"}
+              {props.typeScale != "día" && props.scale ? "Comparación":"Radiación"}
             </a>
           </li>
           <li className="nav-item">
@@ -209,7 +161,7 @@ export default function Popup(props) {
           >
             <div className="mt-2">
               <div style={{ width: "100%" }}>
-                <p className="text-center text-muted mx-5">Potencial registrado en kilovatios-hora al {" " + props.typeScale + " "}  
+                <p className="text-center text-muted mx-5">Potencial registrado en kilovatios al {" " + props.typeScale + " "}  
                 para la fecha: {!props.scale ? props.date:props.currentDateRange}</p>
                 {potencialEstacion.promedio && object.nombre ?
                   (<React.Fragment>
@@ -256,7 +208,7 @@ export default function Popup(props) {
                             <h5 className="card-title">
                               Potencial máximo:
                                 <span className="text-muted ml-2">
-                                {potencialEstacion.maximo ? ((potencialEstacion.maximo * efficiencyPercentage)/1000).toFixed(2): 0} Kwh/m<sup>2</sup>
+                                {potencialEstacion.maximo ? ((potencialEstacion.maximo * (efficiencyPercentage/100))/1000).toFixed(2): 0} Kwh/m<sup>2</sup>
                               </span>
                             </h5>
                           </div>
@@ -272,7 +224,7 @@ export default function Popup(props) {
                           <div className="col-10">
                             <h5 className="card-title">
                               Promedio:
-                                <span className="text-muted ml-2">{potencialEstacion.promedio ? ((potencialEstacion.promedio * efficiencyPercentage)/1000).toFixed(2) : 0}  Kwh/m<sup>2</sup></span>
+                                <span className="text-muted ml-2">{potencialEstacion.promedio ? ((potencialEstacion.promedio * (efficiencyPercentage/100))/1000).toFixed(2) : 0}  Kwh/m<sup>2</sup></span>
                             </h5>
                           </div>
                         </div>
@@ -288,7 +240,7 @@ export default function Popup(props) {
                           <div className="col-10">
                             <h5 className="card-title">
                               Potencial mínimo:
-                                <span className="text-muted ml-2"> {potencialEstacion.minimo ? ((potencialEstacion.minimo * efficiencyPercentage)/1000).toFixed(2): 0} Kwh/m<sup>2</sup></span>
+                                <span className="text-muted ml-2"> {potencialEstacion.minimo ? ((potencialEstacion.minimo * (efficiencyPercentage/100))/1000).toFixed(2): 0} Kwh/m<sup>2</sup></span>
                             </h5>
                           </div>
                         </div>
@@ -322,7 +274,8 @@ export default function Popup(props) {
                 <div>
                   <div className="card">
                     <div className="card-body">
-                      <h6 className="text-center text-muted">Comportamiento para la fecha: {!props.scale ? props.date:props.currentDateRange}</h6>
+                      {props.typeScale == "día" && <h6 className="text-center text-muted">Comportamiento para la fecha: {!props.scale ? props.date:props.currentDateRange}</h6>}
+                      {props.typeScale != "día" && <h6 className="text-center text-muted">Comparación del potencial por {props.typeScale} entre: {props.date} y {props.currentDateEnd}</h6>}
                       {object.nombre && <p className="text-center text-muted">Estación {object.nombre}</p>}
                       {props.datasets.datasets[0].data.length > 0  && props.typeScale == "día" && (<div className="row middle-xs">
                         <Line
@@ -355,13 +308,13 @@ export default function Popup(props) {
 
 
                       </div>)}
-                      { datasetsScale.datasets[0].data.length == 0 && props.datasets.datasets[0].data.length == 0 &&
+                      { props.datasetsScale.datasets[0].data.length == 0 && props.datasets.datasets[0].data.length == 0 &&
                         <p className="text-center">No se encontraron resultados.</p>
                       }
-                      {props.typeScale!= "día" && props.scale && datasetsScale.datasets[0].data.length > 0 &&
+                      {props.typeScale!= "día" && props.scale && props.datasetsScale.datasets[0].data.length > 0 &&
                         <Bar
                         type="bar"
-                        data={datasetsScale}
+                        data={props.datasetsScale}
                       />
                       }
                       {/* Indicadore de nivel */}

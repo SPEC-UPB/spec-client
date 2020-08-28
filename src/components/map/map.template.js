@@ -43,7 +43,11 @@ const MapTemplate = (props) => {
         radio = potencial[0].radiacion
       }
     }
-    return radio * props.efficiencyPercentage
+    if(props.typeScale == "día"){
+      return radio * props.efficiencyPercentage
+    }else{
+      return radio * 0.02
+    }
   }
 
   const getColor = (nombreEstacion) => {
@@ -70,15 +74,24 @@ const MapTemplate = (props) => {
 
   const handleChange = (event) => {
     if(event.target.name=="Scala" && event.target.checked){
-      const dateBase = new Date(props.date)
-      dateBase.setMonth(dateBase.getMonth() + 1);
-      dateBase.setDate(dateBase.getDate() + 1);
-      props.onChangeDateEnd(dateBase)
-      props.changeTypeScale(props.typeScale)
+      if(props.currentStationName!=""){
+        const dateBase = new Date(props.date)
+        dateBase.setMonth(dateBase.getMonth() + 1);
+        dateBase.setDate(dateBase.getDate() + 1);
+        props.onChangeDateEnd(dateBase)
+        props.changeTypeScale(props.typeScale)
+        setState({ ...state, [event.target.name]: event.target.checked });
+      }else{
+        props.showMessage("Primero debe seleccionar un punto o estación")
+      }
     }else if(event.target.name=="Scala" && !event.target.checked){
       props.closeScale()
     }
-    setState({ ...state, [event.target.name]: event.target.checked });
+
+    if(!event.target.checked){
+      setState({ ...state, [event.target.name]: event.target.checked });
+    }
+    
   };
 
   useEffect(() => {
@@ -108,22 +121,28 @@ const MapTemplate = (props) => {
           {stationSelected && (
              <MyPopup currentDateRange={props.currentDateRange} scale={state.Scala} 
              datasets={props.datasets}
+             currentDateEnd={props.currentDateEnd}
+             datasetsScale={props.datasetsScale}
              typeScale={props.typeScale}
              changeEfficiencyPercentage={props.changeEfficiencyPercentage}  
              efficiencyPercentage={props.efficiencyPercentage} 
              object={stationSelected} date={props.date} potencial={props.potencial}
              potentialForRange={props.potentialForRange}
-             getRadiation={props.getRadiation}/>
+             getRadiation={props.getRadiation}
+             updateUIwithScale={props.updateUIwithScale}/>
           )}
 
           {pointSelected !=null  && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 ? (
             <MyPopup currentDateRange={props.currentDateRange} scale={state.Scala}
             getRadiation={props.getRadiation}
+            currentDateEnd={props.currentDateEnd}
+            datasetsScale={props.datasetsScale}
             datasets={props.datasets}
             typeScale={props.typeScale} 
             changeEfficiencyPercentage={props.changeEfficiencyPercentage}  
             object={pointSelected} date={props.date}
-            potentialForRange={props.potentialForRange}/>
+            potentialForRange={props.potentialForRange}
+            updateUIwithScale={props.updateUIwithScale}/>
           ):
           <div>
             {stationSelected == null && <Alert severity="info">
@@ -209,7 +228,7 @@ const MapTemplate = (props) => {
           }
           center={center}
           zoom={zoom}
-          onzoomend={(e) => {setzoom(e.target._zoom); console.log(e.target._zoom);}}
+          onzoomend={(e) => {setzoom(e.target._zoom);}}
         >
 
           <Popup
@@ -231,7 +250,7 @@ const MapTemplate = (props) => {
                   key={index}
                   position={[estation.lat, estation.lon]}
                   icon={icon}
-                  onclick={() => {
+                  onclick={ () => {
                     setstation(estation)
                     props.setCurrentStationName(estation.nombre)
                     setpointSelected(null)

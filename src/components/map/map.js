@@ -29,10 +29,20 @@ export default class Map extends React.Component {
             dateRangesForPotential:[],
             currentDateRange:"",
             efficiencyPercentage:0.17,
+            currentStationName:"",
+            index:0,
             datasets:{
                 datasets: [
                     {
                       label: "Radiación",
+                      data: []
+                    }
+                  ]
+            },
+            datasetsScale:{
+                datasets: [
+                    {
+                      label:"Potencial",
                       data: []
                     }
                   ]
@@ -43,8 +53,9 @@ export default class Map extends React.Component {
     }
 
     closeScale(){
-        this.setState({currentDateRange:""})
+        this.setState({currentDateRange:"", typeScale:"día"})
         this.getPotencial()
+        this.getRadiation(this.state.currentStationName)
     }
 
    componentDidMount(){
@@ -158,21 +169,9 @@ export default class Map extends React.Component {
 
    async changeTypeScale(type){
         await this.setState({typeScale:type})
-        this.getPotencialByDateRange()
+        await this.getPotencialByDateRange()
     }
 
-    async onChangeDateScale(index){
-        const date = this.state.dateRangesForPotential[index]
-        const newPotencial = await this.state.potentialForRange.filter(p => p.fecha == date)
-        await this.setState({potencial:newPotencial, currentDateRange:date})
-
-        if(this.state.typeScale == "día"){
-            console.log("la fecha para radiacon es ->",date);
-            await this.setState({currentDate:date})
-            this.getRadiation(this.state.currentStationName)
-            this.getPotencial()
-        }
-    }
 
     calcularSizePoint = () => {
         const stattionName = this.state.currentStationName
@@ -202,7 +201,6 @@ export default class Map extends React.Component {
                 return 0;
               });
 
-              console.log(data);
               await this.setState({datasets:{
                 datasets: [
                   {
@@ -234,7 +232,11 @@ export default class Map extends React.Component {
         .catch(err => {
             this.hideProgress(); 
             this.openMessage();
-            this.setState({messageType:'error', messageForSnackbar:'Lo sentimos ocurrio un error al calcular el potencial'})
+            if(this.state.currentStationName != ""){
+              this.setState({messageType:'error', messageForSnackbar:'Lo sentimos ocurrio un error al calcular la radiación'})
+            }else{
+              this.setState({messageType:'info', messageForSnackbar:'Para calcular la radiación seleccione un punto o estación'})
+            }
         })
      }
 
@@ -243,18 +245,72 @@ export default class Map extends React.Component {
         this.getRadiation(name)
      }
 
-    async getRadiacionWithRange(){
-        const date = this.state.currentDateRange
-        const typeScale = this.state.typeScale
-        let  potencialPorEscala = []
-        if(typeScale == "mes"){
-            potencialPorEscala = await this.state.potentialForRange.filter(p => p.fecha == date)
-        }else if(typeScale == "año"){
-            potencialPorEscala = await this.state.potentialForRange.filter(p => p.fecha == date)
-        }
+     async updateUIwithScale(){
+      const typeScale = await this.state.typeScale
+      const date = this.state.dateRangesForPotential[this.state.index]
+
+      if(typeScale== "día"){
+          
+          const newPotencial = await this.state.potentialForRange.filter(p => p.fecha == date)
+          await this.setState({potencial:newPotencial, currentDateRange:date})
+          await this.setState({currentDate:date})
+          this.getRadiation(this.state.currentStationName)
+          this.getPotencial()
+      }
+      else if(typeScale == "mes"){
+              
+              let potencialPorEscala = this.state.potentialForRange
+              console.log(potencialPorEscala)
+              
+
+              if(potencialPorEscala.length > 0){
+                  const potencialMes = await potencialPorEscala.filter(p => p.fecha == date)
+                  console.log(potencialMes);
+                  const potencialMesPorEstacion = await potencialPorEscala.filter(p => p.estacion == this.state.currentStationName)
+                  //potencial para ese mes
+                  console.log(potencialMesPorEstacion);
+                  this.setState({potencial:potencialMes, currentDateRange:date})
+
+                  const labels = potencialMesPorEstacion.map((p =>  p.fecha))
+                  const data = potencialMesPorEstacion.map((p =>  p.radiacion/1000))
+                 
+
+                  this.setState({datasetsScale:{
+                    labels,
+                    datasets: [
+                      {
+                        label: "Potencial por " + this.state.typeScale + " (kw/m^2)",
+                        data,
+                        backgroundColor: function (context) {
+                          let index = context.dataIndex;
+                          let value = context.dataset.data[index];
+                          let color = "#f5f6fa"
+                          if (value) {
+                            if (value.y < RadiationColor.lowRadiationValue)
+                              color = RadiationColor.lowRadiationColor
+                            else if (value.y >= RadiationColor.lowRadiationValue && value.y <= RadiationColor.mediaRadiationValue)
+                              color = RadiationColor.mediaRadiationColor
+                            else if (value.y >= RadiationColor.mediaRadiationValue && value.y <= RadiationColor.hightRadiationValue)
+                              color = RadiationColor.hightRadiationColor
+                            else
+                              color = RadiationColor.veryHightRadiationColor
+                          }
+                          return color
         
-        return potencialPorEscala
+                        }
+                      }
+                    ]
+                  }})
+                }
+          }
+     }
+
+    async onChangeDateScale(index){
+        await this.setState({index})
+        this.updateUIwithScale()
     }
+
+    
 
    getPotencial(){
     this.showProgress('Consultando datos')
@@ -317,6 +373,11 @@ export default class Map extends React.Component {
     this.setState({openMessage:false})
   };
 
+  showMessage(message){
+    this.openMessage();
+    this.setState({messageType:'info', messageForSnackbar:message})
+  }
+
     render(){
         return (
             <React.Fragment>
@@ -334,11 +395,15 @@ export default class Map extends React.Component {
                     onChangeDateScale={this.onChangeDateScale.bind(this)}
                     currentDateRange={this.state.currentDateRange}
                     closeScale={this.closeScale.bind(this)}
-                    potentialForRange={this.getRadiacionWithRange.bind(this)}
                     dateRangesForPotential={this.state.dateRangesForPotential}
                     getRadiation={this.getRadiation.bind(this)}
                     setCurrentStationName={this.setCurrentStationName.bind(this)}
-                    datasets={this.state.datasets}/>
+                    datasets={this.state.datasets}
+                    datasetsScale={this.state.datasetsScale}
+                    showMessage={this.showMessage.bind(this)}
+                    currentStationName={this.state.currentStationName}
+                    currentDateEnd={this.state.currentDateEnd}
+                    updateUIwithScale={this.updateUIwithScale.bind(this)}/>
                 <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
                     type={this.state.messageType} message={this.state.messageForSnackbar}/>
             </React.Fragment>
