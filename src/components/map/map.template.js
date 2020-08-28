@@ -261,7 +261,7 @@ const MapTemplate = (props) => {
             ))}
 
             {zoom <= 16 && props.potencial.length > 0 &&
-                     stations.map((estation, index) => (
+                     stations.map((estation) => (
                       <Circle
                         center={[estation.lat, estation.lon]}
                         color={getColor(estation.nombre)}
