@@ -66,7 +66,13 @@ export default class Map extends React.Component {
 
   changeEfficiencyPercentage(efficiencyPercentage) {
     console.log("cambio!!");
-    this.setState({ efficiencyPercentage: (parseFloat(efficiencyPercentage) / 100) })
+    if(this.state.typeScale != "día"){
+      this.setState({ efficiencyPercentage: (parseFloat(efficiencyPercentage) / 1000) })
+    }else{
+      this.setState({ efficiencyPercentage: (parseFloat(efficiencyPercentage) / 100) })
+    }
+
+    
   }
 
   async changeDate(newDate, isRangeDate) {
@@ -170,6 +176,9 @@ export default class Map extends React.Component {
   }
 
   async changeTypeScale(type) {
+    if(type == "día"){
+      await this.setState({efficiencyPercentage:(17/1000)})
+    }
     await this.setState({ typeScale: type })
     await this.getPotencialByDateRange()
   }

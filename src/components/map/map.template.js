@@ -38,16 +38,20 @@ const MapTemplate = (props) => {
   const getPotential = (nombreEstacion) => {
     const potencial =  props.potencial.filter(p => p.estacion == nombreEstacion)
     let radio = 0;
+
     if(potencial[0]){
       if(potencial[0].radiacion){
         radio = potencial[0].radiacion
       }
     }
-    if(props.typeScale == "día"){
-      return radio * props.efficiencyPercentage
-    }else{
-      return radio * 0.02
-    }
+
+    return radio * props.efficiencyPercentage
+    
+    // if(props.typeScale == "día"){
+    //   return radio * props.efficiencyPercentage
+    // }else{
+    //   return radio * 0.02
+    // }
   }
 
   const getColor = (nombreEstacion) => {

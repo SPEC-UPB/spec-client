@@ -15,6 +15,7 @@ export default function Popup(props) {
   const mayorEfficiencyPercentage = 25
 
   const [efficiencyPercentage, setEfficiencyPercentage] = useState(17)
+  
   const changeEfficiencyPercentage = (e) => {
     const value = e.target.value
     if (value <= mayorEfficiencyPercentage && value >= menorEfficiencyPercentage) {
@@ -313,9 +314,9 @@ export default function Popup(props) {
                       }
                       {props.typeScale!= "día" && props.scale && props.datasetsScale.datasets[0].data.length > 0 &&
                         <Bar
-                        type="bar"
-                        data={props.datasetsScale}
-                      />
+                          type="bar"
+                          data={props.datasetsScale}
+                        />
                       }
                       {/* Indicadore de nivel */}
                       { props.typeScale == "día" && <div className="row mt-2">
