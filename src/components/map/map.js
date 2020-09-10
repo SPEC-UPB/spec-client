@@ -30,6 +30,7 @@ export default class Map extends React.Component {
       currentDateRange: "",
       efficiencyPercentage: 0.17,
       currentStationName: "",
+      scaleIsActive:false,
       index: 0,
       datasets: {
         datasets: [
@@ -53,10 +54,18 @@ export default class Map extends React.Component {
     this.getEstaciones = this.getEstaciones.bind(this)
   }
 
-  closeScale() {
-    this.setState({ currentDateRange: "", typeScale: "día" })
+  async closeScale() {
+    if(this.state.typeScale != "día"){
+      await this.setState({efficiencyPercentage:(this.state.efficiencyPercentage*1000)/100, scaleIsActive:false})
+  }
+
+    await this.setState({ currentDateRange: "", typeScale: "día"})
     this.getPotencial()
     this.getRadiation(this.state.currentStationName)
+  }
+
+  openScale(){
+    this.setState({scaleIsActive:true})
   }
 
   componentDidMount() {
@@ -65,31 +74,45 @@ export default class Map extends React.Component {
   }
 
   changeEfficiencyPercentage(efficiencyPercentage) {
-    console.log("cambio!!");
     if(this.state.typeScale != "día"){
       this.setState({ efficiencyPercentage: (parseFloat(efficiencyPercentage) / 1000) })
     }else{
       this.setState({ efficiencyPercentage: (parseFloat(efficiencyPercentage) / 100) })
     }
 
-    
   }
 
   async changeDate(newDate, isRangeDate) {
     await this.setState({ currentDate: estacionService.formatDate(newDate) })
-    if (this.validDateRange()) {
-      this.getRadiation(this.state.currentStationName)
-      if (!isRangeDate) {// si no es para escala de tiempo
-        this.getPotencial()
-      } else { // escala de tiempo
-        if (new Date(this.state.currentDate) < new Date(this.state.currentDateEnd)) {
-          this.getPotencialByDateRange()
-        } else {
-          this.openMessage();
-          this.setState({ messageType: 'info', messageForSnackbar: 'El rango de fechas no puede ser negativo' })
+
+    if(this.state.scaleIsActive){
+      if (this.validDateRange()) {
+        this.getRadiation(this.state.currentStationName)
+        if (!isRangeDate) {// si no es para escala de tiempo
+          this.getPotencial()
+        } else { // escala de tiempo
+          if (new Date(this.state.currentDate) < new Date(this.state.currentDateEnd)) {
+            this.getPotencialByDateRange()
+          } else {
+            this.openMessage();
+            this.setState({ messageType: 'info', messageForSnackbar: 'El rango de fechas no puede ser negativo' })
+          }
         }
       }
+    }else{
+      this.getRadiation(this.state.currentStationName)
+        if (!isRangeDate) {// si no es para escala de tiempo
+          this.getPotencial()
+        } else { // escala de tiempo
+          if (new Date(this.state.currentDate) < new Date(this.state.currentDateEnd)) {
+            this.getPotencialByDateRange()
+          } else {
+            this.openMessage();
+            this.setState({ messageType: 'info', messageForSnackbar: 'El rango de fechas no puede ser negativo' })
+          }
+        }
     }
+    
   }
 
   async changeDateEnd(newDate) {
@@ -176,9 +199,12 @@ export default class Map extends React.Component {
   }
 
   async changeTypeScale(type) {
-    if(type == "día"){
-      await this.setState({efficiencyPercentage:(17/1000)})
+    if(this.state.typeScale == "día" && type != "día"){
+      await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*100)/1000)})
+    }else if(this.state.typeScale != "día" && type == "día"){
+      await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*1000)/100)})
     }
+
     await this.setState({ typeScale: type })
     await this.getPotencialByDateRange()
   }
@@ -256,12 +282,15 @@ export default class Map extends React.Component {
   async setCurrentStationName(name) {
     await this.setState({ currentStationName: name })
     this.getRadiation(name)
-    this.setDatasetToBarChart()
+    
+    if(this.state.typeScale != "día"){
+      this.setDatasetToBarChart()
+    }
   }
 
   async updateUIwithScale() {
     const typeScale = await this.state.typeScale
-    const date = this.state.dateRangesForPotential[this.state.index]
+    const date = await this.state.dateRangesForPotential[this.state.index]
 
     if (typeScale == "día") {
 
@@ -276,15 +305,15 @@ export default class Map extends React.Component {
   }
 
   async setDatasetToBarChart() {
-    let potencialPorEscala = this.state.potentialForRange
+    let potencialPorEscala = await this.state.potentialForRange
     if (potencialPorEscala.length > 0) {
-      const date = this.state.dateRangesForPotential[this.state.index]
+      const date = await this.state.dateRangesForPotential[this.state.index]
       const potecialPorTipo = await potencialPorEscala.filter(p => p.fecha == date)
       const potencialMesPorEstacion = await potencialPorEscala.filter(p => p.estacion == this.state.currentStationName)
       //potencial para ese mes
-      this.setState({ potencial: potecialPorTipo, currentDateRange: date })
-      const labels = potencialMesPorEstacion.map((p => p.fecha))
-      const data = potencialMesPorEstacion.map((p => p.radiacion / 1000))
+      await this.setState({ potencial: potecialPorTipo, currentDateRange: date })
+      const labels = await potencialMesPorEstacion.map((p => p.fecha))
+      const data = await potencialMesPorEstacion.map((p => p.radiacion / 1000))
 
       this.setState({
         datasetsScale: {
@@ -347,7 +376,7 @@ export default class Map extends React.Component {
     potencialService.getPotencialByDateRange(this.state.currentDate, this.state.currentDateEnd, this.state.typeScale)
       .then(async res => {
         const dateRangesForPotential = await [...new Set(res.data.data.map(item => item.fecha))]
-        this.setState({ potentialForRange: res.data.data, dateRangesForPotential, currentDateRange: "" })
+        await this.setState({ potentialForRange: res.data.data, dateRangesForPotential, currentDateRange: "" })
         this.hideProgress();
         this.onChangeDateScale(0)
       })
@@ -409,6 +438,7 @@ export default class Map extends React.Component {
           onChangeDateScale={this.onChangeDateScale.bind(this)}
           currentDateRange={this.state.currentDateRange}
           closeScale={this.closeScale.bind(this)}
+          openScale={this.openScale.bind(this)}
           dateRangesForPotential={this.state.dateRangesForPotential}
           getRadiation={this.getRadiation.bind(this)}
           setCurrentStationName={this.setCurrentStationName.bind(this)}

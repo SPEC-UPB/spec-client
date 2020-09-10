@@ -37,6 +37,7 @@ const MapTemplate = (props) => {
 
   const getPotential = (nombreEstacion) => {
     const potencial =  props.potencial.filter(p => p.estacion == nombreEstacion)
+  
     let radio = 0;
 
     if(potencial[0]){
@@ -44,14 +45,8 @@ const MapTemplate = (props) => {
         radio = potencial[0].radiacion
       }
     }
-
-    return radio * props.efficiencyPercentage
     
-    // if(props.typeScale == "día"){
-    //   return radio * props.efficiencyPercentage
-    // }else{
-    //   return radio * 0.02
-    // }
+    return radio * props.efficiencyPercentage
   }
 
   const getColor = (nombreEstacion) => {
@@ -79,6 +74,7 @@ const MapTemplate = (props) => {
   const handleChange = (event) => {
     if(event.target.name=="Scala" && event.target.checked){
       if(props.currentStationName!=""){
+        props.openScale()
         const dateBase = new Date(props.date)
         dateBase.setMonth(dateBase.getMonth() + 1);
         dateBase.setDate(dateBase.getDate() + 1);
@@ -91,6 +87,7 @@ const MapTemplate = (props) => {
     }else if(event.target.name=="Scala" && !event.target.checked){
       props.closeScale()
     }
+
 
     if(!event.target.checked){
       setState({ ...state, [event.target.name]: event.target.checked });

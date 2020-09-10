@@ -48,7 +48,6 @@ export default function Popup(props) {
         }
       });
 
-      console.log(props.potencial);
       if (!hayPotencial) {
         setPotencialEstacion({
           maximo: 0,
