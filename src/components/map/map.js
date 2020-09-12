@@ -201,7 +201,7 @@ export default class Map extends React.Component {
   async changeTypeScale(type) {
     if(this.state.typeScale == "día" && type != "día"){
       await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*100)/1000)})
-    }else if(this.state.typeScale != "día" && type == "día"){
+    }else if(this.state.typeScale != "día"){
       await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*1000)/100)})
     }
 
@@ -309,11 +309,11 @@ export default class Map extends React.Component {
     if (potencialPorEscala.length > 0) {
       const date = await this.state.dateRangesForPotential[this.state.index]
       const potecialPorTipo = await potencialPorEscala.filter(p => p.fecha == date)
-      const potencialMesPorEstacion = await potencialPorEscala.filter(p => p.estacion == this.state.currentStationName)
+      const potencialPorEstacion = await potencialPorEscala.filter(p => p.estacion == this.state.currentStationName)
       //potencial para ese mes
       await this.setState({ potencial: potecialPorTipo, currentDateRange: date })
-      const labels = await potencialMesPorEstacion.map((p => p.fecha))
-      const data = await potencialMesPorEstacion.map((p => p.radiacion / 1000))
+      const labels = await potencialPorEstacion.map((p => p.fecha))
+      const data = await potencialPorEstacion.map((p => p.radiacion / 1000))
 
       this.setState({
         datasetsScale: {
