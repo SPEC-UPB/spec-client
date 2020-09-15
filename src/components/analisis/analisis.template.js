@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
@@ -10,22 +10,27 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 
 export default function AnalisisTemplate(props) {
 
+  
   const menorEfficiencyPercentage = 17
   const mayorEfficiencyPercentage = 25
-
+  const [efficiencyPercentage, setEfficiencyPercentage] = useState(17)
 
   const changeEfficiencyPercentage = (e) => {
     const value = e.target.value
     if (value <= mayorEfficiencyPercentage && value >= menorEfficiencyPercentage) {
+      setEfficiencyPercentage(value)
       props.changeEfficiencyPercentage(value)
     }
   }
 
   const [consumo, setConsumo] = useState(0)
-  const [ahorrado, setAhorrado] = useState(33)
-
+  const [potencialEstacion, setPotencialEstacion] = useState(0)
   const changeKw = (e) => {
-    setConsumo(e.target.value)
+    const value = e.target.value
+    if(value > 0){
+      setConsumo(value)
+    }
+    
   }
 
   const images = [
@@ -43,7 +48,7 @@ export default function AnalisisTemplate(props) {
 
   const data = {
     datasets: [{
-      data: [ahorrado, consumo],
+      data: [potencialEstacion, consumo],
       backgroundColor: ['#2ecc71', '#e74c3c']
     }],
     labels: [
@@ -129,6 +134,26 @@ export default function AnalisisTemplate(props) {
   }));
 
   const classes = useStyles();
+  
+
+  useEffect(() => {
+
+      
+      if(props.data){
+        console.log(props.data);
+        let contador = 0;
+        props.data.forEach(potencial => {
+          contador+=potencial;
+        });
+        setPotencialEstacion(contador)
+      }
+    
+  
+    return () => {
+
+    }
+  },[props.data, props.object]);
+  
   return (
     <div className="card mx-3">
       <div className="card-body">
@@ -209,7 +234,7 @@ export default function AnalisisTemplate(props) {
           aria-hidden="true">
 
           {/* <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal --> */}
-          <div class="modal-dialog modal-full-height modal-bottom " role="document">
+          <div class="modal-dialog modal-dialog-scrollable modal-full-height modal-bottom " role="document">
 
 
             <div class="modal-content">
@@ -221,7 +246,7 @@ export default function AnalisisTemplate(props) {
               </div>
               <div class="modal-body">
                 <div className="row">
-                  <div className="col-4">
+                  <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 ">
                     <h5 className="text-center">¿Le gustaria conocer cuanto dinero podria ahorrar en el costo de sus factura
                     si implementara energía renobable en su hogar?
                     </h5>
@@ -247,10 +272,10 @@ export default function AnalisisTemplate(props) {
                       />
                       <FormHelperText id="standard-weight-helper-text">Ingrese consumo en kilovatios</FormHelperText>
                     </FormControl>
-                    <FormControl className="mt-2"  >
+                    <FormControl className="mt-2 ml-2"  >
                       <Input
                         onChange={changeEfficiencyPercentage}
-                        value={props.efficiencyPercentage}
+                        value={efficiencyPercentage}
                         type="number"
                         endAdornment={<InputAdornment position="end">%</InputAdornment>}
                         aria-describedby="standard-weight-helper-text"
@@ -261,16 +286,21 @@ export default function AnalisisTemplate(props) {
                       <FormHelperText id="standard-weight-helper-text">Porcentaje de eficiencia / m<sup>2</sup></FormHelperText>
                     </FormControl>
                   </div>
-                  <div className="col-8">
-                    {props.scale ? (
+                  <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                    {props.scale && props.typeScale != "día" ? (
                       <div>
-                        <p className="text-center text-muted my-3">Kilovatios por hora ahorrados desde {props.currentDateStart} hasta {props.currentDateEnd} </p>
-                        <p className="text-center text-muted my-3">Usted pudo ahorrarse el {((ahorrado*100) / consumo).toFixed(2)}% equivalente a {ahorrado} kilovatios de consumo </p>
+                        <p className="text-center mx-3 text-muted my-3">Kilovatios por hora ahorrados por cada metro<sup>2</sup> con un panel solar 
+                        del {efficiencyPercentage}% de eficiencia desde la fecha {props.currentDateStart} hasta {props.currentDateEnd} </p>
+                        <p className="text-center text-muted mt-1">Usted pudo ahorrarse el {consumo != 0 ? ((potencialEstacion*100) / consumo).toFixed(2):0}% equivalente a {potencialEstacion .toFixed(2)} kilovatios de consumo </p>
                         <Doughnut data={data} />
                       </div>
-                    ) : (<h5 className="text-center my-5 text-muted">Active la escala de tiempo y seleccione un rango de fecha para el
-                    cual quiere conocer el potencial obtenido
-                    </h5>)}
+                    ) : (
+                    <div>
+                      <h6 className="text-center mx-5 my-2 text-muted">Active la escala de tiempo como lo indica la figura.</h6>
+                      <img className="z-depth-1 img-fluid rounded mx-auto d-block" src="/images/activar-escala.png"></img>
+                      <h6 className="text-center mx-5 mt-3 text-muted">Luego seleccione consultar potencial por mes o día.</h6>
+                      <img className="z-depth-1 img-fluid rounded mx-auto d-block" src="/images/elegir-mes.png"></img>
+                    </div>)}
                   </div>
                 </div>
               </div>

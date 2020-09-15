@@ -13,10 +13,13 @@ export default function Popup(props) {
   const { object, date , scale} = props;
   const menorEfficiencyPercentage = 17
   const mayorEfficiencyPercentage = 25
+
+  const [efficiencyPercentage, setEfficiencyPercentage] = useState(17)
   
   const changeEfficiencyPercentage = (e) => {
     const value = e.target.value
     if (value <= mayorEfficiencyPercentage && value >= menorEfficiencyPercentage) {
+      setEfficiencyPercentage(value)
       props.changeEfficiencyPercentage(value)
     }
   }
@@ -29,7 +32,7 @@ export default function Popup(props) {
  
 
   useEffect(() => {
-    console.log(props.efficiencyPercentage);
+    console.log(efficiencyPercentage);
     // si la escala esta desactiva hace petición
     if (props.object.nombre )  {
 
@@ -58,7 +61,7 @@ export default function Popup(props) {
 
     }
 
-  }, [object, props.potencial, date, props.efficiencyPercentage, scale, props.datasets, props.datasetsScale])
+  }, [object, props.potencial, date, efficiencyPercentage, scale, props.datasets, props.datasetsScale])
 
   return (
     <React.Fragment>
@@ -158,8 +161,9 @@ export default function Popup(props) {
           >
             <div className="mt-2">
               <div style={{ width: "100%" }}>
-                <p className="text-center text-muted mx-5">Potencial registrado en kilovatios al {" " + props.typeScale + " "}  
-                para la fecha: {!props.scale ? props.date:props.currentDateRange}</p>
+                <p className="text-center text-muted mx-5">Potencial registrado en kilovatios por metro<sup>2</sup> al {" " + props.typeScale + " "} con un panel solar 
+                        del {efficiencyPercentage}% de eficiencia   
+                        para la fecha: {!props.scale ? props.date:props.currentDateRange}</p>
                 {potencialEstacion.promedio && object.nombre ?
                   (<React.Fragment>
                     <p className="text-center text-muted">Estación {object.nombre}</p>
@@ -179,7 +183,7 @@ export default function Popup(props) {
                               <FormControl  >
                                 <Input
                                   onChange={changeEfficiencyPercentage}
-                                  value={props.efficiencyPercentage <= 1 ? props.efficiencyPercentage*100: props.efficiencyPercentage}
+                                  value={efficiencyPercentage <= 1 ? efficiencyPercentage*100: efficiencyPercentage}
                                   type="number"
                                   endAdornment={<InputAdornment position="end">%</InputAdornment>}
                                   aria-describedby="standard-weight-helper-text"
@@ -205,7 +209,7 @@ export default function Popup(props) {
                             <h5 className="card-title">
                               Potencial máximo:
                                 <span className="text-muted ml-2">
-                                {potencialEstacion.maximo ? ((potencialEstacion.maximo * (props.efficiencyPercentage/100))/1000).toFixed(2): 0} Kwh/m<sup>2</sup>
+                                {potencialEstacion.maximo ? ((potencialEstacion.maximo * (efficiencyPercentage/100))/1000).toFixed(2): 0} Kwh/m<sup>2</sup>
                               </span>
                             </h5>
                           </div>
@@ -221,7 +225,7 @@ export default function Popup(props) {
                           <div className="col-10">
                             <h5 className="card-title">
                               Promedio:
-                                <span className="text-muted ml-2">{potencialEstacion.promedio ? ((potencialEstacion.promedio * (props.efficiencyPercentage/100))/1000).toFixed(2) : 0}  Kwh/m<sup>2</sup></span>
+                                <span className="text-muted ml-2">{potencialEstacion.promedio ? ((potencialEstacion.promedio * (efficiencyPercentage/100))/1000).toFixed(2) : 0}  Kwh/m<sup>2</sup></span>
                             </h5>
                           </div>
                         </div>
@@ -237,7 +241,7 @@ export default function Popup(props) {
                           <div className="col-10">
                             <h5 className="card-title">
                               Potencial mínimo:
-                                <span className="text-muted ml-2"> {potencialEstacion.minimo ? ((potencialEstacion.minimo * (props.efficiencyPercentage/100))/1000).toFixed(2): 0} Kwh/m<sup>2</sup></span>
+                                <span className="text-muted ml-2"> {potencialEstacion.minimo ? ((potencialEstacion.minimo * (efficiencyPercentage/100))/1000).toFixed(2): 0} Kwh/m<sup>2</sup></span>
                             </h5>
                           </div>
                         </div>

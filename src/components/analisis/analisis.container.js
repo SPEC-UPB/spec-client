@@ -3,10 +3,13 @@ import AnalisisTemplate from './analisis.template'
 
 export default class Analisis extends React.Component {
     render(){
-        return(<AnalisisTemplate changeEfficiencyPercentage={this.props.changeEfficiencyPercentage} 
-            efficiencyPercentage={this.props.efficiencyPercentage}
+        return(<AnalisisTemplate changeEfficiencyPercentage={this.props.changeEfficiencyPercentage}
             currentDateEnd={this.props.currentDateEnd}
             currentDateStart={this.props.currentDateStart}
-            scale={this.props.scale}/>)
+            potencial={this.props.potencial}
+            object={this.props.object}
+            scale={this.props.scale}
+            data={this.props.data}
+            typeScale={this.props.typeScale}/>)
     }
 }

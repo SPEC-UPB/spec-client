@@ -124,7 +124,6 @@ const MapTemplate = (props) => {
 
           {stationSelected && (
              <MyPopup 
-             efficiencyPercentage={props.valorEnPorcentaje}
              currentDateRange={props.currentDateRange} scale={state.Scala} 
              datasets={props.datasets}
              currentDateEnd={props.currentDateEnd}
@@ -140,7 +139,6 @@ const MapTemplate = (props) => {
 
           {pointSelected !=null  && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 ? (
             <MyPopup currentDateRange={props.currentDateRange} scale={state.Scala}
-            efficiencyPercentage={props.valorEnPorcentaje}
             getRadiation={props.getRadiation}
             currentDateEnd={props.currentDateEnd}
             datasetsScale={props.datasetsScale}
@@ -311,10 +309,13 @@ const MapTemplate = (props) => {
 
       {/*Analisis*/}
       <div id="potencial" className="my-5">
-        <Analisis 
+        <Analisis
+         typeScale={props.typeScale}
+         data={props.datasetsScale.datasets[0].data}
+         object={stationSelected}
+         potencial={props.potencial}
          scale={state.Scala} 
          changeEfficiencyPercentage={props.changeEfficiencyPercentage} 
-         efficiencyPercentage={props.valorEnPorcentaje}
          currentDateEnd={props.currentDateEnd}
          currentDateStart={props.date}/>
       </div>

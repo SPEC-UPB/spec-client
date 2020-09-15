@@ -27,7 +27,6 @@ export default class Map extends React.Component {
       potentialForRange: [],
       isRequest: false,
       dateRangesForPotential: [],
-      valorEnPorcentaje:17,
       currentDateRange: "",
       efficiencyPercentage: 0.17,
       currentStationName: "",
@@ -75,8 +74,6 @@ export default class Map extends React.Component {
   }
 
   changeEfficiencyPercentage(efficiencyPercentage) {
-    console.log("--> ", efficiencyPercentage);
-    this.setState({valorEnPorcentaje:efficiencyPercentage})
     if(this.state.typeScale != "día"){
       this.setState({ efficiencyPercentage: (parseFloat(efficiencyPercentage) / 1000) })
     }else{
@@ -323,6 +320,7 @@ export default class Map extends React.Component {
       await this.setState({ potencial: potecialPorTipo, currentDateRange: date })
       const labels = await potencialPorEstacion.map((p => p.fecha))
       const data = await potencialPorEstacion.map((p => p.radiacion / 1000))
+      console.log(data);
 
       this.setState({
         datasetsScale: {
@@ -458,8 +456,7 @@ export default class Map extends React.Component {
           showMessage={this.showMessage.bind(this)}
           currentStationName={this.state.currentStationName}
           currentDateEnd={this.state.currentDateEnd}
-          updateUIwithScale={this.updateUIwithScale.bind(this)}
-          valorEnPorcentaje={this.state.valorEnPorcentaje} />
+          updateUIwithScale={this.updateUIwithScale.bind(this)} />
         <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
           type={this.state.messageType} message={this.state.messageForSnackbar} />
       </React.Fragment>
