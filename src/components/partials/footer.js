@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function Footer() {
+  
   return (
     <React.Fragment>
       {/* Footer */}
@@ -64,6 +65,26 @@ export default function Footer() {
         {/* Copyright */}
       </footer>
       {/* Footer */}
+
+      {/* <!-- Frame Modal Bottom --> */}
+      <div class="modal fade bottom" id="frameModalBottom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+
+        {/* <!-- Add class .modal-frame and then add class .modal-bottom (or other classes from list above) to set a position to the modal --> */}
+        <div class="modal-dialog modal-frame modal-bottom" role="document">
+
+
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="row d-flex justify-content-center align-items-center">
+                <p class="pt-3 pr-2">Este sitio web no almacenara la iformación que ingrese.</p>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Entendido</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <!-- Frame Modal Bottom --> */}
     </React.Fragment>
   );
 }

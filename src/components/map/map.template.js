@@ -23,6 +23,8 @@ const icon = new Icon({
   iconSize: [40, 40],
 });
 
+
+
 const MapTemplate = (props) => {
   const { stations, center } = props;
   const [stationSelected, setstation] = useState(null);
@@ -46,6 +48,7 @@ const MapTemplate = (props) => {
       }
     }
     
+    console.log(props.efficiencyPercentage);
     return radio * props.efficiencyPercentage
   }
 
@@ -120,7 +123,9 @@ const MapTemplate = (props) => {
           </h5>
 
           {stationSelected && (
-             <MyPopup currentDateRange={props.currentDateRange} scale={state.Scala} 
+             <MyPopup 
+             efficiencyPercentage={props.valorEnPorcentaje}
+              currentDateRange={props.currentDateRange} scale={state.Scala} 
              datasets={props.datasets}
              currentDateEnd={props.currentDateEnd}
              datasetsScale={props.datasetsScale}
@@ -135,6 +140,7 @@ const MapTemplate = (props) => {
 
           {pointSelected !=null  && Polygon.inPolygon(new Point(pointSelected.lon, pointSelected.lat)) !== 0 ? (
             <MyPopup currentDateRange={props.currentDateRange} scale={state.Scala}
+            efficiencyPercentage={props.valorEnPorcentaje}
             getRadiation={props.getRadiation}
             currentDateEnd={props.currentDateEnd}
             datasetsScale={props.datasetsScale}
@@ -305,7 +311,12 @@ const MapTemplate = (props) => {
 
       {/*Analisis*/}
       <div id="potencial" className="my-5">
-        <Analisis />
+        <Analisis 
+         scale={state.Scala} 
+         changeEfficiencyPercentage={props.changeEfficiencyPercentage} 
+         efficiencyPercentage={props.valorEnPorcentaje}
+         currentDateEnd={props.currentDateEnd}
+         currentDateStart={props.date}/>
       </div>
 
       {/*Footer */}

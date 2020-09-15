@@ -51,7 +51,8 @@ export default class Popup extends React.Component {
                     datasets={this.props.datasets}
                     datasetsScale={this.props.datasetsScale}
                     currentDateEnd={this.props.currentDateEnd}
-                    updateUIwithScale={this.props.updateUIwithScale}/>
+                    updateUIwithScale={this.props.updateUIwithScale}
+                    efficiencyPercentage={this.props.efficiencyPercentage}/>
                 <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
                     type={this.state.messageType} message={this.state.messageForSnackbar}/>
             </React.Fragment>

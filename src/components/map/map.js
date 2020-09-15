@@ -27,6 +27,7 @@ export default class Map extends React.Component {
       potentialForRange: [],
       isRequest: false,
       dateRangesForPotential: [],
+      valorEnPorcentaje:17,
       currentDateRange: "",
       efficiencyPercentage: 0.17,
       currentStationName: "",
@@ -74,6 +75,7 @@ export default class Map extends React.Component {
   }
 
   changeEfficiencyPercentage(efficiencyPercentage) {
+    this.setState({valorEnPorcentaje:efficiencyPercentage})
     if(this.state.typeScale != "día"){
       this.setState({ efficiencyPercentage: (parseFloat(efficiencyPercentage) / 1000) })
     }else{
@@ -199,14 +201,16 @@ export default class Map extends React.Component {
   }
 
   async changeTypeScale(type) {
-    if(this.state.typeScale == "día" && type != "día"){
-      await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*100)/1000)})
-    }else if(this.state.typeScale != "día"){
-      await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*1000)/100)})
+    if(!this.state.isRequest){
+      if(this.state.typeScale == "día" && type != "día"){
+        await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*100)/1000)})
+      }else if(this.state.typeScale != "día" && type == "día"){
+        await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*1000)/100)})
+      }
+  
+      await this.setState({ typeScale: type })
+      await this.getPotencialByDateRange()
     }
-
-    await this.setState({ typeScale: type })
-    await this.getPotencialByDateRange()
   }
 
 
@@ -281,9 +285,11 @@ export default class Map extends React.Component {
 
   async setCurrentStationName(name) {
     await this.setState({ currentStationName: name })
-    this.getRadiation(name)
+    if(this.state.typeScale == "día"){
+      this.getRadiation(name)
+    }
     
-    if(this.state.typeScale != "día"){
+    if(this.state.typeScale != "día" && this.state.scaleIsActive){
       this.setDatasetToBarChart()
     }
   }
@@ -309,8 +315,10 @@ export default class Map extends React.Component {
     if (potencialPorEscala.length > 0) {
       const date = await this.state.dateRangesForPotential[this.state.index]
       const potecialPorTipo = await potencialPorEscala.filter(p => p.fecha == date)
+      console.log(potecialPorTipo);
       const potencialPorEstacion = await potencialPorEscala.filter(p => p.estacion == this.state.currentStationName)
       //potencial para ese mes
+      console.log(potencialPorEstacion);
       await this.setState({ potencial: potecialPorTipo, currentDateRange: date })
       const labels = await potencialPorEstacion.map((p => p.fecha))
       const data = await potencialPorEstacion.map((p => p.radiacion / 1000))
@@ -375,7 +383,9 @@ export default class Map extends React.Component {
     this.showProgress('Calculando potencial')
     potencialService.getPotencialByDateRange(this.state.currentDate, this.state.currentDateEnd, this.state.typeScale)
       .then(async res => {
-        const dateRangesForPotential = await [...new Set(res.data.data.map(item => item.fecha))]
+        console.log(res.data.data);
+        const dateRangesForPotentialNoUnique = await res.data.data.map(item => item.fecha)
+        const dateRangesForPotential = await dateRangesForPotentialNoUnique.filter((value, index, self)=> self.indexOf(value) == index)
         await this.setState({ potentialForRange: res.data.data, dateRangesForPotential, currentDateRange: "" })
         this.hideProgress();
         this.onChangeDateScale(0)
@@ -447,7 +457,8 @@ export default class Map extends React.Component {
           showMessage={this.showMessage.bind(this)}
           currentStationName={this.state.currentStationName}
           currentDateEnd={this.state.currentDateEnd}
-          updateUIwithScale={this.updateUIwithScale.bind(this)} />
+          updateUIwithScale={this.updateUIwithScale.bind(this)}
+          valorEnPorcentaje={this.state.valorEnPorcentaje} />
         <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
           type={this.state.messageType} message={this.state.messageForSnackbar} />
       </React.Fragment>
