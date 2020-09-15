@@ -233,7 +233,20 @@ export default function AnalisisTemplate(props) {
                       <li>Realice una consulta de radiación para el rango de fecha del cual desea conocer el potencial (en Kw/h) generado.</li>
                       <li>Ingrese la cantidad de de kilovatios (kw) consumidos</li>
                     </ul>
-                    <input onChange={changeKw} required="true" min={0} class="form-control mt-3 form-control-sm" type="number" placeholder="Ingrese el consumo en kilovatios"></input>
+                    
+                    <FormControl className="mt-2"  >
+                      <Input
+                        onChange={changeKw}
+                        value={consumo}
+                        type="number"
+                        endAdornment={<InputAdornment position="end">KW</InputAdornment>}
+                        aria-describedby="standard-weight-helper-text"
+                        inputProps={{
+                          'aria-label': 'weight',
+                        }}
+                      />
+                      <FormHelperText id="standard-weight-helper-text">Ingrese consumo en kilovatios</FormHelperText>
+                    </FormControl>
                     <FormControl className="mt-2"  >
                       <Input
                         onChange={changeEfficiencyPercentage}
@@ -252,7 +265,7 @@ export default function AnalisisTemplate(props) {
                     {props.scale ? (
                       <div>
                         <p className="text-center text-muted my-3">Kilovatios por hora ahorrados desde {props.currentDateStart} hasta {props.currentDateEnd} </p>
-                        <p className="text-center text-muted my-3">Usted pudo ahorrarse el {(ahorrado / consumo).toFixed(2)}% equivalente a {ahorrado} kilovatios de consumo </p>
+                        <p className="text-center text-muted my-3">Usted pudo ahorrarse el {((ahorrado*100) / consumo).toFixed(2)}% equivalente a {ahorrado} kilovatios de consumo </p>
                         <Doughnut data={data} />
                       </div>
                     ) : (<h5 className="text-center my-5 text-muted">Active la escala de tiempo y seleccione un rango de fecha para el
