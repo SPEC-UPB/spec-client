@@ -75,6 +75,7 @@ export default class Map extends React.Component {
   }
 
   changeEfficiencyPercentage(efficiencyPercentage) {
+    console.log("--> ", efficiencyPercentage);
     this.setState({valorEnPorcentaje:efficiencyPercentage})
     if(this.state.typeScale != "día"){
       this.setState({ efficiencyPercentage: (parseFloat(efficiencyPercentage) / 1000) })

@@ -29,7 +29,7 @@ export default function Popup(props) {
  
 
   useEffect(() => {
-
+    console.log(props.efficiencyPercentage);
     // si la escala esta desactiva hace petición
     if (props.object.nombre )  {
 
@@ -179,7 +179,7 @@ export default function Popup(props) {
                               <FormControl  >
                                 <Input
                                   onChange={changeEfficiencyPercentage}
-                                  value={props.efficiencyPercentage}
+                                  value={props.efficiencyPercentage <= 1 ? props.efficiencyPercentage*100: props.efficiencyPercentage}
                                   type="number"
                                   endAdornment={<InputAdornment position="end">%</InputAdornment>}
                                   aria-describedby="standard-weight-helper-text"

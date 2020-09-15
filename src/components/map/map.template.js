@@ -125,7 +125,7 @@ const MapTemplate = (props) => {
           {stationSelected && (
              <MyPopup 
              efficiencyPercentage={props.valorEnPorcentaje}
-              currentDateRange={props.currentDateRange} scale={state.Scala} 
+             currentDateRange={props.currentDateRange} scale={state.Scala} 
              datasets={props.datasets}
              currentDateEnd={props.currentDateEnd}
              datasetsScale={props.datasetsScale}

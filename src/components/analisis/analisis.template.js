@@ -36,7 +36,7 @@ export default function AnalisisTemplate(props) {
     },
     {
       url: '/images/consumo-electrico-hogar.png',
-      title: '¡Conoce cuanta energía consumer ene tu hogar!',
+      title: '¡Conozca cuanta energía consume en su hogar!',
       width: '50%'
     }
   ];
@@ -222,11 +222,11 @@ export default function AnalisisTemplate(props) {
               <div class="modal-body">
                 <div className="row">
                   <div className="col-4">
-                    <h5 className="text-center">¿Le gustaria conocer si cuanto dinero podria ahorrar en el costo de sus factura
+                    <h5 className="text-center">¿Le gustaria conocer cuanto dinero podria ahorrar en el costo de sus factura
                     si implementara energía renobable en su hogar?
                     </h5>
                     <p className="mt-3" style={{ textAlign: "justify" }}>Para conocer cuanta energía podria ahorrarse si usara una fuente de energpia renovable como el panel solar
-                    solo necesita tener a la mano su recibo de consumo electrico e identificar la cantidad de kilvatios consumidos
+                    solo necesita tener a la mano su recibo de consumo electrico e identificar la cantidad de kilovatios consumidos
                     sobre el cual la empresa que provee el servicio le esta generando cargos, una vez identificado siga los siguientes pasos:
                     </p>
                     <ul>
