@@ -52,8 +52,8 @@ export default function AnalisisTemplate(props) {
       backgroundColor: ['#2ecc71', '#e74c3c']
     }],
     labels: [
-      'Energía renobable',
-      'Energía tradicional'
+      'Energía renobable (kwh/m^2) ahorrada',
+      'Energía tradicional (kwh) consumida'
     ]
   };
   const changeQuestion = (index) => {
@@ -165,11 +165,11 @@ export default function AnalisisTemplate(props) {
               Ahora que conocemos el comportamiento de la radiación solar en el área metropolitana de Bucaramanga
               y sabemos lo que significa el potencial electrico entregado por las estaciones. puede que
               se pregunte ¿ De que me sirve esta información? ¿ Que significan los valores de potencial calculados?.
-              No estaria nada mal saber cuanto dinero podria ahorrarse en su factura electricidad si usara energia renovable en su hogar, cierto.
-              Para ello hemos puesto a su disposición el siguiente apartado donde podra conocer la energía que usted
-              puede ahorrarse, conociendo la cantidad de vatios (Watts) que se caluculo a partir de la consulta definida.
-              Este calculo depende de la eficiencia del panel solar, la cual es el porcentaje de energía que este puede capturar y se encuentra entre un 17% y 25%,
-              juega con este valor para descubrir cuanta energía puede capturar.
+              No estaria nada mal saber cuanta energía podria ahorrarse si implementara energias renovables en su hogar, cierto. 
+              Una vez calculado la cantidad de vatios (Watts) a partir de la consulta definida, puede conocer el potencial que podria estarse
+              ahorrando, lo que le ayudaria a reducir los costos de por consumo eléctrico en su hogar.
+              Este calculo depende de la eficiencia del panel solar, lo cual es el porcentaje de energía que este puede capturar y se encuentra entre un 17% y 25%,
+              puede jugar con este valor para descubrir cuanta energía puede capturar.
               </p>
           </div>
           <div className="col-lg-2 col-xs-12 col-sm-12 col-md-2 mt-lg-5">
@@ -239,7 +239,7 @@ export default function AnalisisTemplate(props) {
 
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title w-100 text-center text-muted" id="myModalLabel">Conozca cuanto energía puede ahorrar</h4>
+                <h4 class="modal-title w-100 text-center text-muted" id="myModalLabel">Conozca cuanta energía puede ahorrar</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -251,7 +251,7 @@ export default function AnalisisTemplate(props) {
                     si implementara energía renobable en su hogar?
                     </h5>
                     <p className="mt-3" style={{ textAlign: "justify" }}>Para conocer cuanta energía podria ahorrarse si usara una fuente de energpia renovable como el panel solar
-                    solo necesita tener a la mano su recibo de consumo electrico e identificar la cantidad de kilovatios consumidos
+                    solo necesita tener a la mano su recibo de consumo eléctrico e identificar la cantidad de kilovatios consumidos
                     sobre el cual la empresa que provee el servicio le esta generando cargos, una vez identificado siga los siguientes pasos:
                     </p>
                     <ul>
@@ -259,39 +259,45 @@ export default function AnalisisTemplate(props) {
                       <li>Ingrese la cantidad de de kilovatios (kw) consumidos</li>
                     </ul>
                     
-                    <FormControl className="mt-2"  >
-                      <Input
-                        onChange={changeKw}
-                        value={consumo}
-                        type="number"
-                        endAdornment={<InputAdornment position="end">KW</InputAdornment>}
-                        aria-describedby="standard-weight-helper-text"
-                        inputProps={{
-                          'aria-label': 'weight',
-                        }}
-                      />
-                      <FormHelperText id="standard-weight-helper-text">Ingrese consumo en kilovatios</FormHelperText>
-                    </FormControl>
-                    <FormControl className="mt-2 ml-2"  >
-                      <Input
-                        onChange={changeEfficiencyPercentage}
-                        value={efficiencyPercentage}
-                        type="number"
-                        endAdornment={<InputAdornment position="end">%</InputAdornment>}
-                        aria-describedby="standard-weight-helper-text"
-                        inputProps={{
-                          'aria-label': 'weight',
-                        }}
-                      />
-                      <FormHelperText id="standard-weight-helper-text">Porcentaje de eficiencia / m<sup>2</sup></FormHelperText>
-                    </FormControl>
+                    <div className="row">
+                      <div className="col">
+                        <FormControl className="mt-2"  >
+                          <Input
+                            onChange={changeKw}
+                            value={consumo}
+                            type="number"
+                            endAdornment={<InputAdornment position="end">KW</InputAdornment>}
+                            aria-describedby="standard-weight-helper-text"
+                            inputProps={{
+                              'aria-label': 'weight',
+                            }}
+                          />
+                          <FormHelperText id="standard-weight-helper-text">Ingrese consumo en kilovatios</FormHelperText>
+                        </FormControl>
+                      </div>
+                      <div className="col">
+                        <FormControl className="mt-2 ml-2"  >
+                          <Input
+                            onChange={changeEfficiencyPercentage}
+                            value={efficiencyPercentage}
+                            type="number"
+                            endAdornment={<InputAdornment position="end">%</InputAdornment>}
+                            aria-describedby="standard-weight-helper-text"
+                            inputProps={{
+                              'aria-label': 'weight',
+                            }}
+                          />
+                          <FormHelperText id="standard-weight-helper-text">Porcentaje de eficiencia / m<sup>2</sup></FormHelperText>
+                        </FormControl>
+                      </div>
+                    </div>
                   </div>
                   <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                     {props.scale && props.typeScale != "día" ? (
                       <div>
-                        <p className="text-center mx-3 text-muted my-3">Kilovatios por hora ahorrados por cada metro<sup>2</sup> con un panel solar 
-                        del {efficiencyPercentage}% de eficiencia desde la fecha {props.currentDateStart} hasta {props.currentDateEnd} </p>
-                        <p className="text-center text-muted mt-1">Usted pudo ahorrarse el {consumo != 0 ? ((potencialEstacion*100) / consumo).toFixed(2):0}% equivalente a {potencialEstacion .toFixed(2)} kilovatios de consumo </p>
+                        <p style={{ textAlign: "justify" }} className="text-center mx-5  mt-1">La gráfica muestra lo Kilovatios por hora ahorrados por cada metro<sup>2</sup> con un panel solar 
+                        del {efficiencyPercentage}% de eficiencia desde la fecha {props.currentDateStart} hasta {props.currentDateEnd}, rango en el cual  
+                        pudo ahorrarse el <strong>{consumo != 0 ? ((potencialEstacion*100) / consumo).toFixed(2):0}% </strong> equivalente a <strong>{potencialEstacion .toFixed(2)} kilovatios</strong> de consumo </p>
                         <Doughnut data={data} />
                       </div>
                     ) : (
