@@ -312,10 +312,10 @@ const MapTemplate = (props) => {
         <Analisis
          typeScale={props.typeScale}
          data={props.datasetsScale.datasets[0].data}
+         porcentajeAplicadoToBarChart = {props.porcentajeAplicadoToBarChart}
          object={stationSelected}
          potencial={props.potencial}
          scale={state.Scala} 
-         changeEfficiencyPercentage={props.changeEfficiencyPercentage} 
          currentDateEnd={props.currentDateEnd}
          currentDateStart={props.date}/>
       </div>

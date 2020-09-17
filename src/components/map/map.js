@@ -17,6 +17,7 @@ export default class Map extends React.Component {
     this.state = {
       stations: [],
       message: '',
+      porcentajeAplicadoToBarChart:17,
       openMessage: false,
       messageType: 'info',
       messageForSnackbar: '',
@@ -79,6 +80,7 @@ export default class Map extends React.Component {
     }else{
       this.setState({ efficiencyPercentage: (parseFloat(efficiencyPercentage) / 100) })
     }
+    this.setDatasetToBarChart()
 
   }
 
@@ -319,7 +321,16 @@ export default class Map extends React.Component {
       console.log(potencialPorEstacion);
       await this.setState({ potencial: potecialPorTipo, currentDateRange: date })
       const labels = await potencialPorEstacion.map((p => p.fecha))
-      const data = await potencialPorEstacion.map((p => p.radiacion / 1000))
+
+      console.log(this.state.efficiencyPercentage);
+      let porcentajePorAplicar = 17;
+      if(this.state.typeScale == "día" ){
+        porcentajePorAplicar = this.state.efficiencyPercentage
+      }else if(this.state.typeScale != "día" ){
+        porcentajePorAplicar = (this.state.efficiencyPercentage*1000)/100
+      }
+      this.setState({porcentajeAplicadoToBarChart:porcentajePorAplicar})
+      const data = await potencialPorEstacion.map((p => (p.radiacion / 1000)*porcentajePorAplicar))
       console.log(data);
 
       this.setState({
@@ -456,7 +467,8 @@ export default class Map extends React.Component {
           showMessage={this.showMessage.bind(this)}
           currentStationName={this.state.currentStationName}
           currentDateEnd={this.state.currentDateEnd}
-          updateUIwithScale={this.updateUIwithScale.bind(this)} />
+          updateUIwithScale={this.updateUIwithScale.bind(this)}
+          porcentajeAplicadoToBarChart={this.state.porcentajeAplicadoToBarChart} />
         <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
           type={this.state.messageType} message={this.state.messageForSnackbar} />
       </React.Fragment>

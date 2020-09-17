@@ -14,20 +14,24 @@ export default function AnalisisTemplate(props) {
   const menorEfficiencyPercentage = 17
   const mayorEfficiencyPercentage = 25
   const [efficiencyPercentage, setEfficiencyPercentage] = useState(17)
+  const [consumo, setConsumo] = useState(0)
+  const [potencialEstacion, setPotencialEstacion] = useState(0)
+  const [originalPotencialEstacion, setOriginalPotencialEstacion] = useState(0)
+ 
 
   const changeEfficiencyPercentage = (e) => {
     const value = e.target.value
     if (value <= mayorEfficiencyPercentage && value >= menorEfficiencyPercentage) {
       setEfficiencyPercentage(value)
-      props.changeEfficiencyPercentage(value)
+      setPotencialEstacion(originalPotencialEstacion * (value/100))
     }
   }
 
-  const [consumo, setConsumo] = useState(0)
-  const [potencialEstacion, setPotencialEstacion] = useState(0)
+  
+
   const changeKw = (e) => {
     const value = e.target.value
-    if(value > 0){
+    if(value >= 0){
       setConsumo(value)
     }
     
@@ -53,7 +57,7 @@ export default function AnalisisTemplate(props) {
     }],
     labels: [
       'Energía renobable (kwh/m^2) ahorrada',
-      'Energía tradicional (kwh) consumida'
+      'Energía tradicional (kw) consumida'
     ]
   };
   const changeQuestion = (index) => {
@@ -142,12 +146,13 @@ export default function AnalisisTemplate(props) {
       if(props.data){
         console.log(props.data);
         let contador = 0;
+        console.log(props.porcentajeAplicadoToBarChart);
         props.data.forEach(potencial => {
-          contador+=potencial;
+          contador+=(potencial/props.porcentajeAplicadoToBarChart);
         });
-        setPotencialEstacion(contador)
+        setOriginalPotencialEstacion(contador)
+        setPotencialEstacion(contador * (efficiencyPercentage/100))
       }
-    
   
     return () => {
 
@@ -297,7 +302,7 @@ export default function AnalisisTemplate(props) {
                       <div>
                         <p style={{ textAlign: "justify" }} className="text-center mx-5  mt-1">La gráfica muestra lo Kilovatios por hora ahorrados por cada metro<sup>2</sup> con un panel solar 
                         del {efficiencyPercentage}% de eficiencia desde la fecha {props.currentDateStart} hasta {props.currentDateEnd}, rango en el cual  
-                        pudo ahorrarse el <strong>{consumo != 0 ? ((potencialEstacion*100) / consumo).toFixed(2):0}% </strong> equivalente a <strong>{potencialEstacion .toFixed(2)} kilovatios</strong> de consumo </p>
+                        pudo ahorrarse el <strong>{consumo != 0 ? ((potencialEstacion*100) / consumo).toFixed(2):100}% </strong> equivalente a <strong>{potencialEstacion .toFixed(2)} kilovatios</strong> de consumo </p>
                         <Doughnut data={data} />
                       </div>
                     ) : (

@@ -167,38 +167,7 @@ export default function Popup(props) {
                 {potencialEstacion.promedio && object.nombre ?
                   (<React.Fragment>
                     <p className="text-center text-muted">Estación {object.nombre}</p>
-                    <div class="row">
-                      <div className="col-4">
-                        <img
-                          width={200}
-                          height={200}
-                          src="/images/potencial_solar.gif"
-                          className="img-fluid ml-5"
-                        />
-                      </div>
-                      <div className="col-8">
-                        <div class="row middle-xs">
-                          <div class="col mt-4">
-                            <div class="box">
-                              <FormControl  >
-                                <Input
-                                  onChange={changeEfficiencyPercentage}
-                                  value={efficiencyPercentage <= 1 ? efficiencyPercentage*100: efficiencyPercentage}
-                                  type="number"
-                                  endAdornment={<InputAdornment position="end">%</InputAdornment>}
-                                  aria-describedby="standard-weight-helper-text"
-                                  inputProps={{
-                                    'aria-label': 'weight',
-                                  }}
-                                />
-                                <FormHelperText id="standard-weight-helper-text">Porcentaje de eficiencia / m<sup>2</sup></FormHelperText>
-                              </FormControl>
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
+                   
                     <div className="card" style={{ height: 60 }}>
                       <div className="card-body">
                         <div className="row middle-xs">
@@ -251,8 +220,8 @@ export default function Popup(props) {
                    
 
 
-                    <div className="my-3">
-                      <a href="#potencial">¿ Como puedo aprovechar este potencial ?</a>
+                    <div className="mt-2 text-center">
+                      <a href="#potencial" >¿ Como puedo aprovechar este potencial ?</a>
                     </div>
                   </React.Fragment>) : (<p className="text-center">No se encontraron resultados.</p>)
                 }
@@ -276,7 +245,8 @@ export default function Popup(props) {
                   <div className="card">
                     <div className="card-body">
                       {props.typeScale == "día" && <h6 className="text-center text-muted">Comportamiento para la fecha: {!props.scale ? props.date:props.currentDateRange}</h6>}
-                      {props.typeScale != "día" && <h6 className="text-center text-muted">Comparación del potencial por {props.typeScale} entre: {props.date} y {props.currentDateEnd}</h6>}
+                      {props.typeScale != "día" && <h6 className="text-center text-muted">Comparación del potencial por {props.typeScale} entre: {props.date} y {props.currentDateEnd}
+                      con un total de {props.datasetsScale.datasets[0].data ? props.datasetsScale.datasets[0].data.reduce((a,b) => a+b, 0).toFixed(2): 0} kilovatios</h6>}
                       {object.nombre && <p className="text-center text-muted">Estación {object.nombre}</p>}
                       {props.datasets.datasets[0].data.length > 0  && props.typeScale == "día" && (<div className="row middle-xs">
                         <Line
@@ -353,6 +323,38 @@ export default function Popup(props) {
             </div>
           </div>
         </div>
+        {potencialEstacion.promedio && object.nombre && ( <div class="row">
+                      <div className="col-4">
+                        <img
+                          width={200}
+                          height={200}
+                          src="/images/potencial_solar.gif"
+                          className="img-fluid ml-5"
+                        />
+                      </div>
+                      <div className="col-8">
+                        <div class="row middle-xs">
+                          <div class="col mt-4">
+                            <div class="box">
+                              <FormControl  >
+                                <Input
+                                  onChange={changeEfficiencyPercentage}
+                                  value={efficiencyPercentage <= 1 ? efficiencyPercentage*100: efficiencyPercentage}
+                                  type="number"
+                                  endAdornment={<InputAdornment position="end">%</InputAdornment>}
+                                  aria-describedby="standard-weight-helper-text"
+                                  inputProps={{
+                                    'aria-label': 'weight',
+                                  }}
+                                />
+                                <FormHelperText id="standard-weight-helper-text">Porcentaje de eficiencia / m<sup>2</sup></FormHelperText>
+                              </FormControl>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>)}
       </div>
     </React.Fragment>
   );

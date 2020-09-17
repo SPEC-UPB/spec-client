@@ -4,6 +4,7 @@ import AnalisisTemplate from './analisis.template'
 export default class Analisis extends React.Component {
     render(){
         return(<AnalisisTemplate changeEfficiencyPercentage={this.props.changeEfficiencyPercentage}
+            porcentajeAplicadoToBarChart = {this.props.porcentajeAplicadoToBarChart}
             currentDateEnd={this.props.currentDateEnd}
             currentDateStart={this.props.currentDateStart}
             potencial={this.props.potencial}
