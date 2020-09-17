@@ -40,7 +40,7 @@ export default function AnalisisTemplate(props) {
   const images = [
     {
       url: '/images/recibo.jpg',
-      title: '¿Cuantos kw/h puedo ahorrarme?',
+      title: '¡Conozca cuanta energía puede ahorrarse!',
       width: '50%'
     },
     {
@@ -301,7 +301,7 @@ export default function AnalisisTemplate(props) {
                     {props.scale && props.typeScale != "día" ? (
                       <div>
                         <p style={{ textAlign: "justify" }} className="text-center mx-5  mt-1">La gráfica muestra lo Kilovatios por hora ahorrados por cada metro<sup>2</sup> con un panel solar 
-                        del {efficiencyPercentage}% de eficiencia desde la fecha {props.currentDateStart} hasta {props.currentDateEnd}, rango en el cual  
+                        del <strong>{efficiencyPercentage}% </strong>de eficiencia desde la fecha {props.currentDateStart} hasta {props.currentDateEnd}, rango en el cual  
                         pudo ahorrarse el <strong>{consumo != 0 ? ((potencialEstacion*100) / consumo).toFixed(2):100}% </strong> equivalente a <strong>{potencialEstacion .toFixed(2)} kilovatios</strong> de consumo </p>
                         <Doughnut data={data} />
                       </div>
@@ -309,7 +309,7 @@ export default function AnalisisTemplate(props) {
                     <div>
                       <h6 className="text-center mx-5 my-2 text-muted">Active la escala de tiempo como lo indica la figura.</h6>
                       <img className="z-depth-1 img-fluid rounded mx-auto d-block" src="/images/activar-escala.png"></img>
-                      <h6 className="text-center mx-5 mt-3 text-muted">Luego seleccione consultar potencial por mes o día.</h6>
+                      <h6 className="text-center mx-5 mt-3 text-muted">Luego seleccione consultar potencial por mes o año.</h6>
                       <img className="z-depth-1 img-fluid rounded mx-auto d-block" src="/images/elegir-mes.png"></img>
                     </div>)}
                   </div>

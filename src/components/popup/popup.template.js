@@ -162,7 +162,7 @@ export default function Popup(props) {
             <div className="mt-2">
               <div style={{ width: "100%" }}>
                 <p className="text-center text-muted mx-5">Potencial registrado en kilovatios por metro<sup>2</sup> al {" " + props.typeScale + " "} con un panel solar 
-                        del {efficiencyPercentage}% de eficiencia   
+                        del <strong>{efficiencyPercentage}%</strong> de eficiencia   
                         para la fecha: {!props.scale ? props.date:props.currentDateRange}</p>
                 {potencialEstacion.promedio && object.nombre ?
                   (<React.Fragment>
@@ -246,7 +246,7 @@ export default function Popup(props) {
                     <div className="card-body">
                       {props.typeScale == "día" && <h6 className="text-center text-muted">Comportamiento para la fecha: {!props.scale ? props.date:props.currentDateRange}</h6>}
                       {props.typeScale != "día" && <h6 className="text-center text-muted">Comparación del potencial por {props.typeScale} entre: {props.date} y {props.currentDateEnd}
-                      con un total de {props.datasetsScale.datasets[0].data ? props.datasetsScale.datasets[0].data.reduce((a,b) => a+b, 0).toFixed(2): 0} kilovatios</h6>}
+                      con un total de <strong>{props.datasetsScale.datasets[0].data ? props.datasetsScale.datasets[0].data.reduce((a,b) => a+b, 0).toFixed(2): 0} kilovatios</strong></h6>}
                       {object.nombre && <p className="text-center text-muted">Estación {object.nombre}</p>}
                       {props.datasets.datasets[0].data.length > 0  && props.typeScale == "día" && (<div className="row middle-xs">
                         <Line
