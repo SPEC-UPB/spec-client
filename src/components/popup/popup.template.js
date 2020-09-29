@@ -245,8 +245,9 @@ export default function Popup(props) {
                   <div className="card">
                     <div className="card-body">
                       {props.typeScale == "día" && <h6 className="text-center text-muted">Comportamiento para la fecha: {!props.scale ? props.date:props.currentDateRange}</h6>}
-                      {props.typeScale != "día" && <h6 className="text-center text-muted">Comparación del potencial por {props.typeScale} entre: {props.date} y {props.currentDateEnd}
-                      con un total de <strong>{props.datasetsScale.datasets[0].data ? props.datasetsScale.datasets[0].data.reduce((a,b) => a+b, 0).toFixed(2): 0} kilovatios</strong></h6>}
+                      {props.typeScale != "día" && <h6 className="text-center text-muted">Comparación del potencial por {props.typeScale} por cada metro<sup>2</sup> de un panel solar del <strong>{efficiencyPercentage}% </strong>
+                      de eficiencia entre: {props.date} y {props.currentDateEnd+" "} 
+                       con un total de <strong>{props.datasetsScale.datasets[0].data ? props.datasetsScale.datasets[0].data.reduce((a,b) => a+b, 0).toFixed(2): 0} kilovatios</strong></h6>}
                       {object.nombre && <p className="text-center text-muted">Estación {object.nombre}</p>}
                       {props.datasets.datasets[0].data.length > 0  && props.typeScale == "día" && (<div className="row middle-xs">
                         <Line
@@ -323,7 +324,7 @@ export default function Popup(props) {
             </div>
           </div>
         </div>
-        {potencialEstacion.promedio && object.nombre && ( <div class="row">
+        {potencialEstacion.promedio && props.object.nombre && ( <div class="row">
                       <div className="col-4">
                         <img
                           width={200}

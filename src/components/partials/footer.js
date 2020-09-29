@@ -17,7 +17,7 @@ export default function Footer() {
                 Proyecto de radiación solar
               </h5>
               <p>
-                Este proyecto hace parte del semillero de prospectiva energética de Colombia
+                Proyecto desarrollado por el Semillero de Prospectiva Energética de Colombia (SPEC)
                 de la Universidad Pontificia Bolivariana seccional Bucaramanga.
               </p>
 
@@ -25,13 +25,29 @@ export default function Footer() {
                 <div class="col-xs-6 col-sm-10 col-md-12">
                   <div class="box">
                     <div className="row">
-                    <img src="logosemillero.png" class="img-fluid z-depth-1 rounded-circle"
-                      alt="Logo semillero SPEC"
-                      height={100}
-                      width={100} />
-                    <div className="row middle-xs ml-3">
-                      <h4 className="text-white">SPEC</h4>
-                    </div>
+                      <div className="col-4">
+                        <div class="row middle-xs">
+                          <div class="col-xs">
+                              <div class="box">
+                                <img  src="logosemillero.png" class="img-fluid z-depth-1 rounded-circle"
+                                alt="Logo semillero SPEC" />
+                                  <div className="row middle-xs ml-3 d-none d-xl-block">
+                                    <h4 className="text-white mt-2">SPEC</h4>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-8 ">
+                        <div class="row middle-xs">
+                            <div class="col-xs">
+                                <div class="box">
+                                <img src="/images/logoupb.png" class="img-fluid"
+                                                  alt="Logo UPB"/>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

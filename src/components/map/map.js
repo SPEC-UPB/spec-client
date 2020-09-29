@@ -294,6 +294,17 @@ export default class Map extends React.Component {
     }
   }
 
+  async setCurrentPoint(point) {
+    // await this.setState({ currentStationName: name })
+    // if(this.state.typeScale == "día"){
+    //   this.getRadiation(name)
+    // }
+    
+    // if(this.state.typeScale != "día" && this.state.scaleIsActive){
+    //   this.setDatasetToBarChart()
+    // }
+  }
+
   async updateUIwithScale() {
     const typeScale = await this.state.typeScale
     const date = await this.state.dateRangesForPotential[this.state.index]
