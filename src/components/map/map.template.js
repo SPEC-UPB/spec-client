@@ -47,7 +47,7 @@ const MapTemplate = (props) => {
         radio = potencial[0].radiacion
       }
     }
-    
+    console.log(props.efficiencyPercentage);
     return radio * props.efficiencyPercentage
   }
 
@@ -79,7 +79,6 @@ const MapTemplate = (props) => {
         props.openScale()
         const dateBase = new Date(props.date)
         dateBase.setMonth(dateBase.getMonth() + 1);
-        dateBase.setDate(dateBase.getDate() + 1);
         props.onChangeDateEnd(dateBase)
         props.changeTypeScale(props.typeScale)
         setState({ ...state, [event.target.name]: event.target.checked });
@@ -159,7 +158,7 @@ const MapTemplate = (props) => {
 
           <div className="mx-3 mt-2">
             {/*Date Picker */}
-            <Picker isRequest={props.isRequest} onChangeDateEnd={(newDate) => props.onChangeDateEnd(newDate)} 
+            <Picker typeScale={props.typeScale} isRequest={props.isRequest} onChangeDateEnd={(newDate) => props.onChangeDateEnd(newDate)} 
             scale={state.Scala} onChange={(newDate) => props.changeDate(newDate, state.Scala)} />
             <FormControl component="fieldset">
                   <FormGroup>

@@ -1,6 +1,5 @@
 import 'date-fns';
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -8,15 +7,15 @@ import {
 } from '@material-ui/pickers';
 
 export default function MaterialUIPickers(props) {
-  // The first commit of Material-UI
-  const [selectedDate, setSelectedDate] = React.useState('08-17-2016');
-  const [selectedDateEnd, setSelectedDateEnd] = React.useState('09-17-2016');
+  const [selectedDate, setSelectedDate] = React.useState('01-01-2010');
+  const [selectedDateEnd, setSelectedDateEnd] = React.useState('01-31-2010');
 
   
 
 
 const handleDateChange = (date) => {
   if(date != "Invalid Date"){
+    console.log(date);
     setSelectedDate(date);
     props.onChange(date)
   }else{
@@ -26,12 +25,9 @@ const handleDateChange = (date) => {
 };
 
 const handleDateEndChange = (date) => {
-  console.log("envio-->", date);
   if(date != "Invalid Date"){
     setSelectedDateEnd(date);
     props.onChangeDateEnd(date)
-  }else{
-    console.log("Fecha invalida");
   }
   
 };
@@ -41,11 +37,12 @@ const handleDateEndChange = (date) => {
         <div className="col">
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
+              views={props.typeScale != "día" ? props.typeScale == "mes" ? ["month"]:["year"]:["date"]}
               disabled={props.isRequest}
               margin="normal"
               id="date-picker-dialog"
               label={props.scale ? "Fecha de inicio":"Seleccione una fecha"}
-              format="MM/dd/yyyy"
+              format={props.typeScale != "día" ? props.typeScale == "mes" ? "MM/yyyy":"yyyy":"MM/dd/yyyy"}
               value={selectedDate}
               onChange={handleDateChange}
               KeyboardButtonProps={{
@@ -59,11 +56,12 @@ const handleDateEndChange = (date) => {
           {props.scale && 
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
+            views={props.typeScale != "día" ? props.typeScale == "mes" ? ["month"]:["year"]:["date"]}
             disabled={props.isRequest}
             margin="normal"
             id="date-picker-dialog"
             label="Fecha final"
-            format="MM/dd/yyyy"
+            format={props.typeScale != "día" ? props.typeScale == "mes" ? "MM/yyyy":"yyyy":"MM/dd/yyyy"}
             value={selectedDateEnd}
             onChange={handleDateEndChange}
             KeyboardButtonProps={{

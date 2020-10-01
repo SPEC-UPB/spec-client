@@ -17,8 +17,9 @@ export default function DiscreteSlider(props) {
     
   };
 
-  const onChangeCommitted = (event, index) =>{
-      props.onChangeDateScale(index)
+  const onChangeCommitted = (event) =>{
+      props.onChangeDateScale(event.target.value-1)
+      
   }
 
   React.useState(() => {
@@ -39,7 +40,7 @@ export default function DiscreteSlider(props) {
       className="container-fluid"
     >
      
-      <div className="card-body" style={{backgroundColor:'white', height:130, width:450, zIndex:3}}>
+      <div className="card-body" style={{backgroundColor:'white', height:100, width:450, zIndex:3}}>
         <h6 className="text-muted text-center">Deslice para ver el cambio en el tiempo</h6>
         <div className="row">
           <div className="col">
@@ -76,28 +77,22 @@ export default function DiscreteSlider(props) {
             /> Por año
           </div>
       </div>
-      {props.currentDateRange != "" &&
-      <div class="row center-xs">
-          <div class="col-xs-6">
-              <div class="box">
-                <h6 className="text-muted">Fecha: {props.currentDateRange}</h6>
-              </div>
-          </div>
       </div>
-      }
-      </div>
-      <div className="card" style={{height:70}}>
+      <div className="card" style={{height:90}}>
         <div className="card-body">
-           <Slider
-            disabled={props.isRequest}
-            style={{ color: "#f1c40f"}}
-            defaultValue={1}
-            valueLabelDisplay="on"
-            step={1}
-            min={1}
-            max={props.dateRangesForPotential.length >=2 ? props.dateRangesForPotential.length-1:1}
-            onChange={onChangeCommitted}
-          />
+          <input disabled={props.isRequest} type="range" class="custom-range" min="1" 
+          max={props.dateRangesForPotential.length >=2 ? props.dateRangesForPotential.length:1} 
+          step="1" id="customRange3"
+          onChange={onChangeCommitted}/>
+          <div className="d-flex justify-content-between">
+            <div class="p-2">{props.dateRangesForPotential[0]}</div>
+            {props.currentDateRange != "" && 
+              <div>
+                <strong>Observando</strong>: {props.currentDateRange}
+              </div>
+            }
+            <div class="p-2">{props.dateRangesForPotential[props.dateRangesForPotential.length-1]}</div>
+          </div>
         </div>
       </div>
     </div>

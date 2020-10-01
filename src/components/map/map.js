@@ -21,8 +21,8 @@ export default class Map extends React.Component {
       openMessage: false,
       messageType: 'info',
       messageForSnackbar: '',
-      currentDate: '2016-08-17',
-      currentDateEnd: '2016-09-17',
+      currentDate: '2010-01-01',
+      currentDateEnd: '2010-01-31',
       typeScale: 'día',
       potencial: [],
       potentialForRange: [],
@@ -319,7 +319,7 @@ export default class Map extends React.Component {
       const potencialPorEstacion = await potencialPorEscala.filter(p => p.estacion == this.state.currentStationName)
       //potencial para ese mes
       await this.setState({ potencial: potecialPorTipo, currentDateRange: date })
-      const labels = await potencialPorEstacion.map((p => p.fecha))
+      const labels = this.state.dateRangesForPotential
       let porcentajePorAplicar = 17;
       if(this.state.typeScale == "día" ){
         porcentajePorAplicar = this.state.efficiencyPercentage
@@ -387,7 +387,6 @@ export default class Map extends React.Component {
 
   getPotencialByDateRange() {
     if(!this.state.isRequest) {
-      console.log("Requesting");
       this.setState({isRequest:true})
       this.showProgress('Calculando potencial')
       potencialService.getPotencialByDateRange(this.state.currentDate, this.state.currentDateEnd, this.state.typeScale)
