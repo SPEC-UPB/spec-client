@@ -48,7 +48,6 @@ const MapTemplate = (props) => {
       }
     }
     
-    console.log(props.efficiencyPercentage);
     return radio * props.efficiencyPercentage
   }
 

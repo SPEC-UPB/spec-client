@@ -32,7 +32,6 @@ export default function Popup(props) {
  
 
   useEffect(() => {
-    console.log(efficiencyPercentage);
     // si la escala esta desactiva hace petición
     if (props.object.nombre )  {
 

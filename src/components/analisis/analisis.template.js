@@ -144,9 +144,7 @@ export default function AnalisisTemplate(props) {
 
       
       if(props.data){
-        console.log(props.data);
         let contador = 0;
-        console.log(props.porcentajeAplicadoToBarChart);
         props.data.forEach(potencial => {
           contador+=(potencial/props.porcentajeAplicadoToBarChart);
         });

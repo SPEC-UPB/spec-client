@@ -86,7 +86,6 @@ export default class Map extends React.Component {
 
   async changeDate(newDate, isRangeDate) {
     await this.setState({ currentDate: estacionService.formatDate(newDate) })
-
     if(this.state.scaleIsActive){
       if (this.validDateRange()) {
         this.getRadiation(this.state.currentStationName)
@@ -207,8 +206,7 @@ export default class Map extends React.Component {
       }else if(this.state.typeScale != "día" && type == "día"){
         await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*1000)/100)})
       }
-  
-      await this.setState({ typeScale: type })
+      await this.setState({ typeScale: type})
       await this.getPotencialByDateRange()
     }
   }
@@ -295,14 +293,7 @@ export default class Map extends React.Component {
   }
 
   async setCurrentPoint(point) {
-    // await this.setState({ currentStationName: name })
-    // if(this.state.typeScale == "día"){
-    //   this.getRadiation(name)
-    // }
     
-    // if(this.state.typeScale != "día" && this.state.scaleIsActive){
-    //   this.setDatasetToBarChart()
-    // }
   }
 
   async updateUIwithScale() {
@@ -310,7 +301,6 @@ export default class Map extends React.Component {
     const date = await this.state.dateRangesForPotential[this.state.index]
 
     if (typeScale == "día") {
-
       const newPotencial = await this.state.potentialForRange.filter(p => p.fecha == date)
       await this.setState({ potencial: newPotencial, currentDateRange: date })
       await this.setState({ currentDate: date })
@@ -326,14 +316,10 @@ export default class Map extends React.Component {
     if (potencialPorEscala.length > 0) {
       const date = await this.state.dateRangesForPotential[this.state.index]
       const potecialPorTipo = await potencialPorEscala.filter(p => p.fecha == date)
-      console.log(potecialPorTipo);
       const potencialPorEstacion = await potencialPorEscala.filter(p => p.estacion == this.state.currentStationName)
       //potencial para ese mes
-      console.log(potencialPorEstacion);
       await this.setState({ potencial: potecialPorTipo, currentDateRange: date })
       const labels = await potencialPorEstacion.map((p => p.fecha))
-
-      console.log(this.state.efficiencyPercentage);
       let porcentajePorAplicar = 17;
       if(this.state.typeScale == "día" ){
         porcentajePorAplicar = this.state.efficiencyPercentage
@@ -342,7 +328,6 @@ export default class Map extends React.Component {
       }
       this.setState({porcentajeAplicadoToBarChart:porcentajePorAplicar})
       const data = await potencialPorEstacion.map((p => (p.radiacion / 1000)*porcentajePorAplicar))
-      console.log(data);
 
       this.setState({
         datasetsScale: {
@@ -401,20 +386,25 @@ export default class Map extends React.Component {
   }
 
   getPotencialByDateRange() {
-    this.showProgress('Calculando potencial')
-    potencialService.getPotencialByDateRange(this.state.currentDate, this.state.currentDateEnd, this.state.typeScale)
-      .then(async res => {
-        console.log(res.data.data);
-        const dateRangesForPotentialNoUnique = await res.data.data.map(item => item.fecha)
-        const dateRangesForPotential = await dateRangesForPotentialNoUnique.filter((value, index, self)=> self.indexOf(value) == index)
-        await this.setState({ potentialForRange: res.data.data, dateRangesForPotential, currentDateRange: "" })
-        this.hideProgress();
-        this.onChangeDateScale(0)
-      })
-      .catch(err => {
-        this.hideProgress(); this.openMessage();
-        this.setState({ messageType: 'error', messageForSnackbar: 'Lo sentimos ocurrio un error al calcular el potencial' })
-      })
+    if(!this.state.isRequest) {
+      console.log("Requesting");
+      this.setState({isRequest:true})
+      this.showProgress('Calculando potencial')
+      potencialService.getPotencialByDateRange(this.state.currentDate, this.state.currentDateEnd, this.state.typeScale)
+        .then(async res => {
+          const dateRangesForPotentialNoUnique = await res.data.data.map(item => item.fecha)
+          const dateRangesForPotential = await dateRangesForPotentialNoUnique.filter((value, index, self)=> self.indexOf(value) == index)
+          await this.setState({ potentialForRange: res.data.data, dateRangesForPotential, currentDateRange: "" })
+          this.hideProgress();
+          this.onChangeDateScale(0)
+          this.setState({isRequest:false})
+        })
+        .catch(err => {
+          this.setState({isRequest:false})
+          this.hideProgress(); this.openMessage();
+          this.setState({ messageType: 'error', messageForSnackbar: 'Lo sentimos ocurrio un error al calcular el potencial' })
+        })
+    }
   }
 
   getEstaciones() {
