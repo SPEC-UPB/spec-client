@@ -323,7 +323,7 @@ export default function Popup(props) {
             </div>
           </div>
         </div>
-        {potencialEstacion.promedio && props.object.nombre && ( <div class="row">
+        {potencialEstacion.promedio && props.object.nombre ? ( <div class="row">
                       <div className="col-4">
                         <img
                           width={200}
@@ -354,7 +354,7 @@ export default function Popup(props) {
                         </div>
 
                       </div>
-                    </div>)}
+                    </div>):<p className="text-center my-2">No se encontro un potencial.</p>}
       </div>
     </React.Fragment>
   );
