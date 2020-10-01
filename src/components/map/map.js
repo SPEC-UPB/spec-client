@@ -327,7 +327,34 @@ export default class Map extends React.Component {
         porcentajePorAplicar = (this.state.efficiencyPercentage*1000)/100
       }
       this.setState({porcentajeAplicadoToBarChart:porcentajePorAplicar})
+
+      potencialPorEstacion.sort((a,b) =>{
+        const dateA = (new Date(a.fecha).getTime()/1000);
+        const dateB = (new Date(b.fecha).getTime()/1000);
+        if (dateA < dateB) {
+          return -1;
+        }
+        if (dateA > dateB) {
+          return 1;
+        }
+
+        return 0 ;
+      })
+      labels.sort((a,b) =>{
+        const dateA = (new Date(a).getTime()/1000);
+        const dateB = (new Date(b).getTime()/1000);
+        if (dateA < dateB) {
+          return -1;
+        }
+        if (dateA > dateB) {
+          return 1;
+        }
+
+        return 0 ;
+      })
+      
       const data = await potencialPorEstacion.map((p => (p.radiacion / 1000)*porcentajePorAplicar))
+     
 
       this.setState({
         datasetsScale: {
