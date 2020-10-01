@@ -317,6 +317,9 @@ export default class Map extends React.Component {
       const date = await this.state.dateRangesForPotential[this.state.index]
       const potecialPorTipo = await potencialPorEscala.filter(p => p.fecha == date)
       const potencialPorEstacion = await potencialPorEscala.filter(p => p.estacion == this.state.currentStationName)
+      console.log(potencialPorEscala);
+      console.log(potecialPorTipo);
+      console.log(potencialPorEstacion);
       //potencial para ese mes
       await this.setState({ potencial: potecialPorTipo, currentDateRange: date })
       const labels = this.state.dateRangesForPotential
@@ -352,10 +355,8 @@ export default class Map extends React.Component {
 
         return 0 ;
       })
-      
+    
       const data = await potencialPorEstacion.map((p => (p.radiacion / 1000)*porcentajePorAplicar))
-     
-
       this.setState({
         datasetsScale: {
           labels,
@@ -421,6 +422,7 @@ export default class Map extends React.Component {
           const dateRangesForPotentialNoUnique = await res.data.data.map(item => item.fecha)
           const dateRangesForPotential = await dateRangesForPotentialNoUnique.filter((value, index, self)=> self.indexOf(value) == index)
           await this.setState({ potentialForRange: res.data.data, dateRangesForPotential, currentDateRange: "" })
+          console.log(res.data.data);
           this.hideProgress();
           this.onChangeDateScale(0)
           this.setState({isRequest:false})
