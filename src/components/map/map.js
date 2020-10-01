@@ -328,7 +328,7 @@ export default class Map extends React.Component {
       }
       this.setState({porcentajeAplicadoToBarChart:porcentajePorAplicar})
 
-      potencialPorEstacion.sort((a,b) =>{
+      await potencialPorEstacion.sort((a,b) =>{
         const dateA = (new Date(a.fecha).getTime()/1000);
         const dateB = (new Date(b.fecha).getTime()/1000);
         if (dateA < dateB) {
@@ -340,7 +340,7 @@ export default class Map extends React.Component {
 
         return 0 ;
       })
-      labels.sort((a,b) =>{
+      await labels.sort((a,b) =>{
         const dateA = (new Date(a).getTime()/1000);
         const dateB = (new Date(b).getTime()/1000);
         if (dateA < dateB) {
