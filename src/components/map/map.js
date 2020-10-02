@@ -258,7 +258,7 @@ export default class Map extends React.Component {
                       color = RadiationColor.mediaRadiationColor
                     else if (value.y >= RadiationColor.mediaRadiationValue && value.y <= RadiationColor.hightRadiationValue)
                       color = RadiationColor.hightRadiationColor
-                    else
+                    else if(value.y >= RadiationColor.hightRadiationValue && value.y <= RadiationColor.veryHightPotentialValue)
                       color = RadiationColor.veryHightRadiationColor
                   }
                   return color
@@ -313,13 +313,13 @@ export default class Map extends React.Component {
 
   async setDatasetToBarChart() {
     let potencialPorEscala = await this.state.potentialForRange
+    
     if (potencialPorEscala.length > 0) {
       const date = await this.state.dateRangesForPotential[this.state.index]
       const potecialPorTipo = await potencialPorEscala.filter(p => p.fecha == date)
       const potencialPorEstacion = await potencialPorEscala.filter(p => p.estacion == this.state.currentStationName)
       console.log(potencialPorEscala);
-      console.log(potecialPorTipo);
-      console.log(potencialPorEstacion);
+
       //potencial para ese mes
       await this.setState({ potencial: potecialPorTipo, currentDateRange: date })
       const labels = this.state.dateRangesForPotential
@@ -331,31 +331,32 @@ export default class Map extends React.Component {
       }
       this.setState({porcentajeAplicadoToBarChart:porcentajePorAplicar})
 
-      await potencialPorEstacion.sort((a,b) =>{
-        const dateA = (new Date(a.fecha).getTime()/1000);
-        const dateB = (new Date(b.fecha).getTime()/1000);
-        if (dateA < dateB) {
-          return -1;
-        }
-        if (dateA > dateB) {
-          return 1;
-        }
+      // await potencialPorEstacion.sort((a,b) =>{
+      //   const dateA = (new Date(a.fecha).getTime()/1000);
+      //   const dateB = (new Date(b.fecha).getTime()/1000);
+      //   if (dateA < dateB) {
+      //     return -1;
+      //   }
+      //   if (dateA > dateB) {
+      //     return 1;
+      //   }
 
-        return 0 ;
-      })
-      await labels.sort((a,b) =>{
-        const dateA = (new Date(a).getTime()/1000);
-        const dateB = (new Date(b).getTime()/1000);
-        if (dateA < dateB) {
-          return -1;
-        }
-        if (dateA > dateB) {
-          return 1;
-        }
+      //   return 0 ;
+      // })
+      // await labels.sort((a,b) =>{
+      //   const dateA = (new Date(a).getTime()/1000);
+      //   const dateB = (new Date(b).getTime()/1000);
+      //   if (dateA < dateB) {
+      //     return -1;
+      //   }
+      //   if (dateA > dateB) {
+      //     return 1;
+      //   }
 
-        return 0 ;
-      })
+      //   return 0 ;
+      // })
     
+      const type = this.state.typeScale
       const data = await potencialPorEstacion.map((p => (p.radiacion / 1000)*porcentajePorAplicar))
       this.setState({
         datasetsScale: {
@@ -367,17 +368,43 @@ export default class Map extends React.Component {
               backgroundColor: function (context) {
                 let index = context.dataIndex;
                 let value = context.dataset.data[index];
-                let color = "#f5f6fa"
-                if (value) {
-                  if (value.y < RadiationColor.lowRadiationValue)
-                    color = RadiationColor.lowRadiationColor
-                  else if (value.y >= RadiationColor.lowRadiationValue && value.y <= RadiationColor.mediaRadiationValue)
-                    color = RadiationColor.mediaRadiationColor
-                  else if (value.y >= RadiationColor.mediaRadiationValue && value.y <= RadiationColor.hightRadiationValue)
-                    color = RadiationColor.hightRadiationColor
-                  else
-                    color = RadiationColor.veryHightRadiationColor
+                let color = ""
+
+                // en watts sin aplicar el porcentaje de eficiencia
+                if( type == "mes"){
+                  if (value) {
+                    console.log("Value",((value/porcentajePorAplicar)*1000) );
+                    if (((value/porcentajePorAplicar)*1000) < RadiationColor.lowPotentialValueMonth){
+                      console.log("2");
+                      color = RadiationColor.lowRadiationColor
+                    }
+                    else if (((value/porcentajePorAplicar)*1000) >= RadiationColor.lowPotentialValueMonth && ((value/porcentajePorAplicar)*1000) <= RadiationColor.mediaPotentialValueMonth){
+                      color = RadiationColor.mediaRadiationColor
+                      console.log("3");
+                    }
+                     
+                    else if (((value/porcentajePorAplicar)*1000) >= RadiationColor.mediaPotentialValueMonth && ((value/porcentajePorAplicar)*1000) <= RadiationColor.hightPotentialValueMonth){
+                      color = RadiationColor.hightRadiationColor
+                      console.log("4");
+                    }
+                    else if( ((value/porcentajePorAplicar)*1000) >= RadiationColor.veryHightPotentialValueMonth){
+                      color = RadiationColor.veryHightRadiationColor
+                      console.log("5");
+                    }
+                  }
+                } else if(type == "año"){
+                  if (value) {
+                    if (((value/porcentajePorAplicar)*1000) < RadiationColor.lowPotentialValueYear)
+                      color = RadiationColor.lowRadiationColor
+                    else if (((value/porcentajePorAplicar)*1000) >= RadiationColor.lowPotentialValueYear && ((value/porcentajePorAplicar)*1000) <= RadiationColor.mediaPotentialValueYear)
+                      color = RadiationColor.mediaRadiationColor
+                    else if (((value/porcentajePorAplicar)*1000) >= RadiationColor.mediaPotentialValueYear && ((value/porcentajePorAplicar)*1000) <= RadiationColor.hightPotentialValueYear)
+                      color = RadiationColor.hightRadiationColor
+                    else if(((value/porcentajePorAplicar)*1000) >= RadiationColor.veryHightPotentialValueYear)
+                      color = RadiationColor.veryHightRadiationColor
+                  }
                 }
+                console.log("Color", color);
                 return color
 
               }

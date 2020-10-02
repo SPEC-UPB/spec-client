@@ -289,7 +289,7 @@ export default function Popup(props) {
                         />
                       }
                       {/* Indicadore de nivel */}
-                      { props.typeScale == "día" && <div className="row mt-2">
+                       <div className="row mt-2">
                         <div className="col">
                           <div className="row around-xs">
                             <div style={{ width: 20, height: 20, backgroundColor: RadiationColor.lowRadiationColor, borderRadius: 50 }}></div>
@@ -314,7 +314,7 @@ export default function Popup(props) {
                             <div><span style={{ fontSize: 15 }} className="text-muted ">Muy alta</span></div>
                           </div>
                         </div>
-                      </div>}
+                      </div>
 
                     </div>
                   </div>

@@ -47,30 +47,53 @@ const MapTemplate = (props) => {
         radio = potencial[0].radiacion
       }
     }
-    console.log(props.efficiencyPercentage);
     return radio * props.efficiencyPercentage
   }
 
   const getColor = (nombreEstacion) => {
     let color = ""
     const potencial =  props.potencial.filter(p => p.estacion == nombreEstacion)
+    const type = props.typeScale
     let radio = 0;
+    
     if(potencial[0]){
       if(potencial[0].radiacion){
         radio = potencial[0].radiacion
       }
     }
 
-    if (radio < RadiationColor.lowRadiationValue)
-      color = RadiationColor.lowRadiationColor
-    else if (radio >= RadiationColor.lowRadiationValue && radio <= RadiationColor.mediaRadiationValue)
-      color = RadiationColor.mediaRadiationColor
-    else if (radio >= RadiationColor.mediaRadiationValue && radio <= RadiationColor.hightRadiationValue)
-      color = RadiationColor.hightRadiationColor
-    else
-      color = RadiationColor.veryHightRadiationColor
-
-    return color
+    // en watts sin aplicar el porcentaje de eficiencia
+    if(type == "día"){
+      if (radio < RadiationColor.lowPotentialValueDay)
+          color = RadiationColor.lowRadiationColor
+        else if (radio >= RadiationColor.lowPotentialValueDay && radio <= RadiationColor.mediaPotentialValueDay)
+          color = RadiationColor.mediaRadiationColor
+        else if (radio >= RadiationColor.mediaPotentialValueDay && radio <= RadiationColor.hightPotentialValueDay)
+          color = RadiationColor.hightRadiationColor
+        else if( radio >= RadiationColor.veryHightPotentialValueDay)
+          color = RadiationColor.veryHightRadiationColor
+    }
+    else if( type == "mes"){
+        if (radio < RadiationColor.lowPotentialValueMonth)
+          color = RadiationColor.lowRadiationColor
+        else if (radio >= RadiationColor.lowPotentialValueMonth && radio <= RadiationColor.mediaPotentialValueMonth)
+          color = RadiationColor.mediaRadiationColor
+        else if (radio >= RadiationColor.mediaPotentialValueMonth && radio <= RadiationColor.hightPotentialValueMonth)
+          color = RadiationColor.hightRadiationColor
+        else if(radio >= RadiationColor.veryHightPotentialValueMonth)
+          color = RadiationColor.veryHightRadiationColor
+    
+    } else if(type == "año"){
+        if (radio < RadiationColor.lowPotentialValueYear)
+          color = RadiationColor.lowRadiationColor
+        else if (radio >= RadiationColor.lowPotentialValueYear && radio <= RadiationColor.mediaPotentialValueYear)
+          color = RadiationColor.mediaRadiationColor
+        else if (radio >= RadiationColor.mediaPotentialValueYear && radio <= RadiationColor.hightPotentialValueYear)
+          color = RadiationColor.hightRadiationColor
+        else if( radio >= RadiationColor.veryHightPotentialValueYear)
+          color = RadiationColor.veryHightRadiationColor
+    }
+    return color;
   }
 
   const handleChange = (event) => {
