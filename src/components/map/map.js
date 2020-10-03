@@ -271,7 +271,7 @@ export default class Map extends React.Component {
                 backgroundColor: function (context) {
                   let index = context.dataIndex;
                   let value = context.dataset.data[index];
-                  let color = "#f5f6fa"
+                  let color = ""
                   if (value) {
                     if (value.y < RadiationColor.lowRadiationValue)
                       color = RadiationColor.lowRadiationColor
@@ -279,9 +279,11 @@ export default class Map extends React.Component {
                       color = RadiationColor.mediaRadiationColor
                     else if (value.y >= RadiationColor.mediaRadiationValue && value.y <= RadiationColor.hightRadiationValue)
                       color = RadiationColor.hightRadiationColor
-                    else if(value.y >= RadiationColor.hightRadiationValue && value.y <= RadiationColor.veryHightPotentialValue)
+                    else if(value.y > RadiationColor.hightRadiationValue)
                       color = RadiationColor.veryHightRadiationColor
                   }
+                 if(value)
+                  console.log("-->", color +" " + value.y);
                   return color
 
                 }
@@ -396,23 +398,18 @@ export default class Map extends React.Component {
                 // en watts sin aplicar el porcentaje de eficiencia
                 if( type == "mes"){
                   if (value) {
-                    console.log("Value",((value/porcentajePorAplicar)*1000) );
                     if (((value/porcentajePorAplicar)*1000) < RadiationColor.lowPotentialValueMonth){
-                      console.log("2");
                       color = RadiationColor.lowRadiationColor
                     }
                     else if (((value/porcentajePorAplicar)*1000) >= RadiationColor.lowPotentialValueMonth && ((value/porcentajePorAplicar)*1000) <= RadiationColor.mediaPotentialValueMonth){
                       color = RadiationColor.mediaRadiationColor
-                      console.log("3");
                     }
                      
                     else if (((value/porcentajePorAplicar)*1000) >= RadiationColor.mediaPotentialValueMonth && ((value/porcentajePorAplicar)*1000) <= RadiationColor.hightPotentialValueMonth){
                       color = RadiationColor.hightRadiationColor
-                      console.log("4");
                     }
-                    else if( ((value/porcentajePorAplicar)*1000) >= RadiationColor.veryHightPotentialValueMonth){
+                    else if( ((value/porcentajePorAplicar)*1000) > RadiationColor.hightPotentialValueMonth){
                       color = RadiationColor.veryHightRadiationColor
-                      console.log("5");
                     }
                   }
                 } else if(type == "año"){
@@ -423,11 +420,10 @@ export default class Map extends React.Component {
                       color = RadiationColor.mediaRadiationColor
                     else if (((value/porcentajePorAplicar)*1000) >= RadiationColor.mediaPotentialValueYear && ((value/porcentajePorAplicar)*1000) <= RadiationColor.hightPotentialValueYear)
                       color = RadiationColor.hightRadiationColor
-                    else if(((value/porcentajePorAplicar)*1000) >= RadiationColor.veryHightPotentialValueYear)
+                    else if(((value/porcentajePorAplicar)*1000) > RadiationColor.hightPotentialValueYear)
                       color = RadiationColor.veryHightRadiationColor
                   }
                 }
-                console.log("Color", color);
                 return color
 
               }

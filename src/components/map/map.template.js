@@ -70,7 +70,7 @@ const MapTemplate = (props) => {
           color = RadiationColor.mediaRadiationColor
         else if (radio >= RadiationColor.mediaPotentialValueDay && radio <= RadiationColor.hightPotentialValueDay)
           color = RadiationColor.hightRadiationColor
-        else if( radio >= RadiationColor.veryHightPotentialValueDay)
+        else if( radio > RadiationColor.hightPotentialValueDay)
           color = RadiationColor.veryHightRadiationColor
     }
     else if( type == "mes"){
@@ -80,7 +80,7 @@ const MapTemplate = (props) => {
           color = RadiationColor.mediaRadiationColor
         else if (radio >= RadiationColor.mediaPotentialValueMonth && radio <= RadiationColor.hightPotentialValueMonth)
           color = RadiationColor.hightRadiationColor
-        else if(radio >= RadiationColor.veryHightPotentialValueMonth)
+        else if(radio > RadiationColor.hightPotentialValueDay)
           color = RadiationColor.veryHightRadiationColor
     
     } else if(type == "año"){
@@ -90,7 +90,7 @@ const MapTemplate = (props) => {
           color = RadiationColor.mediaRadiationColor
         else if (radio >= RadiationColor.mediaPotentialValueYear && radio <= RadiationColor.hightPotentialValueYear)
           color = RadiationColor.hightRadiationColor
-        else if( radio >= RadiationColor.veryHightPotentialValueYear)
+        else if( radio > RadiationColor.hightPotentialValueDay)
           color = RadiationColor.veryHightRadiationColor
     }
     return color;
