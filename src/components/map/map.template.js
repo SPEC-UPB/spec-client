@@ -101,7 +101,7 @@ const MapTemplate = (props) => {
       if(props.currentStationName!=""){
         props.openScale()
         const dateBase = new Date(props.date)
-        dateBase.setMonth(dateBase.getMonth() + 1);
+        dateBase.setMonth(dateBase.getMonth() + 2);
         props.onChangeDateEnd(dateBase)
         props.changeTypeScale(props.typeScale)
         setState({ ...state, [event.target.name]: event.target.checked });
@@ -182,7 +182,8 @@ const MapTemplate = (props) => {
           <div className="mx-3 mt-2">
             {/*Date Picker */}
             <Picker typeScale={props.typeScale} isRequest={props.isRequest} onChangeDateEnd={(newDate) => props.onChangeDateEnd(newDate)} 
-            scale={state.Scala} onChange={(newDate) => props.changeDate(newDate, state.Scala)} />
+            scale={state.Scala} onChange={(newDate) => props.changeDate(newDate, state.Scala)} 
+            currentDateEnd={props.currentDateEnd}/>
             <FormControl component="fieldset">
                   <FormGroup>
                     <FormControlLabel

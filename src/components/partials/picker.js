@@ -8,7 +8,7 @@ import {
 
 export default function MaterialUIPickers(props) {
   const [selectedDate, setSelectedDate] = React.useState('01-01-2010');
-  const [selectedDateEnd, setSelectedDateEnd] = React.useState('01-31-2010');
+  const [selectedDateEnd, setSelectedDateEnd] = React.useState('03-31-2010');
 
   
 
@@ -62,7 +62,7 @@ const handleDateEndChange = (date) => {
             id="date-picker-dialog"
             label="Fecha final"
             format={props.typeScale != "día" ? props.typeScale == "mes" ? "MM/yyyy":"yyyy":"MM/dd/yyyy"}
-            value={selectedDateEnd}
+            value={props.currentDateEnd}
             onChange={handleDateEndChange}
             KeyboardButtonProps={{
               'aria-label': 'change date',

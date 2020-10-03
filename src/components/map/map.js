@@ -10,7 +10,7 @@ export default class Map extends React.Component {
   constructor(props) {
     super(props)
     this._center = [7.079748142697787, -73.05427551269533]
-    this._limitDay = 31
+    this._limitDay = 90
     this._limitMonth = 365 // en días
     this._limitYear = 3651
 
@@ -22,7 +22,7 @@ export default class Map extends React.Component {
       messageType: 'info',
       messageForSnackbar: '',
       currentDate: '2010-01-01',
-      currentDateEnd: '2010-01-31',
+      currentDateEnd: '2010-03-31',
       typeScale: 'día',
       potencial: [],
       potentialForRange: [],
@@ -154,7 +154,7 @@ export default class Map extends React.Component {
       if (((end_date - start_date) / dayResult) > this._limitDay && this.state.currentDateRange != "") {
         isValid = false
         this.openMessage();
-        this.setState({ messageType: 'info', messageForSnackbar: 'Rango de fecha superado, valido maximo 30 días' })
+        this.setState({ messageType: 'info', messageForSnackbar: 'Rango de fecha superado, valido maximo 90 días' })
       }
 
     } else if (this.state.typeScale == "mes") {
@@ -227,6 +227,14 @@ export default class Map extends React.Component {
       }else if(this.state.typeScale == "año" && type == "día"){
         await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*10000)/100)})
       }
+
+      if(type == "año"){
+        const dateBase = new Date(this.state.currentDate)
+        dateBase.setMonth(dateBase.getMonth() + 24);
+        console.log(dateBase);
+        this.changeDateEnd(dateBase)
+      }
+
       await this.setState({ typeScale: type})
       await this.getPotencialByDateRange()
     }
