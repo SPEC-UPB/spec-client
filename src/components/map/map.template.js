@@ -100,9 +100,6 @@ const MapTemplate = (props) => {
     if(event.target.name=="Scala" && event.target.checked){
       if(props.currentStationName!=""){
         props.openScale()
-        const dateBase = new Date(props.date)
-        dateBase.setMonth(dateBase.getMonth() + 2);
-        props.onChangeDateEnd(dateBase)
         props.changeTypeScale(props.typeScale)
         setState({ ...state, [event.target.name]: event.target.checked });
       }else{
@@ -251,6 +248,7 @@ const MapTemplate = (props) => {
             {
               setpointSelected({ lat: e.latlng.lat, lon: e.latlng.lng })
               setstation(null)
+              props.setCurrentStationName("POINT")
             }
           }
           center={center}
@@ -326,7 +324,8 @@ const MapTemplate = (props) => {
           changeTypeScale={props.changeTypeScale}
           onChangeDateScale={props.onChangeDateScale}
           currentDateRange={props.currentDateRange}
-          dateRangesForPotential={props.dateRangesForPotential}/>}
+          dateRangesForPotential={props.dateRangesForPotential}
+          typeScale={props.typeScale}/>}
       </div>
 
       {/*Analisis*/}

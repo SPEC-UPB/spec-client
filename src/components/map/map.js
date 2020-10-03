@@ -230,8 +230,15 @@ export default class Map extends React.Component {
 
       if(type == "año"){
         const dateBase = new Date(this.state.currentDate)
-        dateBase.setMonth(dateBase.getMonth() + 24);
-        console.log(dateBase);
+        dateBase.setFullYear(dateBase.getFullYear() + 2);
+        this.changeDateEnd(dateBase)
+      }else if(type == "mes"){
+        const dateBase = new Date(this.state.currentDate)
+        dateBase.setMonth(dateBase.getMonth() + 2);
+        this.changeDateEnd(dateBase)
+      }else if(type == "día"){
+        const dateBase = new Date(this.state.currentDate)
+        dateBase.setDate(dateBase.getDate() + 33);
         this.changeDateEnd(dateBase)
       }
 
@@ -304,7 +311,7 @@ export default class Map extends React.Component {
       .catch(err => {
         this.hideProgress();
         this.openMessage();
-        if (this.state.currentStationName != "") {
+        if (this.state.currentStationName != "" && this.state.currentStationName != "POINT") {
           this.setState({ messageType: 'error', messageForSnackbar: 'Lo sentimos ocurrio un error al calcular la radiación' })
         } else {
           this.setState({ messageType: 'info', messageForSnackbar: 'Para calcular la radiación seleccione un punto o estación' })
@@ -349,9 +356,12 @@ export default class Map extends React.Component {
       const date = await this.state.dateRangesForPotential[this.state.index]
       const potecialParaEstacionesPorFechaActual = await potencialPorEscala.filter(p => p.fecha == date)
       const potencialPorEstacion = await potencialPorEscala.filter(p => p.estacion == this.state.currentStationName)
+      
+      console.log(this.state.dateRangesForPotential); // todas las fechas
       console.log(potencialPorEscala); // Toda las estaciones con todas las fechas
       console.log(potencialPorEstacion);//con todas las fechas solo para la estación seleccionada
       console.log(potecialParaEstacionesPorFechaActual); // con todas las estaciones con la fecha seleccionada
+      
       //potencial para ese mes
       await this.setState({ potencial: potecialParaEstacionesPorFechaActual, currentDateRange: date })
       const labels = potencialPorEstacion.map(p => p.fecha) // fechas solo de la estación seleccionada
@@ -366,30 +376,7 @@ export default class Map extends React.Component {
       }
       this.setState({porcentajeAplicadoToBarChart:porcentajePorAplicar})
 
-      // await potencialPorEstacion.sort((a,b) =>{
-      //   const dateA = (new Date(a.fecha).getTime()/1000);
-      //   const dateB = (new Date(b.fecha).getTime()/1000);
-      //   if (dateA < dateB) {
-      //     return -1;
-      //   }
-      //   if (dateA > dateB) {
-      //     return 1;
-      //   }
-
-      //   return 0 ;
-      // })
-      // await labels.sort((a,b) =>{
-      //   const dateA = (new Date(a).getTime()/1000);
-      //   const dateB = (new Date(b).getTime()/1000);
-      //   if (dateA < dateB) {
-      //     return -1;
-      //   }
-      //   if (dateA > dateB) {
-      //     return 1;
-      //   }
-
-      //   return 0 ;
-      // })
+     
     
       const type = this.state.typeScale
       const data = await potencialPorEstacion.map((p => (p.radiacion / 1000)*porcentajePorAplicar))
@@ -478,7 +465,6 @@ export default class Map extends React.Component {
           const dateRangesForPotentialNoUnique = await res.data.data.map(item => item.fecha)
           const dateRangesForPotential = await dateRangesForPotentialNoUnique.filter((value, index, self)=> self.indexOf(value) == index)
           await this.setState({ potentialForRange: res.data.data, dateRangesForPotential, currentDateRange: "" })
-          console.log(res.data.data);
           this.hideProgress();
           this.onChangeDateScale(0)
           this.setState({isRequest:false})
