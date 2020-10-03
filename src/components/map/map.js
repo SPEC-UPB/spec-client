@@ -56,9 +56,11 @@ export default class Map extends React.Component {
   }
 
   async closeScale() {
-    if(this.state.typeScale != "día"){
+    if(this.state.typeScale == "mes"){
       await this.setState({efficiencyPercentage:(this.state.efficiencyPercentage*1000)/100, scaleIsActive:false})
-  }
+    }else if(this.state.typeScale == "año"){
+      await this.setState({efficiencyPercentage:(this.state.efficiencyPercentage*10000)/100, scaleIsActive:false})
+    }
 
     await this.setState({ currentDateRange: "", typeScale: "día"})
     this.getPotencial()
@@ -72,12 +74,24 @@ export default class Map extends React.Component {
   componentDidMount() {
     this.getEstaciones()
     this.getPotencial()
+    setTimeout(() => {
+      console.log("storage->",window.localStorage.getItem("spec-ok"));
+     if(!window.localStorage.getItem("spec-ok")){
+        window.$('#frameModalBottom').modal({
+          show:true,
+          backdrop: 'static',
+          keyboard: false})
+     }
+      
+    }, 3000);
   }
 
   changeEfficiencyPercentage(efficiencyPercentage) {
-    if(this.state.typeScale != "día"){
+    if(this.state.typeScale == "mes"){
       this.setState({ efficiencyPercentage: (parseFloat(efficiencyPercentage) / 1000) })
-    }else{
+    }else if(this.state.typeScale == "año"){
+      this.setState({ efficiencyPercentage: (parseFloat(efficiencyPercentage) / 10000) })
+    }else if(this.state.typeScale == "día"){
       this.setState({ efficiencyPercentage: (parseFloat(efficiencyPercentage) / 100) })
     }
     this.setDatasetToBarChart()
@@ -201,10 +215,18 @@ export default class Map extends React.Component {
 
   async changeTypeScale(type) {
     if(!this.state.isRequest){
-      if(this.state.typeScale == "día" && type != "día"){
+      if(this.state.typeScale == "día" && type == "mes"){
         await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*100)/1000)})
-      }else if(this.state.typeScale != "día" && type == "día"){
+      }else if(this.state.typeScale == "día" && type == "año"){
+        await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*100)/10000)})
+      } else if(this.state.typeScale == "mes" && type == "año"){
+        await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*1000)/10000)})
+      }else if(this.state.typeScale == "mes" && type == "día"){
         await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*1000)/100)})
+      }else if(this.state.typeScale == "año" && type == "mes"){
+        await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*10000)/1000)})
+      }else if(this.state.typeScale == "año" && type == "día"){
+        await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*10000)/100)})
       }
       await this.setState({ typeScale: type})
       await this.getPotencialByDateRange()
@@ -326,8 +348,10 @@ export default class Map extends React.Component {
       let porcentajePorAplicar = 17;
       if(this.state.typeScale == "día" ){
         porcentajePorAplicar = this.state.efficiencyPercentage
-      }else if(this.state.typeScale != "día" ){
+      }else if(this.state.typeScale == "mes" ){
         porcentajePorAplicar = (this.state.efficiencyPercentage*1000)/100
+      }else if(this.state.typeScale == "año" ){
+        porcentajePorAplicar = (this.state.efficiencyPercentage*10000)/100
       }
       this.setState({porcentajeAplicadoToBarChart:porcentajePorAplicar})
 

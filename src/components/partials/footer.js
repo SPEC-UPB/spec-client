@@ -94,7 +94,7 @@ export default function Footer() {
             <div class="modal-body">
               <div class="row d-flex justify-content-center align-items-center">
                 <p class="pt-3 pr-2">Este sitio web no almacenara la iformación que ingrese.</p>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Entendido</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onClick={() => window.localStorage.setItem("spec-ok","ok")}>Entendido</button>
               </div>
             </div>
           </div>
