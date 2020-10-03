@@ -142,7 +142,7 @@ export default function Popup(props) {
                       Municipio: {object.municipio}
                     </li>}
                     {object.nombre && <li class="list-group-item">Origen: {object.origen}</li>}
-                    <li class="list-group-item">Laitud: {object.lat}</li>
+                    <li class="list-group-item">Latitud: {object.lat}</li>
                     <li class="list-group-item">Longitud: {object.lon}</li>
                   </ul>
                   <div></div>

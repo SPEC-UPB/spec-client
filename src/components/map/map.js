@@ -339,13 +339,15 @@ export default class Map extends React.Component {
     
     if (potencialPorEscala.length > 0) {
       const date = await this.state.dateRangesForPotential[this.state.index]
-      const potecialPorTipo = await potencialPorEscala.filter(p => p.fecha == date)
+      const potecialParaEstacionesPorFechaActual = await potencialPorEscala.filter(p => p.fecha == date)
       const potencialPorEstacion = await potencialPorEscala.filter(p => p.estacion == this.state.currentStationName)
-      console.log(potencialPorEscala);
-
+      console.log(potencialPorEscala); // Toda las estaciones con todas las fechas
+      console.log(potencialPorEstacion);//con todas las fechas solo para la estación seleccionada
+      console.log(potecialParaEstacionesPorFechaActual); // con todas las estaciones con la fecha seleccionada
       //potencial para ese mes
-      await this.setState({ potencial: potecialPorTipo, currentDateRange: date })
-      const labels = this.state.dateRangesForPotential
+      await this.setState({ potencial: potecialParaEstacionesPorFechaActual, currentDateRange: date })
+      const labels = potencialPorEstacion.map(p => p.fecha) // fechas solo de la estación seleccionada
+      console.log(labels);
       let porcentajePorAplicar = 17;
       if(this.state.typeScale == "día" ){
         porcentajePorAplicar = this.state.efficiencyPercentage
