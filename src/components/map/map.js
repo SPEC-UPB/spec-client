@@ -75,7 +75,6 @@ export default class Map extends React.Component {
     this.getEstaciones()
     this.getPotencial()
     setTimeout(() => {
-      console.log("storage->",window.localStorage.getItem("spec-ok"));
      if(!window.localStorage.getItem("spec-ok")){
         window.$('#frameModalBottom').modal({
           show:true,
