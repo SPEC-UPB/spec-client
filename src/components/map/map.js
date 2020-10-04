@@ -10,7 +10,7 @@ export default class Map extends React.Component {
   constructor(props) {
     super(props)
     this._center = [7.079748142697787, -73.05427551269533]
-    this._limitDay = 90
+    this._limitDay = 30
     this._limitMonth = 365 // en días
     this._limitYear = 3651
 
@@ -22,7 +22,7 @@ export default class Map extends React.Component {
       messageType: 'info',
       messageForSnackbar: '',
       currentDate: '2010-01-01',
-      currentDateEnd: '2010-03-31',
+      currentDateEnd: '',
       typeScale: 'día',
       potencial: [],
       potentialForRange: [],
@@ -69,6 +69,12 @@ export default class Map extends React.Component {
 
   openScale(){
     this.setState({scaleIsActive:true})
+      if(this.state.typeScale == "día"){
+        const dateBase = new Date(this.state.currentDate)
+        dateBase.setDate(dateBase.getDate() + 31);
+        this.changeDateEnd(dateBase)
+      }
+
   }
 
   componentDidMount() {
@@ -228,19 +234,20 @@ export default class Map extends React.Component {
         await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*10000)/100)})
       }
 
-      if(type == "año"){
-        const dateBase = new Date(this.state.currentDate)
-        dateBase.setFullYear(dateBase.getFullYear() + 2);
-        this.changeDateEnd(dateBase)
-      }else if(type == "mes"){
-        const dateBase = new Date(this.state.currentDate)
-        dateBase.setMonth(dateBase.getMonth() + 2);
-        this.changeDateEnd(dateBase)
-      }else if(type == "día"){
-        const dateBase = new Date(this.state.currentDate)
-        dateBase.setDate(dateBase.getDate() + 33);
-        this.changeDateEnd(dateBase)
-      }
+      // if(type == "año"){
+      //   const dateBase = new Date(this.state.currentDate)
+      //   dateBase.setFullYear(dateBase.getFullYear() + 2);
+      //   this.changeDateEnd(dateBase)
+      // }
+      // //else if(type == "mes"){
+      // //   const dateBase = new Date(this.state.currentDate)
+      // //   dateBase.setMonth(dateBase.getMonth() + 2);
+      // //   this.changeDateEnd(dateBase)
+      // // }else if(type == "día"){
+      // //   const dateBase = new Date(this.state.currentDate)
+      // //   dateBase.setDate(dateBase.getDate() + 33);
+      // //   this.changeDateEnd(dateBase)
+      // // }
 
       await this.setState({ typeScale: type})
       await this.getPotencialByDateRange()

@@ -8,7 +8,7 @@ import {
 
 export default function MaterialUIPickers(props) {
   const [selectedDate, setSelectedDate] = React.useState('01-01-2010');
-  const [selectedDateEnd, setSelectedDateEnd] = React.useState('03-31-2010');
+  const [selectedDateEnd, setSelectedDateEnd] = React.useState('');
 
   
 

@@ -40,12 +40,12 @@ export default function AnalisisTemplate(props) {
   const images = [
     {
       url: '/images/recibo.jpg',
-      title: '¡Conozca cuanta energía puede ahorrarse!',
+      title: '¡Conozca cuánta energía puede ahorrarse!',
       width: '50%'
     },
     {
       url: '/images/consumo-electrico-hogar.png',
-      title: '¡Conozca cuanta energía consume en su hogar!',
+      title: '¡Conozca cuánta energía consume en su hogar!',
       width: '50%'
     }
   ];
@@ -56,7 +56,7 @@ export default function AnalisisTemplate(props) {
       backgroundColor: ['#2ecc71', '#e74c3c']
     }],
     labels: [
-      'Energía renobable (kwh/m^2) ahorrada',
+      'Energía renovable (kwh/m^2) generada',
       'Energía tradicional (kw) consumida'
     ]
   };
@@ -142,8 +142,20 @@ export default function AnalisisTemplate(props) {
 
   useEffect(() => {
 
+      if(props.object && props.scale && props.typeScale == "día" && props.data.length == 0){
+        const dataForDay = props.dataForScaleDay.filter(p => p.estacion == props.object.nombre)
+        console.log("--> data for day range ", dataForDay);
+        let contador = 0;
+        dataForDay.forEach(potencial => {
+          contador+=potencial.radiacion
+        });
+        setOriginalPotencialEstacion(contador/1000)
+        setPotencialEstacion((contador/1000) * (efficiencyPercentage/100))
+        console.log("value for day range ->", contador/1000);
+      }
       
-      if(props.data){
+      console.log("props.data->",props.data);
+      if(props.data && props.typeScale != "día"){
         let contador = 0;
         props.data.forEach(potencial => {
           contador+=(potencial/props.porcentajeAplicadoToBarChart);
@@ -155,7 +167,7 @@ export default function AnalisisTemplate(props) {
     return () => {
 
     }
-  },[props.data, props.object]);
+  },[props.data, props.object, props.dataForScaleDay]);
   
   return (
     <div className="card mx-3">
@@ -168,11 +180,11 @@ export default function AnalisisTemplate(props) {
               Ahora que conocemos el comportamiento de la radiación solar en el área metropolitana de Bucaramanga
               y sabemos lo que significa el potencial electrico entregado por las estaciones. puede que
               se pregunte ¿ De que me sirve esta información? ¿ Que significan los valores de potencial calculados?.
-              No estaria nada mal saber cuanta energía podria ahorrarse si implementara energias renovables en su hogar, cierto. 
-              Una vez calculado la cantidad de vatios (Watts) a partir de la consulta definida, puede conocer el potencial que podria estarse
+              No estaria nada mal saber cuánta energía podría ahorrarse si implementara energias renovables en su hogar, cierto. 
+              Una vez calculado la cantidad de vatios (Watts) a partir de la consulta definida, puede conocer el potencial que podría estarse
               ahorrando, lo que le ayudaria a reducir los costos de por consumo eléctrico en su hogar.
-              Este calculo depende de la eficiencia del panel solar, lo cual es el porcentaje de energía que este puede capturar y se encuentra entre un 17% y 25%,
-              puede jugar con este valor para descubrir cuanta energía puede capturar.
+              Este cálculo depende de la eficiencia del panel solar, lo cual es el porcentaje de energía que este puede capturar y se encuentra entre un 17% y 25%,
+              puede jugar con este valor para descubrir cuánta energía puede capturar.
               </p>
           </div>
           <div className="col-lg-2 col-xs-12 col-sm-12 col-md-2 mt-lg-5">
@@ -242,7 +254,7 @@ export default function AnalisisTemplate(props) {
 
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title w-100 text-center text-muted" id="myModalLabel">Conozca cuanta energía puede ahorrar</h4>
+                <h4 class="modal-title w-100 text-center text-muted" id="myModalLabel">Conozca cuánta energía puede ahorrar</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -250,16 +262,16 @@ export default function AnalisisTemplate(props) {
               <div class="modal-body">
                 <div className="row">
                   <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 ">
-                    <h5 className="text-center">¿Le gustaria conocer cuanto dinero podria ahorrar en el costo de sus factura
-                    si implementara energía renobable en su hogar?
+                    <h5 className="text-center">¿Le gustaría conocer en cuánto podría reducir el consumo de su factura
+                    si implementara energía renovable en su hogar?
                     </h5>
-                    <p className="mt-3" style={{ textAlign: "justify" }}>Para conocer cuanta energía podria ahorrarse si usara una fuente de energpia renovable como el panel solar
+                    <p className="mt-3" style={{ textAlign: "justify" }}>Para conocer cuánta energía podría ahorrarse si usara una fuente de energia renovable como el panel solar
                     solo necesita tener a la mano su recibo de consumo eléctrico e identificar la cantidad de kilovatios consumidos
                     sobre el cual la empresa que provee el servicio le esta generando cargos, una vez identificado siga los siguientes pasos:
                     </p>
                     <ul>
                       <li>Realice una consulta de radiación para el rango de fecha del cual desea conocer el potencial (en Kw/h) generado.</li>
-                      <li>Ingrese la cantidad de de kilovatios (kw) consumidos</li>
+                      <li>Ingrese la cantidad de de kilovatios (kw) que registra su factura.</li>
                     </ul>
                     
                     <div className="row">
@@ -296,10 +308,10 @@ export default function AnalisisTemplate(props) {
                     </div>
                   </div>
                   <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                    {props.scale && props.typeScale != "día" ? (
+                    {props.scale && props.object ? (
                       <div>
-                        <p style={{ textAlign: "justify" }} className="text-center mx-5  mt-1">La gráfica muestra lo Kilovatios por hora ahorrados por cada metro<sup>2</sup> con un panel solar 
-                        del <strong>{efficiencyPercentage}% </strong>de eficiencia desde la fecha {props.currentDateStart} hasta {props.currentDateEnd}, rango en el cual  
+                        <p style={{ textAlign: "justify" }} className="text-center mx-5  mt-1">La gráfica muestra los Kilovatios por hora ahorrados por cada metro<sup>2</sup> con un panel solar 
+                    del <strong>{efficiencyPercentage}% </strong>de eficiencia cerca de la estación <strong>{props.object.nombre}</strong> desde la fecha {props.currentDateStart} hasta {props.currentDateEnd}, rango en el cual  
                         pudo ahorrarse el <strong>{consumo != 0 ? ((potencialEstacion*100) / consumo).toFixed(2):100}% </strong> equivalente a <strong>{potencialEstacion .toFixed(2)} kilovatios</strong> de consumo </p>
                         <Doughnut data={data} />
                       </div>
@@ -307,8 +319,8 @@ export default function AnalisisTemplate(props) {
                     <div>
                       <h6 className="text-center mx-5 my-2 text-muted">Active la escala de tiempo como lo indica la figura.</h6>
                       <img className="z-depth-1 img-fluid rounded mx-auto d-block" src="/images/activar-escala.png"></img>
-                      <h6 className="text-center mx-5 mt-3 text-muted">Luego seleccione consultar potencial por mes o año.</h6>
-                      <img className="z-depth-1 img-fluid rounded mx-auto d-block" src="/images/elegir-mes.png"></img>
+                      <h6 className="text-center mx-5 mt-3 text-muted">Luego seleccione una estación.</h6>
+                      <img className="z-depth-1 img-fluid rounded mx-auto d-block" src="/images/seleccionar-estacion.PNG"></img>
                     </div>)}
                   </div>
                 </div>

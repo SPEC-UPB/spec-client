@@ -99,7 +99,7 @@ export default function DiscreteSlider(props) {
                 <strong>Observando</strong>: {props.currentDateRange}
               </div>
             }
-            <div class="p-2">{props.typeScale == "día" ? dates[props.dateRangesForPotential.length - 2]:dates[props.dateRangesForPotential.length - 1]}</div>
+            <div class="p-2">{dates[props.dateRangesForPotential.length - 1]}</div>
           </div>
         </div>
       </div>
