@@ -41,12 +41,7 @@ export default function AnalisisTemplate(props) {
     {
       url: '/images/recibo.jpg',
       title: '¡Conozca cuánta energía puede ahorrarse!',
-      width: '50%'
-    },
-    {
-      url: '/images/consumo-electrico-hogar.png',
-      title: '¡Conozca cuánta energía consume en su hogar!',
-      width: '50%'
+      width: '100%'
     }
   ];
 

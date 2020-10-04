@@ -234,21 +234,6 @@ export default class Map extends React.Component {
         await this.setState({efficiencyPercentage:((this.state.efficiencyPercentage*10000)/100)})
       }
 
-      // if(type == "año"){
-      //   const dateBase = new Date(this.state.currentDate)
-      //   dateBase.setFullYear(dateBase.getFullYear() + 2);
-      //   this.changeDateEnd(dateBase)
-      // }
-      // //else if(type == "mes"){
-      // //   const dateBase = new Date(this.state.currentDate)
-      // //   dateBase.setMonth(dateBase.getMonth() + 2);
-      // //   this.changeDateEnd(dateBase)
-      // // }else if(type == "día"){
-      // //   const dateBase = new Date(this.state.currentDate)
-      // //   dateBase.setDate(dateBase.getDate() + 33);
-      // //   this.changeDateEnd(dateBase)
-      // // }
-
       await this.setState({ typeScale: type})
       await this.getPotencialByDateRange()
     }
@@ -369,6 +354,21 @@ export default class Map extends React.Component {
       console.log(potencialPorEstacion);//con todas las fechas solo para la estación seleccionada
       console.log(potecialParaEstacionesPorFechaActual); // con todas las estaciones con la fecha seleccionada
       
+      // muestro u oculto estaaciones si tienen o no data
+      const listaEstacionesConDatos = potecialParaEstacionesPorFechaActual.map(est => est.estacion)     
+      const nuevasEstacionesParaMostrar = this.state.stations.map(est => {
+        return {
+          id: est.id,
+            lat:est.lat,
+            lon: est.lon,
+            municipio: est.municipio,
+            nombre: est.nombre,
+            origen: est.origen,
+            show:listaEstacionesConDatos.includes(est.nombre)
+          }
+      })
+      this.setState({stations:nuevasEstacionesParaMostrar})
+
       //potencial para ese mes
       await this.setState({ potencial: potecialParaEstacionesPorFechaActual, currentDateRange: date })
       const labels = potencialPorEstacion.map(p => p.fecha) // fechas solo de la estación seleccionada
@@ -386,7 +386,8 @@ export default class Map extends React.Component {
      
     
       const type = this.state.typeScale
-      const data = await potencialPorEstacion.map((p => (p.radiacion / 1000)*porcentajePorAplicar))
+      let data = await potencialPorEstacion.map((p => (p.radiacion / 1000)*porcentajePorAplicar))
+      data = data.map(p => parseFloat(p.toFixed(2)))
       this.setState({
         datasetsScale: {
           labels,
@@ -451,6 +452,21 @@ export default class Map extends React.Component {
       .then(res => {
         this.setState({ potencial: res.data.data })
         this.hideProgress();
+
+        const listaEstacionesConDatos = res.data.data.map(est => est.estacion)     
+        const nuevasEstacionesParaMostrar = this.state.stations.map(est => {
+          return {
+            id: est.id,
+              lat:est.lat,
+              lon: est.lon,
+              municipio: est.municipio,
+              nombre: est.nombre,
+              origen: est.origen,
+              show:listaEstacionesConDatos.includes(est.nombre)
+            }
+        })
+        this.setState({stations:nuevasEstacionesParaMostrar})
+
       })
       .catch(err => {
         this.hideProgress();
@@ -487,7 +503,14 @@ export default class Map extends React.Component {
   getEstaciones() {
     this.showProgress('Consultando estaciones')
     estacionService.getEstaciones()
-      .then(res => { this.setState({ stations: res.data }); this.hideProgress() })
+      
+      .then(res => { this.setState({ stations: res.data.map(est => {return {id: est.id,
+        lat:est.lat,
+        lon: est.lon,
+        municipio: est.municipio,
+        nombre: est.nombre,
+        origen: est.origen,
+        show:false}})}); this.hideProgress() })
       .catch(err => {
         this.hideProgress(); this.openMessage();
         this.setState({ messageType: 'error', messageForSnackbar: 'Lo sentimos ocurrio un error al cargar las estaciones' })

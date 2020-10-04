@@ -195,7 +195,7 @@ const MapTemplate = (props) => {
                       }
                       label="Ver el cambio de radiación en el tiempo"
                     />
-                    <FormControlLabel
+                    {/* <FormControlLabel
                       control={
                         <Switch
                           color="primary"
@@ -205,7 +205,7 @@ const MapTemplate = (props) => {
                         />
                       }
                       label="Mostrar imagen mapa interpolado"
-                    /> 
+                    />  */}
                   </FormGroup>
               </FormControl>
           </div>
@@ -271,16 +271,18 @@ const MapTemplate = (props) => {
           {zoom >= 8 &&
             stations.map((estation, index) => (
                 <React.Fragment>
-                  <Marker
-                  key={index}
-                  position={[estation.lat, estation.lon]}
-                  icon={icon}
-                  onclick={ () => {
-                    setstation(estation)
-                    props.setCurrentStationName(estation.nombre)
-                    setpointSelected(null)
-                  }}
-                />
+                  {estation.show && (
+                    <Marker
+                    key={index}
+                    position={[estation.lat, estation.lon]}
+                    icon={icon}
+                    onclick={ () => {
+                      setstation(estation)
+                      props.setCurrentStationName(estation.nombre)
+                      setpointSelected(null)
+                    }}
+                  />
+                  )}
               </React.Fragment>
              
             ))}
