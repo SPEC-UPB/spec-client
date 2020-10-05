@@ -1,4 +1,4 @@
 export default {
-    SERVER_URL:"http://localhost:2050",
-    SERVER_PYTHON_URL:"http://localhost:5000"
+    SERVER_URL:"10.154.12.46:2050",
+    SERVER_PYTHON_URL:"10.154.12.46:2050:5000"
 }
