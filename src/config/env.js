@@ -1,4 +1,4 @@
 export default {
-    SERVER_URL:"http://10.154.12.46:2050",
-    SERVER_PYTHON_URL:"http://10.154.12.46:5000"
+    SERVER_URL:"http://radiacionsolar.admin.bucaramanga.upb.edu.co",
+    SERVER_PYTHON_URL:"http://radiacionsolar.bucaramanga.upb.edu.co:5000"
 }
