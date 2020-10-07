@@ -450,12 +450,10 @@ export default class Map extends React.Component {
     this.showProgress('Consultando datos')
     potencialService.getPotenciaByDate(this.state.currentDate)
       .then(res => {
+        console.log("data ->", res.data.data);
         if(res.data.data){
-          this.setState({ potencial: res.data.data })
-        }else{
-          this.setState({ potencial: [] })
-        }
-        
+          
+        this.setState({ potencial: res.data.data })
         this.hideProgress();
 
         const listaEstacionesConDatos = res.data.data.map(est => est.estacion)     
@@ -471,6 +469,11 @@ export default class Map extends React.Component {
             }
         })
         this.setState({stations:nuevasEstacionesParaMostrar})
+        }else{
+          this.setState({isRequest:false})
+          this.hideProgress(); this.openMessage();
+          this.setState({ messageType: 'error', messageForSnackbar: 'Lo sentimos no se encontraron datos.' })
+        }
 
       })
       .catch(err => {
@@ -490,19 +493,21 @@ export default class Map extends React.Component {
       this.showProgress('Calculando potencial')
       potencialService.getPotencialByDateRange(this.state.currentDate, this.state.currentDateEnd, this.state.typeScale)
         .then(async res => {
-          let dateRangesForPotentialNoUnique = []
-          let dateRangesForPotential = []
-          if(res.data.data){
-            dateRangesForPotentialNoUnique = await res.data.data.map(item => item.fecha)
-            dateRangesForPotential = await dateRangesForPotentialNoUnique.filter((value, index, self)=> self.indexOf(value) == index)
-            await this.setState({ potentialForRange: res.data.data, dateRangesForPotential, currentDateRange: "" })
-          }else{
-            await this.setState({ potentialForRange: [], dateRangesForPotential, currentDateRange: "" })
-          }
+          console.log("data ->", res.data.data);
+          if( res.data.data){
+            const dateRangesForPotentialNoUnique = await res.data.data.map(item => item.fecha)
+          const dateRangesForPotential = await dateRangesForPotentialNoUnique.filter((value, index, self)=> self.indexOf(value) == index)
+          await this.setState({ potentialForRange: res.data.data, dateRangesForPotential, currentDateRange: "" })
+          
 
           this.hideProgress();
           this.onChangeDateScale(0)
           this.setState({isRequest:false})
+          }else{
+            this.setState({isRequest:false})
+          this.hideProgress(); this.openMessage();
+            this.setState({ messageType: 'error', messageForSnackbar: 'Lo sentimos no se encontraron datos.' })
+          }
         })
         .catch(err => {
           this.setState({isRequest:false})
