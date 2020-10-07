@@ -450,7 +450,12 @@ export default class Map extends React.Component {
     this.showProgress('Consultando datos')
     potencialService.getPotenciaByDate(this.state.currentDate)
       .then(res => {
-        this.setState({ potencial: res.data.data })
+        if(res.data.data){
+          this.setState({ potencial: res.data.data })
+        }else{
+          this.setState({ potencial: [] })
+        }
+        
         this.hideProgress();
 
         const listaEstacionesConDatos = res.data.data.map(est => est.estacion)     
@@ -485,9 +490,16 @@ export default class Map extends React.Component {
       this.showProgress('Calculando potencial')
       potencialService.getPotencialByDateRange(this.state.currentDate, this.state.currentDateEnd, this.state.typeScale)
         .then(async res => {
-          const dateRangesForPotentialNoUnique = await res.data.data.map(item => item.fecha)
-          const dateRangesForPotential = await dateRangesForPotentialNoUnique.filter((value, index, self)=> self.indexOf(value) == index)
-          await this.setState({ potentialForRange: res.data.data, dateRangesForPotential, currentDateRange: "" })
+          let dateRangesForPotentialNoUnique = []
+          let dateRangesForPotential = []
+          if(res.data.data){
+            dateRangesForPotentialNoUnique = await res.data.data.map(item => item.fecha)
+            dateRangesForPotential = await dateRangesForPotentialNoUnique.filter((value, index, self)=> self.indexOf(value) == index)
+            await this.setState({ potentialForRange: res.data.data, dateRangesForPotential, currentDateRange: "" })
+          }else{
+            await this.setState({ potentialForRange: [], dateRangesForPotential, currentDateRange: "" })
+          }
+
           this.hideProgress();
           this.onChangeDateScale(0)
           this.setState({isRequest:false})
