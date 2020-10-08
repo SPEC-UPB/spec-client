@@ -49,7 +49,7 @@ export default function DiscreteSlider(props) {
     >
 
       <div className="card-body" style={{ backgroundColor: 'white', height: 100, width: 450, zIndex: 3 }}>
-        <h6 className="text-muted text-center">Deslice para ver el cambio en el tiempo</h6>
+        <h6 className="text-muted text-center">Deslice para ver el cambio de radiación en el tiempo</h6>
         <div className="row">
           <div className="col">
             <Radio
