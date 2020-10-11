@@ -99,13 +99,13 @@ export default function DiscreteSlider(props) {
             step="1" id="customRange3"
             onChange={onChangeCommitted}/>
           <div className="d-flex justify-content-between">
-            <div class="p-2">{normalizarFormatoFecha(dates[0])}</div>
+            <div class="p-2">{dates[0] ? normalizarFormatoFecha(dates[0]):dates[0]}</div>
             {props.currentDateRange != "" &&
               <div>
-                <strong>Observando</strong>: normalizarFormatoFecha({props.currentDateRange})
+                <strong>Observando</strong>: {props.currentDateRange ? normalizarFormatoFecha(props.currentDateRange):props.currentDateRange}
               </div>
             }
-            <div class="p-2">{normalizarFormatoFecha(dates[props.dateRangesForPotential.length - 1])}</div>
+            <div class="p-2">{dates[props.dateRangesForPotential.length - 1] ? normalizarFormatoFecha(dates[props.dateRangesForPotential.length - 1]):dates[props.dateRangesForPotential.length - 1]}</div>
           </div>
         </div>
       </div>

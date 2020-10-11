@@ -27,7 +27,10 @@ export default function AnalisisTemplate(props) {
     }
   }
 
-  
+  const normalizarFormatoFecha = (fecha) => {
+    const fechaSplit = fecha.split("-")
+    return fechaSplit[2] + "-" + fechaSplit[1] + "-" + fechaSplit[0]
+  }
 
   const changeKw = (e) => {
     const value = e.target.value
@@ -306,7 +309,7 @@ export default function AnalisisTemplate(props) {
                     {props.scale && props.object ? (
                       <div>
                         <p style={{ textAlign: "justify" }} className="text-center mx-5  mt-1">La gráfica muestra los Kilovatios por hora ahorrados por cada metro<sup>2</sup> con un panel solar 
-                    del <strong>{efficiencyPercentage}% </strong>de eficiencia cerca de la estación <strong>{props.object.nombre}</strong> desde la fecha {props.currentDateStart} hasta {props.currentDateEnd}, rango en el cual  
+                    del <strong>{efficiencyPercentage}% </strong>de eficiencia cerca de la estación <strong>{props.object.nombre}</strong> desde la fecha {props.currentDateStart ? normalizarFormatoFecha(props.currentDateStart):props.currentDateStart} hasta {props.currentDateEnd ? normalizarFormatoFecha(props.currentDateEnd):props.currentDateEnd}, rango en el cual  
                         pudo ahorrarse el <strong>{consumo != 0 ? ((potencialEstacion*100) / consumo).toFixed(2):100}% </strong> equivalente a <strong>{potencialEstacion .toFixed(2)} kilovatios</strong> de consumo </p>
                         <Doughnut data={data} />
                       </div>
