@@ -15,11 +15,8 @@ export default function MaterialUIPickers(props) {
 
 const handleDateChange = (date) => {
   if(date != "Invalid Date"){
-    console.log(date);
     setSelectedDate(date);
     props.onChange(date)
-  }else{
-    console.log("Fecha invalida");
   }
   
 };

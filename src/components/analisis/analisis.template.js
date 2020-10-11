@@ -59,7 +59,6 @@ export default function AnalisisTemplate(props) {
     ]
   };
   const changeQuestion = (index) => {
-    console.log(index);
   }
 
   const useStyles = makeStyles((theme) => ({
@@ -142,17 +141,14 @@ export default function AnalisisTemplate(props) {
 
       if(props.object && props.scale && props.typeScale == "día" && props.data.length == 0){
         const dataForDay = props.dataForScaleDay.filter(p => p.estacion == props.object.nombre)
-        console.log("--> data for day range ", dataForDay);
         let contador = 0;
         dataForDay.forEach(potencial => {
           contador+=potencial.radiacion
         });
         setOriginalPotencialEstacion(contador/1000)
         setPotencialEstacion((contador/1000) * (efficiencyPercentage/100))
-        console.log("value for day range ->", contador/1000);
       }
       
-      console.log("props.data->",props.data);
       if(props.data && props.typeScale != "día"){
         let contador = 0;
         props.data.forEach(potencial => {
@@ -207,7 +203,6 @@ export default function AnalisisTemplate(props) {
               <ButtonBase
                 data-toggle="modal"
                 data-target="#fullHeightModalRight"
-                onClick={() => changeQuestion(index)}
                 focusRipple
                 key={index}
                 className={classes.image}

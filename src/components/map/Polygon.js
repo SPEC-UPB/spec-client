@@ -52,8 +52,6 @@ class Point{
     }
 }
 
-// var p = new Polygon([])
-// console.log(p.inPolygon(new Point(-73.123729965916,7.105771890547)))
 
 const polygon =  new Polygon([])
 export {

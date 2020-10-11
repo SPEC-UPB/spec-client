@@ -290,7 +290,6 @@ export default class Map extends React.Component {
                       color = RadiationColor.veryHightRadiationColor
                   }
                  if(value)
-                  console.log("-->", color +" " + value.y);
                   return color
 
                 }
@@ -349,10 +348,10 @@ export default class Map extends React.Component {
       const potecialParaEstacionesPorFechaActual = await potencialPorEscala.filter(p => p.fecha == date)
       const potencialPorEstacion = await potencialPorEscala.filter(p => p.estacion == this.state.currentStationName)
       
-      console.log(this.state.dateRangesForPotential); // todas las fechas
-      console.log(potencialPorEscala); // Toda las estaciones con todas las fechas
-      console.log(potencialPorEstacion);//con todas las fechas solo para la estación seleccionada
-      console.log(potecialParaEstacionesPorFechaActual); // con todas las estaciones con la fecha seleccionada
+      // console.log(this.state.dateRangesForPotential); // todas las fechas
+      // console.log(potencialPorEscala); // Toda las estaciones con todas las fechas
+      // console.log(potencialPorEstacion);//con todas las fechas solo para la estación seleccionada
+      // console.log(potecialParaEstacionesPorFechaActual); // con todas las estaciones con la fecha seleccionada
       
       // muestro u oculto estaaciones si tienen o no data
       const listaEstacionesConDatos = potecialParaEstacionesPorFechaActual.map(est => est.estacion)     
@@ -372,7 +371,7 @@ export default class Map extends React.Component {
       //potencial para ese mes
       await this.setState({ potencial: potecialParaEstacionesPorFechaActual, currentDateRange: date })
       const labels = potencialPorEstacion.map(p => p.fecha) // fechas solo de la estación seleccionada
-      console.log(labels);
+  
       let porcentajePorAplicar = 17;
       if(this.state.typeScale == "día" ){
         porcentajePorAplicar = this.state.efficiencyPercentage
@@ -451,7 +450,6 @@ export default class Map extends React.Component {
     this.showProgress('Consultando datos')
     potencialService.getPotenciaByDate(this.state.currentDate)
       .then(res => {
-        console.log("data ->", res.data.data);
         if(res.data.data){
           
         this.setState({ potencial: res.data.data })
@@ -494,7 +492,6 @@ export default class Map extends React.Component {
       this.showProgress('Calculando potencial')
       potencialService.getPotencialByDateRange(this.state.currentDate, this.state.currentDateEnd, this.state.typeScale)
         .then(async res => {
-          console.log("data ->", res.data.data);
           if( res.data.data){
             const dateRangesForPotentialNoUnique = await res.data.data.map(item => item.fecha)
           const dateRangesForPotential = await dateRangesForPotentialNoUnique.filter((value, index, self)=> self.indexOf(value) == index)
