@@ -57,7 +57,7 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="col-md-4 mx-auto">
+            <div className="col-md-5 mx-auto">
               {/* Links */}
               <h5 className="font-weight-bold text-uppercase mt-3 mb-4 text-center">
                 Integrantes del proyecto
@@ -75,7 +75,7 @@ export default function Footer() {
                 >
                 <div className="row text-center">
                   <div class="avatar xx| ">
-                    <img   height="50%" width="40%" src="/images/Diana.jpeg" class="rounded-circle "
+                    <img   height="45%" width="30%" src="/images/Diana.jpeg" class="rounded-circle "
                       alt="woman avatar"/>
                       <h5 class="card-title mt-2">Diana Teresa Gómez Forero</h5>
                       <hr/>
@@ -84,7 +84,7 @@ export default function Footer() {
                 </div>
                 <div className="row text-center">
                   <div class="avatar xx| ">
-                    <img   height="45%" width="40%" src="/images/Francisco.jpeg" class="rounded-circle "
+                    <img   height="40%" width="30%" src="/images/Francisco.jpeg" class="rounded-circle "
                       alt="woman avatar"/>
                       <h5 class="card-title mt-2">Juan F. Javier Pérez Rivero</h5>
                       <hr/>
@@ -93,7 +93,7 @@ export default function Footer() {
                 </div>
                 <div className="row text-center">
                   <div class="avatar xx| ">
-                    <img   height="50%" width="35%" src="/images/Deiver.jpg" class="rounded-circle "
+                    <img   height="50%" width="30%" src="/images/Deiver.jpg" class="rounded-circle "
                       alt="woman avatar"/>
                       <h5 class="card-title mt-2">Deiver Guerra Carrascal</h5>
                       <hr/>
