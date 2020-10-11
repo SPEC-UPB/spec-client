@@ -88,7 +88,7 @@ export default function Footer() {
                       alt="woman avatar"/>
                       <h5 class="card-title mt-2">Juan F. Javier Pérez Rivero</h5>
                       <hr/>
-                      francisco.perez@upb.edu.co
+                      juanfranciscojavier.perez.rivero@hotmail.com
                   </div>
                 </div>
                 <div className="row text-center">
