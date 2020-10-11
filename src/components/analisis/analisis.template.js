@@ -312,10 +312,10 @@ export default function AnalisisTemplate(props) {
                       </div>
                     ) : (
                     <div>
-                      <h6 className="text-center mx-5 my-2 text-muted">Active la escala de tiempo como lo indica la figura.</h6>
-                      <img className="z-depth-1 img-fluid rounded mx-auto d-block" src="/images/activar-escala.png"></img>
-                      <h6 className="text-center mx-5 mt-3 text-muted">Luego seleccione una estación.</h6>
+                      <h6 className="text-center text-muted mx-5 my-2">Seleccione una estación.</h6>
                       <img className="z-depth-1 img-fluid rounded mx-auto d-block" src="/images/seleccionar-estacion.PNG"></img>
+                      <h6 className="text-center  mx-5 mt-3  text-muted">Luego active la escala de tiempo como lo indica la figura.</h6>
+                      <img className="z-depth-1 img-fluid rounded mx-auto d-block" src="/images/activar-escala.png"></img>
                     </div>)}
                   </div>
                 </div>

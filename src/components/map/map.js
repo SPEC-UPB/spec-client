@@ -160,21 +160,21 @@ export default class Map extends React.Component {
       if (((end_date - start_date) / dayResult) > this._limitDay && this.state.currentDateRange != "") {
         isValid = false
         this.openMessage();
-        this.setState({ messageType: 'info', messageForSnackbar: 'Rango de fecha superado, valido maximo 90 días' })
+        this.setState({ messageType: 'info', messageForSnackbar: 'Rango de fecha superado, valido máximo 90 días' })
       }
 
     } else if (this.state.typeScale == "mes") {
       if (((end_date - start_date) / dayResult) > this._limitMonth && this.state.currentDateRange != "") {
         isValid = false
         this.openMessage();
-        this.setState({ messageType: 'info', messageForSnackbar: 'Rango de fecha superado, valido maximo 12 meses' })
+        this.setState({ messageType: 'info', messageForSnackbar: 'Rango de fecha superado, valido máximo 12 meses' })
       }
 
     } else if (this.state.typeScale == "año") {
       if (((end_date - start_date) / dayResult) > this._limitYear && this.state.currentDateRange != "") {
         isValid = false
         this.openMessage();
-        this.setState({ messageType: 'info', messageForSnackbar: 'Rango de fecha superado, valido  maximo 10 años' })
+        this.setState({ messageType: 'info', messageForSnackbar: 'Rango de fecha superado, valido  máximo 10 años' })
       }
 
     }
@@ -391,6 +391,7 @@ export default class Map extends React.Component {
       this.setState({
         datasetsScale: {
           labels,
+          legend:{display:false},
           datasets: [
             {
               label: "Potencial por " + this.state.typeScale + " (kw/m^2)",

@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import ItemsCarousel from 'react-items-carousel';
 
 export default function Footer() {
-  
+  const [activeItemIndex, setActiveItemIndex] = useState(0);
+  const chevronWidth = 40;
+
   return (
     <React.Fragment>
       {/* Footer */}
@@ -28,24 +31,24 @@ export default function Footer() {
                       <div className="col-4">
                         <div class="row middle-xs">
                           <div class="col-xs">
-                              <div class="box">
-                                <img  src="logosemillero.png" class="img-fluid z-depth-1 rounded-circle"
+                            <div class="box">
+                              <img src="logosemillero.png" class="img-fluid z-depth-1 rounded-circle"
                                 alt="Logo semillero SPEC" />
-                                  <div className="row middle-xs ml-3 d-none d-xl-block">
-                                    <h4 className="text-white mt-2">SPEC</h4>
-                                  </div>
+                              <div className="row middle-xs ml-3 d-none d-xl-block">
+                                <h4 className="text-white mt-2">SPEC</h4>
                               </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                       <div className="col-8 ">
                         <div class="row middle-xs">
-                            <div class="col-xs">
-                                <div class="box">
-                                <img src="/images/logoupb.png" class="img-fluid"
-                                                  alt="Logo UPB"/>
-                                </div>
+                          <div class="col-xs">
+                            <div class="box">
+                              <img src="/images/logoupb.png" class="img-fluid"
+                                alt="Logo UPB" />
                             </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -54,19 +57,51 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="col-md-2 mx-auto">
+            <div className="col-md-4 mx-auto">
               {/* Links */}
-              <h5 className="font-weight-bold text-uppercase mt-3 mb-4">
-                Software usado
+              <h5 className="font-weight-bold text-uppercase mt-3 mb-4 text-center">
+                Integrantes del proyecto
               </h5>
-              <ul className="list-unstyled">
-                <li>
-                  <a href="https://leafletjs.com/">Framework SIG: Leafletjs</a>
-                </li>
-                <li>
-                  <a href="https://www.flaticon.com/">Iconos y vectores:  Flaticon.com</a>
-                </li>
-              </ul>
+              <div style={{ padding: `0 ${chevronWidth}px` }}>
+                <ItemsCarousel
+                  requestToChangeActive={setActiveItemIndex}
+                  activeItemIndex={activeItemIndex}
+                  numberOfCards={1}
+                  gutter={20}
+                  leftChevron={<i class="fas fa-chevron-left"></i>}
+                  rightChevron={<i class="fas fa-chevron-right"></i>}
+                  outsideChevron
+                  chevronWidth={chevronWidth}
+                >
+                <div className="row text-center">
+                  <div class="avatar xx| ">
+                    <img   height="50%" width="40%" src="/images/Diana.jpeg" class="rounded-circle "
+                      alt="woman avatar"/>
+                      <h5 class="card-title mt-2">Diana Teresa Gómez Forero</h5>
+                      <hr/>
+                      diana.gomez@upb.edu.co
+                  </div>
+                </div>
+                <div className="row text-center">
+                  <div class="avatar xx| ">
+                    <img   height="45%" width="40%" src="/images/Francisco.jpeg" class="rounded-circle "
+                      alt="woman avatar"/>
+                      <h5 class="card-title mt-2">Juan F. Javier Pérez Rivero</h5>
+                      <hr/>
+                      francisco.perez@upb.edu.co
+                  </div>
+                </div>
+                <div className="row text-center">
+                  <div class="avatar xx| ">
+                    <img   height="50%" width="35%" src="/images/Deiver.jpg" class="rounded-circle "
+                      alt="woman avatar"/>
+                      <h5 class="card-title mt-2">Deiver Guerra Carrascal</h5>
+                      <hr/>
+                      ingendeiver@gmail.com
+                  </div>
+                </div>
+                </ItemsCarousel>
+              </div>
             </div>
             {/* Grid column */}
           </div>
@@ -93,8 +128,8 @@ export default function Footer() {
           <div class="modal-content">
             <div class="modal-body">
               <div class="row d-flex justify-content-center align-items-center">
-                <p class="pt-3 pr-2">Este sitio web no almacenara la iformación que ingrese.</p>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" onClick={() => window.localStorage.setItem("spec-ok","ok")}>Entendido</button>
+                <p class="pt-3 pr-2">Este sitio web no almacenara la iformación que ingrese, asi mimso al hacer uso del sitio usted  esta aceptando los  <a href="/terminos.html">términos y condicones</a></p>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onClick={() => window.localStorage.setItem("spec-ok", "ok")}>Entendido</button>
               </div>
             </div>
           </div>

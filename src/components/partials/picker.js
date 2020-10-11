@@ -42,7 +42,7 @@ const handleDateEndChange = (date) => {
               margin="normal"
               id="date-picker-dialog"
               label={props.scale ? "Fecha de inicio":"Seleccione una fecha"}
-              format={props.typeScale != "día" ? props.typeScale == "mes" ? "MM/yyyy":"yyyy":"MM/dd/yyyy"}
+              format={props.typeScale != "día" ? props.typeScale == "mes" ? "MM/yyyy":"yyyy":"dd/MM/yyyy"}
               value={selectedDate}
               onChange={handleDateChange}
               KeyboardButtonProps={{
@@ -61,7 +61,7 @@ const handleDateEndChange = (date) => {
             margin="normal"
             id="date-picker-dialog"
             label="Fecha final"
-            format={props.typeScale != "día" ? props.typeScale == "mes" ? "MM/yyyy":"yyyy":"MM/dd/yyyy"}
+            format={props.typeScale != "día" ? props.typeScale == "mes" ? "MM/yyyy":"yyyy":"dd/MM/yyyy"}
             value={props.currentDateEnd}
             onChange={handleDateEndChange}
             KeyboardButtonProps={{

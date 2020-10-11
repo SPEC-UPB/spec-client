@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Line, Bar} from "react-chartjs-2";
 import { useEffect } from "react";
 import Input from '@material-ui/core/Input';
-import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -13,6 +12,11 @@ export default function Popup(props) {
   const { object, date , scale} = props;
   const menorEfficiencyPercentage = 17
   const mayorEfficiencyPercentage = 25
+
+  const normalizarFormatoFecha = (fecha) => {
+    const fechaSplit = fecha.split("-")
+    return fechaSplit[2] + "-" + fechaSplit[1] + "-" + fechaSplit[0]
+  }
 
   const [efficiencyPercentage, setEfficiencyPercentage] = useState(17)
   
@@ -162,7 +166,7 @@ export default function Popup(props) {
               <div style={{ width: "100%" }}>
                 <p className="text-center text-muted mx-5">Potencial registrado en kilovatios por metro<sup>2</sup> al {" " + props.typeScale + " "} con un panel solar 
                         del <strong>{efficiencyPercentage}%</strong> de eficiencia   
-                        para la fecha: {!props.scale ? props.date:props.currentDateRange}</p>
+                        para la fecha: {!props.scale ? normalizarFormatoFecha(props.date):normalizarFormatoFecha(props.currentDateRange)}</p>
                 {potencialEstacion.promedio && object.nombre ?
                   (<React.Fragment>
                     <p className="text-center text-muted">Estación {object.nombre}</p>
@@ -177,7 +181,7 @@ export default function Popup(props) {
                             <h5 className="card-title">
                               Radiación máxima :
                                 <span className="text-muted ml-2">
-                                {potencialEstacion.maximo ? ((potencialEstacion.maximo * (efficiencyPercentage/100))/1000).toFixed(2): 0} Kwh/m<sup>2</sup>
+                                {potencialEstacion.maximo ? ((potencialEstacion.maximo * (efficiencyPercentage/100))/1000).toFixed(2): 0} KWh/m<sup>2</sup>
                               </span>
                             </h5>
                           </div>
@@ -193,7 +197,7 @@ export default function Popup(props) {
                           <div className="col-10">
                             <h5 className="card-title">
                               Potencial por {props.typeScale}:
-                                <span className="text-muted ml-2">{potencialEstacion.promedio ? ((potencialEstacion.promedio * (efficiencyPercentage/100))/1000).toFixed(2) : 0}  Kw/m<sup>2</sup></span>
+                                <span className="text-muted ml-2">{potencialEstacion.promedio ? ((potencialEstacion.promedio * (efficiencyPercentage/100))/1000).toFixed(2) : 0}  KWh/m<sup>2</sup></span>
                             </h5>
                           </div>
                         </div>
@@ -209,7 +213,7 @@ export default function Popup(props) {
                           <div className="col-10">
                             <h5 className="card-title">
                               Radiación mínima:
-                                <span className="text-muted ml-2"> {potencialEstacion.minimo ? ((potencialEstacion.minimo * (efficiencyPercentage/100))/1000).toFixed(2): 0} Kwh/m<sup>2</sup></span>
+                                <span className="text-muted ml-2"> {potencialEstacion.minimo ? ((potencialEstacion.minimo * (efficiencyPercentage/100))/1000).toFixed(2): 0} KWh/m<sup>2</sup></span>
                             </h5>
                           </div>
                         </div>
@@ -243,7 +247,7 @@ export default function Popup(props) {
                 <div>
                   <div className="card">
                     <div className="card-body">
-                      {props.typeScale == "día" && <h6 className="text-center text-muted">Comportamiento para la fecha: {!props.scale ? props.date:props.currentDateRange}</h6>}
+                      {props.typeScale == "día" && <h6 className="text-center text-muted">Comportamiento para la fecha: {!props.scale ? normalizarFormatoFecha(props.date):normalizarFormatoFecha(props.currentDateRange)}</h6>}
                       {props.typeScale != "día" && <h6 className="text-center text-muted">Comportamiento del potencial por {props.typeScale} por cada metro<sup>2</sup> de un panel solar del <strong>{efficiencyPercentage}% </strong>
                       de eficiencia entre: {props.date} y {props.currentDateEnd+" "} 
                        con un total de <strong>{props.datasetsScale.datasets[0].data ? (props.datasetsScale.datasets[0].data.reduce((a,b) => a+b, 0)).toFixed(2): 0} kilovatios</strong></h6>}
@@ -252,6 +256,9 @@ export default function Popup(props) {
                         <Line
                           data={props.datasets}
                           options={{
+                            legend: {
+                              display: false
+                            },
                             scales: {
                               xAxes: [
                                 {
@@ -286,6 +293,9 @@ export default function Popup(props) {
                         <Bar
                           type="bar"
                           data={props.datasetsScale}
+                          options={{legend: {
+                            display: false
+                        }}}
                         />
                       }
                       {/* Indicadore de nivel */}

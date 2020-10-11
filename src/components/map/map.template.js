@@ -137,7 +137,7 @@ const MapTemplate = (props) => {
 
           <div className="card-body">
           <h5 className="text-center  mx-3">
-                Conozca la radiación solar en el Área Metropolitana de Bucaramanga
+            Potencial  energético de la radiación solar en el Área Metropolitana de Bucaramanga
           </h5>
 
           {stationSelected && (
@@ -193,7 +193,7 @@ const MapTemplate = (props) => {
                           name="Scala"
                         />
                       }
-                      label="Ver el cambio de radiación en el tiempo"
+                      label="Radiación solar en el tiempo"
                     />
                     {/* <FormControlLabel
                       control={
@@ -213,27 +213,22 @@ const MapTemplate = (props) => {
       </div>
 
         {/*Mapa interpolado*/}
-        {state.Mapa && <div
+        <div
           className="card "
           style={{
             position: "absolute",
-            top: 10,
+            top: 5,
             zIndex: 2,
             backgroundColor: "white",
-            left: 10,
-            width: 300,
+            left: 5,
           }}
         >
-          <div className="card-body">
           <img
-                width={300}
-                height={300}
-                src="https://www.globalweatherclimatecenter.com/uploads/7/0/9/4/70941227/daneeja-rainfall-1_orig.png"
+                src="/images/Escala de colores.PNG"
                 class="img-fluid"
                 alt="interpolación del día"
               />
-          </div>
-        </div>}
+        </div>
 
         {/*Progress */}
         {props.message != "" && (
@@ -258,7 +253,7 @@ const MapTemplate = (props) => {
 
           <Popup
             position={[7.0436319896086745, -73.11658859252931]}>
-            <Alert severity="info">Haga click sobre algún punto del Área Metropolitana de Bucaramanga para conocer la radiación y el potencial energético.
+            <Alert severity="info">Haga sobre una estación del Área Metropolitana de Bucaramanga para conocer la radiación y/o el potencial energético.
               
             </Alert>
           </Popup>

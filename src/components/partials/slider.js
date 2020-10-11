@@ -24,6 +24,12 @@ export default function DiscreteSlider(props) {
 
   const [dates, setDates] = useState([])
 
+  const normalizarFormatoFecha = (fecha) => {
+    const fechaSplit = fecha.split("-")
+    return fechaSplit[2] + "-" + fechaSplit[1] + "-" + fechaSplit[0]
+  }
+
+  
   React.useEffect(() => {
     setDates(props.dateRangesForPotential.sort((a, b) => {
       const dateA = (new Date(a).getTime() / 1000);
@@ -93,13 +99,13 @@ export default function DiscreteSlider(props) {
             step="1" id="customRange3"
             onChange={onChangeCommitted}/>
           <div className="d-flex justify-content-between">
-            <div class="p-2">{dates[0]}</div>
+            <div class="p-2">{normalizarFormatoFecha(dates[0])}</div>
             {props.currentDateRange != "" &&
               <div>
-                <strong>Observando</strong>: {props.currentDateRange}
+                <strong>Observando</strong>: normalizarFormatoFecha({props.currentDateRange})
               </div>
             }
-            <div class="p-2">{dates[props.dateRangesForPotential.length - 1]}</div>
+            <div class="p-2">{normalizarFormatoFecha(dates[props.dateRangesForPotential.length - 1])}</div>
           </div>
         </div>
       </div>

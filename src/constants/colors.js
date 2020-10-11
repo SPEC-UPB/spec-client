@@ -1,15 +1,15 @@
 export default  {
-    lowRadiationColor : "rgba(76, 209, 55,0.7)",
-    mediaRadiationColor : "rgba(241, 196, 15,0.7)",
-    hightRadiationColor : "rgba(243, 156, 18,0.7)",
-    veryHightRadiationColor : "rgba(232, 65, 24,0.7)",
+    lowRadiationColor : "rgb(250, 232, 177)",
+    mediaRadiationColor : "rgba(255, 255, 69, 0.7)",
+    hightRadiationColor : "rgba(255, 199, 0,0.7)",
+    veryHightRadiationColor : "rgba(255, 0, 0,0.7)",
 
     lowRadiationValue : 250,
     mediaRadiationValue : 500,
     hightRadiationValue : 750,
     veryHightRadiationValue:1000,
 
-    // en watts sin aplicar el porcentaje de eficiencia
+    // suma en watts sin aplicar el porcentaje de eficiencia para las diferente sieres de tiempo
     lowPotentialValueDay : ((1000*12)/4),
     mediaPotentialValueDay : (((1000*12)/4)*2),
     hightPotentialValueDay : (((1000*12)/4)*3),
