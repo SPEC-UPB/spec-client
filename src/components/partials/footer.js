@@ -84,7 +84,7 @@ export default function Footer() {
                 </div>
                 <div className="row text-center">
                   <div class="avatar xx| ">
-                    <img   height="40%" width="30%" src="/images/Francisco.jpeg" class="rounded-circle "
+                    <img   height="40%" width="25%" src="/images/Francisco.jpeg" class="rounded-circle "
                       alt="woman avatar"/>
                       <h5 class="card-title mt-2">Juan F. Javier Pérez Rivero</h5>
                       <hr/>
@@ -93,7 +93,7 @@ export default function Footer() {
                 </div>
                 <div className="row text-center">
                   <div class="avatar xx| ">
-                    <img   height="50%" width="30%" src="/images/Deiver.jpg" class="rounded-circle "
+                    <img   height="50%" width="25%" src="/images/Deiver.jpg" class="rounded-circle "
                       alt="woman avatar"/>
                       <h5 class="card-title mt-2">Deiver Guerra Carrascal</h5>
                       <hr/>
