@@ -26,7 +26,7 @@ export default function Header() {
             <div className="row center-xs">
               <img
                 src="/icons/svg/sun.svg"
-                alt="Energia renovable"
+                alt="Energía renovable"
                 height={50}
                 width={50}
               />

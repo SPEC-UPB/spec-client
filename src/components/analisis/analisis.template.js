@@ -171,14 +171,8 @@ export default function AnalisisTemplate(props) {
           <div className="col-lg-10 col-xs-12 col-sm-12 col-md-10">
             <h2 className="text-muted my-3" >Uso del potencial calculado</h2>
             <p style={{ textAlign: "justify" }} className="grey-text">
-              Ahora que conocemos el comportamiento de la radiación solar en el área metropolitana de Bucaramanga
-              y sabemos lo que significa el potencial electrico entregado por las estaciones. puede que
-              se pregunte ¿ De que me sirve esta información? ¿ Que significan los valores de potencial calculados?.
-              No estaria nada mal saber cuánta energía podría ahorrarse si implementara energias renovables en su hogar, cierto. 
-              Una vez calculado la cantidad de vatios (Watts) a partir de la consulta definida, puede conocer el potencial que podría estarse
-              ahorrando, lo que le ayudaria a reducir los costos de por consumo eléctrico en su hogar.
-              Este cálculo depende de la eficiencia del panel solar, lo cual es el porcentaje de energía que este puede capturar y se encuentra entre un 17% y 25%,
-              puede jugar con este valor para descubrir cuánta energía puede capturar.
+            Ahora que conocemos el comportamiento de la radiación solar en el área metropolitana de Bucaramanga y sabemos lo que significa el potencial eléctrico entregado por las estaciones, puede que se pregunte ¿De qué sirve esta información? ¿Qué significan los valores de potencial calculados? No estaría nada mal saber cuánta energía podría ahorrarse si implementara energías renovables en su hogar ¿cierto?
+            Una vez calculada la cantidad de vatios (Watts) a partir de la consulta definida, puede conocer el potencial que podría estarse ahorrando, lo que le ayudaría a reducir los costos por consumo eléctrico en su hogar. Este cálculo depende de la eficiencia del panel solar, lo cual es el porcentaje de energía que este puede capturar y se encuentra entre un 17% y 25%, puede jugar con este valor para descubrir cuánta energía puede capturar.
               </p>
           </div>
           <div className="col-lg-2 col-xs-12 col-sm-12 col-md-2 mt-lg-5">

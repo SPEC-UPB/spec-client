@@ -330,7 +330,7 @@ const MapTemplate = (props) => {
         <Analisis
          typeScale={props.typeScale}
          data={props.datasetsScale.datasets[0].data}
-         dataForScaleDay={props.potencial}
+         dataForScaleDay={props.dataForScaleDay}
          porcentajeAplicadoToBarChart = {props.porcentajeAplicadoToBarChart}
          object={stationSelected}
          potencial={props.potencial}

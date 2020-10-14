@@ -26,7 +26,9 @@ export default class Map extends React.Component {
       typeScale: 'día',
       potencial: [],
       potentialForRange: [],
+      dataForScaleDay:[],
       isRequest: false,
+      dataForScaleDayFull:[],
       dateRangesForPotential: [],
       currentDateRange: "",
       efficiencyPercentage: 0.17,
@@ -330,6 +332,9 @@ export default class Map extends React.Component {
     const date = await this.state.dateRangesForPotential[this.state.index]
 
     if (typeScale == "día") {
+      const potencialPorEstacion = await this.state.dataForScaleDayFull
+      await this.setState({dataForScaleDay:potencialPorEstacion})
+
       const newPotencial = await this.state.potentialForRange.filter(p => p.fecha == date)
       await this.setState({ potencial: newPotencial, currentDateRange: date })
       await this.setState({ currentDate: date })
@@ -493,14 +498,17 @@ export default class Map extends React.Component {
       potencialService.getPotencialByDateRange(this.state.currentDate, this.state.currentDateEnd, this.state.typeScale)
         .then(async res => {
           if( res.data.data){
+            if(this.state.typeScale == "día"){
+              this.setState({dataForScaleDayFull:res.data.data})
+            }
             const dateRangesForPotentialNoUnique = await res.data.data.map(item => item.fecha)
-          const dateRangesForPotential = await dateRangesForPotentialNoUnique.filter((value, index, self)=> self.indexOf(value) == index)
-          await this.setState({ potentialForRange: res.data.data, dateRangesForPotential, currentDateRange: "" })
-          
+            const dateRangesForPotential = await dateRangesForPotentialNoUnique.filter((value, index, self)=> self.indexOf(value) == index)
+            await this.setState({ potentialForRange: res.data.data, dateRangesForPotential, currentDateRange: "" })
+            
 
-          this.hideProgress();
-          this.onChangeDateScale(0)
-          this.setState({isRequest:false})
+            this.hideProgress();
+            this.onChangeDateScale(0)
+            this.setState({isRequest:false})
           }else{
             this.setState({isRequest:false})
           this.hideProgress(); this.openMessage();
@@ -584,7 +592,8 @@ export default class Map extends React.Component {
           currentStationName={this.state.currentStationName}
           currentDateEnd={this.state.currentDateEnd}
           updateUIwithScale={this.updateUIwithScale.bind(this)}
-          porcentajeAplicadoToBarChart={this.state.porcentajeAplicadoToBarChart} />
+          porcentajeAplicadoToBarChart={this.state.porcentajeAplicadoToBarChart} 
+          dataForScaleDay={this.state.dataForScaleDay}/>
         <Message open={this.state.openMessage} handleClose={this.clickCloseMessage.bind(this)}
           type={this.state.messageType} message={this.state.messageForSnackbar} />
       </React.Fragment>

@@ -128,7 +128,7 @@ export default function Footer() {
           <div class="modal-content">
             <div class="modal-body">
               <div class="row d-flex justify-content-center align-items-center">
-                <p class="pt-3 pr-2">Este sitio web no almacenara la iformación que ingrese, asi mimso al hacer uso del sitio usted  esta aceptando los  <a href="/terminos.html">términos y condicones</a></p>
+                <p class="pt-3 pr-2">Este sitio web no almacenara la iformación que ingrese, asi mismo al hacer uso del sitio usted esta aceptando los <a href="/terminos.html">términos y condicones</a></p>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" onClick={() => window.localStorage.setItem("spec-ok", "ok")}>Entendido</button>
               </div>
             </div>

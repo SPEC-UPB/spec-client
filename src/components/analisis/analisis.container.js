@@ -12,6 +12,6 @@ export default class Analisis extends React.Component {
             scale={this.props.scale}
             data={this.props.data}
             typeScale={this.props.typeScale}
-            dataForScaleDay={this.props.potencial}/>)
+            dataForScaleDay={this.props.dataForScaleDay}/>)
     }
 }
