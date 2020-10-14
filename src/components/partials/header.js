@@ -74,7 +74,9 @@ export default function Header() {
                 Las energías renovables se obtienen a partir de fuente naturales, como el sol, el viento, las mareas. Son inagotables y se consideran limpias debido a que generan un bajo impacto negativo sobre el medio ambiente
                 (<a href="http://www.lineaverdehuelva.com/lv/consejos-ambientales/energias-renovables/Que-son-las-energias-renovables.asp">Tomada de lineaverdehuelva.com</a>).
                 El Área Metropolitana de Bucaramanga, por su posición geográfica, se presume posee un buen potencial para generación de energía eléctrica a partir de la radiación solar. En la región se encuentran varias 
-                estaciones meteorológicas donde también se registran señales de radiación solar. Luego de varios años de tomar estos registros, en este proyecto se han calculado valores promedios de radiación solar en diferentes puntos del Área Metropolitana de Bucaramanga, y se ha proyectado su potencial eléctrico. Los invitamos a consultar el mapa interactivo, y conocer las oportunidades para su aprovechamiento.
+                estaciones meteorológicas donde también se registran señales de radiación solar. Luego de varios años de tomar estos registros, en este proyecto se han calculado valores promedios de radiación solar en diferentes puntos del Área Metropolitana de Bucaramanga, y se ha proyectado su potencial eléctrico,
+                el cual depende del <strong> porcentaje de eficiencia</strong> del panel solar, que es el porcentaje de radiación neta que puede capturar un panel, este valor se encuentra entre el 17% y 25%.
+                Lo invitamos a consultar el mapa interactivo y conocer las oportunidades para su aprovechamiento.
                 </p>
                 {/*Iframe*/}
                 <Iframe />

@@ -364,7 +364,9 @@ export default function Popup(props) {
                         </div>
 
                       </div>
-                    </div>):<p className="text-center my-2">No se encontro un potencial.</p>}
+                    </div>):<div>
+                    <p className="text-center my-2">No se encontro un potencial.</p> 
+                    <p className="text-center my-2 text-muted">Asegurese de seleccionar una estación</p></div>}
       </div>
     </React.Fragment>
   );
