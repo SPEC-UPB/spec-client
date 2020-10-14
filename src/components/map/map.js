@@ -469,7 +469,7 @@ export default class Map extends React.Component {
               municipio: est.municipio,
               nombre: est.nombre,
               origen: est.origen,
-              show:listaEstacionesConDatos.includes(est.nombre)
+              show:listaEstacionesConDatos.includes(est.nombre) && (res.data.data.filter(ess => ess.estacion == est.nombre)[0].radiacion >0)
             }
         })
         this.setState({stations:nuevasEstacionesParaMostrar})
